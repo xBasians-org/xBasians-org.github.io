@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Visual FoxPro Workspace Setup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+      color: #333;
+    }
+    header {
+      background: #24292e;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      color: #0056b3;
+    }
+    code {
+      background: #eee;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    ul {
+      margin-left: 1.5rem;
+    }
+    a {
+      color: #0069d9;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 1rem;
+      margin-top: 2rem;
+      background: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Visual FoxPro (VFP) Workspace Setup</h1>
+  </header>
+  <main>
+    <h2>Default Directories</h2>
+    <ul>
+      <li><code>%USERPROFILE%\AppData\Roaming\Microsoft\Visual FoxPro 9\</code> — User directory. I recommend to create %XBASE_WORKSPACE%\VFP_Projects</li>
+      <li><code>c:\Program Files (x86)\Microsoft Visual FoxPro 9\</code> — Default location</li>
+    </ul>
+
+    <h2>Visual FoxPro 9.0</h2>
+    <p>Current latest version: <strong>Visual FoxPro 9.0 SP2</strong></p>
+
+    <h3>Service Packs & Hotfixes</h3>
+    <ul>
+      <li><a href="https://github.com/VFPX/VFP9SP2Hotfix3" target="_blank">VFPX VFP9SP2Hotfix3 - Visual FoxPro 9.0 Service Pack 2 (SP2)</a></li>
+      <li><a href="https://www.baiyujia.com/vfpdocuments/default.asp" target="_blank">VFP9-A Hotfixes (VFPX)</a></li>
+    </ul>
+
+    <h2>Distributions</h2>
+    <p>Available assemblies and links:</p>
+    <ul>
+      <li><a href="https://github.com/VFPX" target="_blank">VFPX (open source community)</a></li>
+      <li><a href="https://www.foxpert.com/download/" target="_blank">Foxpert Download Page</a></li>
+    </ul>
+
+    <h2>Next Steps</h2>
+    <p>После установки VFP и сервиспаков:</p>
+    <ol>
+      <li>Добавьте пути к <code>VFP_Projects</code> в IDE</li>
+      <li>Скопируйте необходимые библиотеки в <code>Common_Libs</code></li>
+    </ol>
+  </main>
+  <footer>
+    <p>Part of <a href="https://xbasians.org/">xBasians.org</a> workspace setup</p>
+  </footer>
+</body>
+</html>
