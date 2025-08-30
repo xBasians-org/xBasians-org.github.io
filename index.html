@@ -6,73 +6,325 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>xBasians.org</title>
   <style>
+    :root {
+      /* Color Palette */
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-bg: #f1f5f9;
+      --color-surface: #ffffff;
+      --color-text: #334155;
+      --color-text-light: #64748b;
+      --color-accent-vfp: #e0f2fe;
+      --color-accent-harbour: #ffedd5;
+      --color-accent-hbqt: #f0fdf4;
+      --color-code-bg: #0f172a;
+      --color-code-text: #e2e8f0;
+      --color-border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
       margin: 0;
-      background: #f5f7fa;
-      color: #333;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
     }
 
     header {
-      background: #2c3e50;
-      color: #fff;
-      padding: 2rem;
+      background: var(--color-code-bg);
+      color: var(--color-surface);
+      padding: 3rem 1rem;
       text-align: center;
     }
 
     header h1 {
       margin: 0;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
     }
 
     header p {
-      margin: 0.5rem 0 0;
-      font-size: 1.2rem;
+      margin: 0.75rem 0 0;
+      font-size: 1.25rem;
+      font-weight: 300;
+      opacity: 0.9;
     }
 
     main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
     }
 
     .card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
     }
 
     .card:hover {
       transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
     }
 
-    .card h2 {
-      margin-top: 0;
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    a.button {
-      display: inline-block;
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .card-badge {
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+      background: var(--color-bg);
+      padding: 0.35rem 0.75rem;
+      border-radius: 2rem;
+      font-weight: 500;
+    }
+
+    .card-subtitle {
+      color: var(--color-text-light);
+      margin: 0.5rem 0 0 0;
+      font-size: 1.05rem;
+    }
+
+    /* Tabs */
+    .tab-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn[aria-pressed="true"],
+    .tab-btn.active {
+      background: var(--color-bg);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Code Blocks & Copy Area */
+    .code-block-container {
+      display: flex;
+      gap: 1.5rem;
       margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      background: #3498db;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: background 0.2s;
+      flex-direction: column;
     }
 
-    a.button:hover {
-      background: #217dbb;
+    @media (min-width: 768px) {
+      .code-block-container {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+
+    pre {
+      white-space: pre-wrap;
+      margin: 0;
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      background: var(--color-code-bg);
+      color: var(--color-code-text);
+      flex: 1;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .code-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-width: 160px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border-color: var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-bg);
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* Compiler Cards Grid */
+    .compiler-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .compiler-card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .compiler-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0 0 0.75rem 0;
+      font-size: 1.2rem;
+    }
+
+    .compiler-card p {
+      margin: 0 0 1.25rem 0;
+      color: var(--color-text-light);
+      flex-grow: 1;
+    }
+
+    .compiler-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .compiler-card--vfp {
+      border-top: 4px solid #1d4ed8;
+    }
+    .compiler-card--harbour {
+      border-top: 4px solid #ea580c;
+    }
+    .compiler-card--hbqt {
+      border-top: 4px solid #15803d;
+    }
+
+    /* Tips & Details */
+    .tip-note {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    details {
+      margin-top: 1rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--color-primary);
+    }
+
+    details ul {
+      margin: 0.75rem 0;
+      padding-left: 1.5rem;
+    }
+    details li {
+      margin-bottom: 0.35rem;
     }
 
     footer {
       text-align: center;
-      padding: 1.5rem;
+      padding: 2.5rem 1rem;
       font-size: 0.9rem;
-      color: #777;
+      color: var(--color-text-light);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      header {
+        padding: 2rem 1rem;
+      }
+      header h1 {
+        font-size: 2.2rem;
+      }
+      .card-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .card-badge {
+        align-self: flex-start;
+      }
+      .compiler-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -82,37 +334,29 @@
     <h1>xBasians.org</h1>
     <p>Community & tools for xBase developers</p>
   </header>
+
   <main>
-    <!-- xBasians: XBASE_WORKSPACE setup pageframe -->
-    <section id="xbase-workspace-setup" style="max-width:900px;margin:2rem auto;">
-      <div style="background:#fff;border-radius:10px;padding:1.25rem;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
-        <header style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
-          <div>
-            <h2 style="margin:0 0 0.2rem 0;font-size:1.25rem;">🧭 Set your <code>XBASE_WORKSPACE</code></h2>
-            <p style="margin:0;color:#555">Choose your OS and copy the command to set a default xBase workspace folder.
-            </p>
-          </div>
-          <div style="font-size:0.85rem;color:#888">xBasians — quick setup</div>
-        </header>
+    <!-- xBasians: XBASE_WORKSPACE setup -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>🧭 Set your <code>XBASE_WORKSPACE</code></h2>
+          <p class="card-subtitle">Choose your OS and copy the command to set a default xBase workspace folder.</p>
+        </div>
+        <span class="card-badge">xBasians — quick setup</span>
+      </div>
 
-        <nav style="margin-top:1rem;display:flex;gap:.5rem;">
-          <button class="xbs-tab" data-target="tab-unix" aria-pressed="true"
-            style="padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#f7fafc;cursor:pointer;">Linux
-            / macOS</button>
-          <button class="xbs-tab" data-target="tab-ps"
-            style="padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;">PowerShell</button>
-          <button class="xbs-tab" data-target="tab-cmd"
-            style="padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;">Windows
-            CMD</button>
-        </nav>
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-target="tab-unix">Linux / macOS</button>
+        <button class="tab-btn" data-target="tab-ps">PowerShell</button>
+        <button class="tab-btn" data-target="tab-cmd">Windows CMD</button>
+      </nav>
 
-        <div style="margin-top:1rem;">
-          <!-- UNIX (Linux / macOS) -->
-          <div id="tab-unix" class="xbs-panel" style="display:block;">
-            <div style="display:flex;justify-content:space-between;align-items:start;gap:1rem;flex-wrap:wrap;">
-              <pre id="code-unix"
-                style="white-space:pre-wrap;margin:0;padding:1rem;border-radius:8px;background:#0b1220;color:#dbeafe;flex:1;min-width:260px;">
-# create workspace directory (example)
+      <div class="tab-content">
+        <!-- UNIX (Linux / macOS) -->
+        <div id="tab-unix" class="tab-panel active">
+          <div class="code-block-container">
+            <pre id="code-unix"># create workspace directory (example)
 mkdir -p "$HOME/xbase_workspace"
 
 # set for this session
@@ -124,28 +368,21 @@ echo 'export XBASE_WORKSPACE="$HOME/xbase_workspace"' >> ~/.bashrc
 # echo 'export XBASE_WORKSPACE="$HOME/xbase_workspace"' >> ~/.zshrc
 
 # reload shell or source file:
-# source ~/.bashrc
-</pre>
-
-              <div style="min-width:140px;display:flex;flex-direction:column;gap:.5rem;">
-                <button class="copy-btn" data-target="code-unix"
-                  style="padding:.5rem .75rem;border-radius:8px;border:none;background:#2563eb;color:#fff;cursor:pointer;">Copy</button>
-                <a href="#xbase-workspace-setup"
-                  style="text-decoration:none;padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#333;text-align:center;">Open
-                  docs</a>
-                <div style="font-size:0.85rem;color:#666;padding-top:.25rem;">
-                  Tip: replace <code>$HOME/xbase_workspace</code> with any path you prefer.
-                </div>
+# source ~/.bashrc</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-unix">Copy Code</button>
+              <a href="#xbase-workspace-setup" class="btn btn-secondary btn-sm">Open Docs</a>
+              <div class="tip-note">
+                <strong>Tip:</strong> Replace <code>$HOME/xbase_workspace</code> with any path you prefer.
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- PowerShell -->
-          <div id="tab-ps" class="xbs-panel" style="display:none;">
-            <div style="display:flex;justify-content:space-between;align-items:start;gap:1rem;flex-wrap:wrap;">
-              <pre id="code-ps"
-                style="white-space:pre-wrap;margin:0;padding:1rem;border-radius:8px;background:#0b1220;color:#dbeafe;flex:1;min-width:260px;">
-# create folder (example)
+        <!-- PowerShell -->
+        <div id="tab-ps" class="tab-panel">
+          <div class="code-block-container">
+            <pre id="code-ps"># create folder (example)
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\xbase_workspace"
 
 # set for current PowerShell session
@@ -154,28 +391,21 @@ $Env:XBASE_WORKSPACE = "$env:USERPROFILE\xbase_workspace"
 # persist for current user (requires no admin)
 [Environment]::SetEnvironmentVariable("XBASE_WORKSPACE", "$env:USERPROFILE\xbase_workspace", "User")
 
-# you may need to restart shells / apps to see the updated variable
-</pre>
-
-              <div style="min-width:140px;display:flex;flex-direction:column;gap:.5rem;">
-                <button class="copy-btn" data-target="code-ps"
-                  style="padding:.5rem .75rem;border-radius:8px;border:none;background:#2563eb;color:#fff;cursor:pointer;">Copy</button>
-                <a href="#xbase-workspace-setup"
-                  style="text-decoration:none;padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#333;text-align:center;">Open
-                  docs</a>
-                <div style="font-size:0.85rem;color:#666;padding-top:.25rem;">
-                  Note: for system-wide use, run with admin and set "Machine" instead of "User".
-                </div>
+# you may need to restart shells / apps to see the updated variable</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-ps">Copy Code</button>
+              <a href="#xbase-workspace-setup" class="btn btn-secondary btn-sm">Open Docs</a>
+              <div class="tip-note">
+                <strong>Note:</strong> For system-wide use, run with admin and set "Machine" instead of "User".
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- CMD -->
-          <div id="tab-cmd" class="xbs-panel" style="display:none;">
-            <div style="display:flex;justify-content:space-between;align-items:start;gap:1rem;flex-wrap:wrap;">
-              <pre id="code-cmd"
-                style="white-space:pre-wrap;margin:0;padding:1rem;border-radius:8px;background:#0b1220;color:#dbeafe;flex:1;min-width:260px;">
-:: create folder (example)
+        <!-- CMD -->
+        <div id="tab-cmd" class="tab-panel">
+          <div class="code-block-container">
+            <pre id="code-cmd">:: create folder (example)
 mkdir "%USERPROFILE%\xbase_workspace"
 
 :: set for current cmd session
@@ -184,226 +414,207 @@ set XBASE_WORKSPACE=%USERPROFILE%\xbase_workspace
 :: persist (User-level)
 setx XBASE_WORKSPACE "%USERPROFILE%\xbase_workspace"
 
-:: note: new cmd windows will see the variable; restart apps if needed
-</pre>
-
-              <div style="min-width:140px;display:flex;flex-direction:column;gap:.5rem;">
-                <button class="copy-btn" data-target="code-cmd"
-                  style="padding:.5rem .75rem;border-radius:8px;border:none;background:#2563eb;color:#fff;cursor:pointer;">Copy</button>
-                <a href="#xbase-workspace-setup"
-                  style="text-decoration:none;padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#333;text-align:center;">Open
-                  docs</a>
-                <div style="font-size:0.85rem;color:#666;padding-top:.25rem;">
-                  Warning: <code>setx</code> truncates values over 1024 chars on older Windows. Use PowerShell method
-                  for complex paths.
-                </div>
+:: note: new cmd windows will see the variable; restart apps if needed</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-cmd">Copy Code</button>
+              <a href="#xbase-workspace-setup" class="btn btn-secondary btn-sm">Open Docs</a>
+              <div class="tip-note">
+                <strong>Warning:</strong> <code>setx</code> truncates values over 1024 chars on older Windows. Use PowerShell for complex paths.
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <footer style="margin-top:1rem;font-size:0.9rem;color:#666;">
-          After persistent changes, restart your shell or apps (IDE, terminals) to pick up the new variable.
-        </footer>
+      <div class="tip-note">
+        After persistent changes, restart your shell or apps (IDE, terminals) to pick up the new variable.
       </div>
     </section>
 
-    <script>
-      // Tabs
-      document.querySelectorAll('.xbs-tab').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.xbs-tab').forEach(b => b.style.background = '#fff');
-          btn.style.background = '#f7fafc';
-          const target = btn.dataset.target;
-          document.querySelectorAll('.xbs-panel').forEach(p => p.style.display = 'none');
-          document.getElementById(target).style.display = 'block';
-        });
-      });
-
-      // Copy buttons
-      async function copyTextFromPre(preId) {
-        const el = document.getElementById(preId);
-        if (!el) return;
-        const text = el.innerText;
-        try {
-          await navigator.clipboard.writeText(text);
-          return true;
-        } catch (e) {
-          // fallback
-          const ta = document.createElement('textarea');
-          ta.value = text;
-          document.body.appendChild(ta);
-          ta.select();
-          try { document.execCommand('copy'); } catch (err) { /* nothing */ }
-          document.body.removeChild(ta);
-          return false;
-        }
-      }
-
-      document.querySelectorAll('.copy-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const target = btn.dataset.target;
-          const ok = await copyTextFromPre(target);
-          const orig = btn.innerText;
-          btn.innerText = ok ? 'Copied ✓' : 'Copied';
-          setTimeout(() => btn.innerText = orig, 1800);
-        });
-      });
-    </script>
-
     <!-- Second step - Install Compilers (xBasians) -->
-    <section id="install-compilers" style="max-width:1000px;margin:2rem auto;padding:1.25rem;">
-      <div style="background:#fff;border-radius:10px;padding:1.25rem;box-shadow:0 6px 20px rgba(0,0,0,0.06);">
-        <header style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-          <div>
-            <h2 style="margin:0;font-size:1.25rem;">Second Step — Install Compilers and GUI Libs</h2>
-            <p style="margin:.25rem 0 0;color:#555;">Choose one or more compilers to work with. Click a card for quick
-              links and setup hints.</p>
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>Second Step — Install Compilers and GUI Libs</h2>
+          <p class="card-subtitle">Choose one or more compilers to work with. Click a card for quick links and setup hints.</p>
+        </div>
+        <span class="card-badge">xBasians — toolchain step</span>
+      </div>
+
+      <div class="compiler-grid">
+        <!-- VFP -->
+        <div class="compiler-card compiler-card--vfp">
+          <h3>
+            <img src="./images/vfp/fox.png" alt="FoxPro" width="24" height="24">
+            Visual FoxPro
+          </h3>
+          <p>Legacy Windows-only environment. Use for maintaining or porting classic VFP apps.</p>
+          <div class="compiler-links">
+            <a class="btn btn-secondary btn-sm" href="./vfp/index.html">VFP page</a>
+            <a class="btn btn-secondary btn-sm" href="https://archive.org/details/microsoft-visual-fox-pro-9.0" target="_blank" rel="noopener">VFP9 (archive)</a>
+            <a class="btn btn-secondary btn-sm" href="https://www.baiyujia.com/vfpadvanced/default.asp" target="_blank" rel="noopener">VFPA (archive)</a>
           </div>
-          <div style="font-size:0.85rem;color:#777;">xBasians — toolchain step</div>
-        </header>
+          <details>
+            <summary>Quick hints</summary>
+            <ul>
+              <li>VFP is Windows-only — install on Windows 7/10/11 or in a VM.</li>
+              <li>Store projects under <code>$XBASE_WORKSPACE/VFP_Projects</code>.</li>
+              <li>Consider VFPA/VFPX extensions for modern fixes and tools.</li>
+            </ul>
+          </details>
+        </div>
 
-        <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
-          <!-- VFP -->
-          <article style="flex:1 1 300px;background:#fbfbfe;border-radius:10px;padding:1rem;border:1px solid #eef2ff;">
-            <h3>
-              <img src="./images/vfp/fox.png" alt="FoxPro" width="24" height="24"
-                style="vertical-align:middle; margin-right:8px;">
-              Visual FoxPro
-            </h3>
-            <p style="margin:.25rem 0 .75rem 0;color:#444;font-size:0.95rem;">
-              Legacy Windows-only environment. Use for maintaining or porting classic VFP apps.
-            </p>
-            <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-              <a class="button" href="./vfp/index.html"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #e6eefc;background:#eaf3ff;color:#0b3b6f;">VFP
-                page</a>
-              <a class="button" href="https://archive.org/details/microsoft-visual-fox-pro-9.0" target="_blank"
-                rel="noopener"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #e6eefc;background:#fff;color:#0b3b6f;">VFP9
-                (archive)</a>
-              <a class="button" href="https://www.baiyujia.com/vfpadvanced/default.asp" target="_blank" rel="noopener"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #e6eefc;background:#fff;color:#0b3b6f;">VFPA
-                (archive)</a>
-              <a class="button" href="https://github.com/VFPX" target="_blank" rel="noopener"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #e6eefc;background:#fff;color:#0b3b6f;">VFPX
-                (projects)</a>
-              <a class="button"
-                href="https://learn.microsoft.com/en-us/previous-versions/visualstudio/foxpro/mt490117(v=msdn.10)?redirectedfrom=MSDN"
-                target="_blank" rel="noopener"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #fff4e6;background:#fff;color:#6b3b00;">Official
-                site</a>
-            </div>
-            <details style="margin-top:.75rem;color:#555;">
-              <summary style="cursor:pointer">Quick hints</summary>
-              <ul style="margin:.5rem 0 0 1rem;">
-                <li>VFP is Windows-only — install on Windows 7/10/11 or in a VM.</li>
-                <li>Store projects under <code>$XBASE_WORKSPACE/VFP_Projects</code>.</li>
-                <li>Consider VFPA/VFPX extensions for modern fixes and tools.</li>
-              </ul>
-            </details>
-          </article>
-
-          <!-- Harbour -->
-          <article style="flex:1 1 300px;background:#fffaf6;border-radius:10px;padding:1rem;border:1px solid #fff0e0;">
-            <h3>
-              <img src="./images/harbour/harbour-2016-32x32.png" alt="Ship" width="24" height="24"
-                style="vertical-align:middle; margin-right:8px;">
-              Harbour
-            </h3>
-            <p style="margin:.25rem 0 .75rem 0;color:#444;font-size:0.95rem;">
-              Modern open-source xBase compiler — cross-platform, C-based, actively developed.
-            </p>
-            <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-              <a class="button" href="/harbour/"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #fff4e6;background:#fff6ec;color:#6b3b00;">Harbour
-                page</a>
-              <a class="button" href="https://github.com/harbour/core" target="_blank" rel="noopener"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #fff4e6;background:#fff;color:#6b3b00;">Repo
-                (GitHub)</a>
-              <a class="button" href="https://harbour.github.io/" target="_blank" rel="noopener"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #fff4e6;background:#fff;color:#6b3b00;">Official
-                site</a>
-            </div>
-            <details style="margin-top:.75rem;color:#555;">
-              <summary style="cursor:pointer">Quick install (example)</summary>
-              <pre
-                style="background:#0b1220;color:#dbeafe;padding:.6rem;border-radius:6px;margin:.5rem 0 0;font-size:0.85rem;overflow:auto;">
-# clone and build (Linux example)
+        <!-- Harbour -->
+        <div class="compiler-card compiler-card--harbour">
+          <h3>
+            <img src="./images/harbour/harbour-2016-32x32.png" alt="Harbour" width="24" height="24">
+            Harbour
+          </h3>
+          <p>Modern open-source xBase compiler — cross-platform, C-based, actively developed.</p>
+          <div class="compiler-links">
+            <a class="btn btn-secondary btn-sm" href="/harbour/">Harbour page</a>
+            <a class="btn btn-secondary btn-sm" href="https://github.com/harbour/core" target="_blank" rel="noopener">Repo (GitHub)</a>
+            <a class="btn btn-secondary btn-sm" href="https://harbour.github.io/" target="_blank" rel="noopener">Official site</a>
+          </div>
+          <details>
+            <summary>Quick install (example)</summary>
+            <pre style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># clone and build (Linux example)
 cd $XBASE_WORKSPACE/HB_Projects
 git clone https://github.com/harbour/core harbour-core
 cd harbour-core
-make
-          </pre>
-            </details>
-          </article>
-
-          <!-- HBQt -->
-          <article style="flex:1 1 300px;background:#f6fffb;border-radius:10px;padding:1rem;border:1px solid #e6fff2;">
-            <h3>
-              <img src="./images/harbour/harbour-2016-32x32.png" alt="Ship" width="24" height="24"
-                style="vertical-align:middle; margin-right:8px;">
-              <img src="./images/Qt/Qt-logo.png" alt="Ship" width="24" height="24"
-                style="vertical-align:middle; margin-right:8px;">
-              HBQT
-            </h3>
-            <p style="margin:.25rem 0 .75rem 0;color:#444;font-size:0.95rem;">
-              Use if you want native GUI with Harbour front-end powered by Qt.
-            </p>
-            <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-              <a class="button" href="https://hbide.vouch.info/"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #e8fff4;background:#f7fff9;color:#0a5b3a;">Harbour
-                Qtcontribs
-                page</a>
-              <a class="button" href="https://sourceforge.net/projects/qtcontribs/" target="_blank" rel="noopener"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #e8fff4;background:#fff;color:#0a5b3a;">Repo
-                Harbour Qtcontribs</a>
-              <a class="button" href="https://www.qt.io/download" target="_blank" rel="noopener"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #e8fff4;background:#fff;color:#0a5b3a;">Qt
-                downloads</a>
-              <a class="button" href="https://blog.0x08.ru/qt6-on-windows-2024" target="_blank" rel="noopener"
-                style="text-decoration:none;padding:.45rem .7rem;border-radius:6px;border:1px solid #e8fff4;background:#fff;color:#0a5b3a;">Alternate
-                Qt
-                downloads</a>
-            </div>
-            <details style="margin-top:.75rem;color:#555;">
-              <summary style="cursor:pointer">Quick notes</summary>
-              <ul style="margin:.5rem 0 0 1rem;">
-                <li>Install Qt (matching version) before building HbQt.</li>
-                <li>Put HbQt projects in <code>$XBASE_WORKSPACE/HBQT_Projects</code>.</li>
-                <li>Prebuilt binaries may speed up setup on Windows.</li>
-              </ul>
-            </details>
-          </article>
+make</pre>
+          </details>
         </div>
 
-        <footer style="margin-top:1rem;color:#666;font-size:0.92rem;">
-          After installing compilers, remember to place SDKs/binaries under the corresponding workspace folders and add
-          compiler bin paths to your PATH (or describe them in the workspace README).
-          <div style="margin-top:.5rem;"><a href="/xpm/setup.html" style="color:#2563eb;text-decoration:none;">Continue:
-              Workspace Setup →</a></div>
-        </footer>
+        <!-- HBQt -->
+        <div class="compiler-card compiler-card--hbqt">
+          <h3>
+            <img src="./images/harbour/harbour-2016-32x32.png" alt="Harbour" width="24" height="24">
+            <img src="./images/Qt/Qt-logo.png" alt="Qt" width="24" height="24">
+            HBQT
+          </h3>
+          <p>Use if you want native GUI with Harbour front-end powered by Qt.</p>
+          <div class="compiler-links">
+            <a class="btn btn-secondary btn-sm" href="https://hbide.vouch.info/">Harbour Qtcontribs</a>
+            <a class="btn btn-secondary btn-sm" href="https://sourceforge.net/projects/qtcontribs/" target="_blank" rel="noopener">Repo (SourceForge)</a>
+            <a class="btn btn-secondary btn-sm" href="https://www.qt.io/download" target="_blank" rel="noopener">Qt downloads</a>
+          </div>
+          <details>
+            <summary>Quick notes</summary>
+            <ul>
+              <li>Install Qt (matching version) before building HbQt.</li>
+              <li>Put HbQt projects in <code>$XBASE_WORKSPACE/HBQT_Projects</code>.</li>
+              <li>Prebuilt binaries may speed up setup on Windows.</li>
+            </ul>
+          </details>
+        </div>
       </div>
 
+      <div class="tip-note">
+        After installing compilers, remember to place SDKs/binaries under the corresponding workspace folders and add compiler bin paths to your PATH.
+        <div style="margin-top:.5rem;"><a href="/xpm/setup.html" style="color:var(--color-primary); text-decoration: none; font-weight:500;">Continue: Workspace Setup →</a></div>
+      </div>
+    </section>
+
+    <!-- STEP 3 - C/C++ Compilers -->
+    <section class="card">
+      <h2>Third Step – Install C/C++ Compilers</h2>
+      <p>For working with Harbour and native code extensions, a C/C++ compiler is required. Recommended options:</p>
+
+      <div class="compiler-grid">
+        <div class="compiler-card">
+          <h3>💻 Windows</h3>
+          <ul>
+            <li><a href="https://visualstudio.microsoft.com/vs/community/" target="_blank">Microsoft Visual Studio (MSVC) Community Edition</a> – includes MSVC compiler.</li>
+            <li><a href="https://winlibs.com/" target="_blank">MinGW-w64 / GCC</a> – popular open-source GCC for Windows.</li>
+            <li><a href="https://llvm.org/" target="_blank">LLVM/Clang</a> – modern compiler supporting C, C++.</li>
+          </ul>
+        </div>
+
+        <div class="compiler-card">
+          <h3>🐧 Linux</h3>
+          <ul>
+            <li><code>sudo apt install build-essential</code> (Ubuntu/Debian) – includes GCC and make.</li>
+            <li><code>sudo dnf groupinstall "Development Tools"</code> (Fedora/RedHat).</li>
+            <li><a href="https://clang.llvm.org/" target="_blank">Clang</a> can be installed from packages.</li>
+          </ul>
+        </div>
+
+        <div class="compiler-card">
+          <h3>🍏 macOS</h3>
+          <ul>
+            <li><code>xcode-select --install</code> – installs Clang and developer tools.</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="card">
       <h2>🚀 xpm — xBase Package Manager</h2>
-      <p>A tool for managing xBase-related packages across platforms.
-        Automate builds, updates, and custom scripts for your projects.</p>
-      <a href="https://github.com/xBasians-org/xpm" class="button">View on GitHub</a>
+      <p>A tool for managing xBase-related packages across platforms. Automate builds, updates, and custom scripts for your projects.</p>
+      <a href="https://github.com/xBasians-org/xpm" class="btn btn-primary">View on GitHub</a>
     </section>
 
     <section class="card">
       <h2>📚 Knowledge Base</h2>
       <p>Guides, tutorials, and documentation to help xBase developers modernize their workflow.</p>
-      <a href="https://github.com/xBasians-org" class="button">Explore Projects</a>
+      <a href="https://github.com/xBasians-org" class="btn btn-primary">Explore Projects</a>
     </section>
 
   </main>
+
   <footer>
     &copy; 2025 xBasians.org · Powered by GitHub Pages
   </footer>
+
+  <script>
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Deactivate all tabs
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        // Activate clicked tab
+        btn.classList.add('active');
+        const target = btn.dataset.target;
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // Copy buttons
+    async function copyTextFromPre(preId) {
+      const el = document.getElementById(preId);
+      if (!el) return;
+      const text = el.innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (e) {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (err) { /* ignore */ }
+        document.body.removeChild(ta);
+        return false;
+      }
+    }
+
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const target = btn.dataset.target;
+        const ok = await copyTextFromPre(target);
+        const origText = btn.textContent;
+        btn.textContent = ok ? 'Copied ✓' : 'Copied (Fallback)';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = origText;
+          btn.disabled = false;
+        }, 1800);
+      });
+    });
+  </script>
 </body>
 
 </html>
