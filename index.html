@@ -602,8 +602,8 @@ make</pre>
       <div class="card-header">
         <div>
           <h2>Install C/C++ Compilers</h2>
-          <p class="card-subtitle">Для работы с Visual FoxPro, Harbour и расширениями на уровне нативного кода необходим
-            установленный C/C++ компилятор.</p>
+          <p class="card-subtitle">To work with Visual FoxPro, Harbour, and extensions at the native code level, you need
+            the installed C/C++ compiler.</p>
         </div>
         <span class="card-badge">Step 3 — Native Compilers</span>
       </div>
@@ -612,7 +612,7 @@ make</pre>
         <!-- Windows -->
         <div class="compiler-card">
           <h3>💻 Windows</h3>
-          <p>Рекомендуемые компиляторы для разработки под Windows.</p>
+          <p>Recommended compilers for Windows development.</p>
           <div class="compiler-links">
             <a class="btn btn-secondary btn-sm" href="https://visualstudio.microsoft.com/vs/community/" target="_blank"
               rel="noopener">Visual Studio</a>
@@ -622,9 +622,9 @@ make</pre>
           <details>
             <summary>Подробности</summary>
             <ul>
-              <li><strong>MSVC Community</strong> — включает компилятор (2017–2022)</li>
-              <li><strong>MinGW-w64</strong> — популярный open-source GCC для Windows</li>
-              <li><strong>Clang</strong> — современный компилятор C/C++/Objective-C</li>
+              <li><strong>MSVC Community</strong> — enables the compiler (2017–2022)</li>
+              <li><strong>MinGW-w64</strong> — popular open-source GCC для Windows</li>
+              <li><strong>Clang</strong> — modern compiler C/C++/Objective-C</li>
             </ul>
           </details>
         </div>
@@ -632,13 +632,13 @@ make</pre>
         <!-- Linux -->
         <div class="compiler-card">
           <h3>🐧 Linux</h3>
-          <p>Стандартные инструменты разработки для Linux дистрибутивов.</p>
+          <p>Standard development tools for Linux distributions.</p>
           <div class="compiler-links">
             <a class="btn btn-secondary btn-sm" href="https://clang.llvm.org/" target="_blank" rel="noopener">Clang
               docs</a>
           </div>
           <details>
-            <summary>Команды установки</summary>
+            <summary>Installation Commands</summary>
             <pre
               style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Ubuntu/Debian
 sudo apt install build-essential
@@ -646,7 +646,7 @@ sudo apt install build-essential
 # Fedora/RedHat
 sudo dnf groupinstall "Development Tools"
 
-# Clang (опционально)
+# Clang (optional)
 sudo apt install clang</pre>
           </details>
         </div>
@@ -654,22 +654,22 @@ sudo apt install clang</pre>
         <!-- macOS -->
         <div class="compiler-card">
           <h3>🍏 macOS</h3>
-          <p>Инструменты разработки Apple с поддержкой Clang.</p>
+          <p>Apple's Clang-enabled development tools.</p>
           <div class="compiler-links">
             <a class="btn btn-secondary btn-sm" href="https://developer.apple.com/xcode/" target="_blank"
               rel="noopener">Xcode tools</a>
           </div>
           <details>
-            <summary>Команда установки</summary>
+            <summary>Installation Command</summary>
             <pre
-              style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Установка инструментов разработчика
+              style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Installing Developer Tools
 xcode-select --install</pre>
           </details>
         </div>
       </div>
 
       <div class="step-navigation">
-        После установки компилятора убедитесь, что он доступен в PATH.
+        After installing the compiler, make sure that it is available in the PATH.
         <div style="margin-top:.75rem;"><a href="#gcc-setup">Continue: GCC + libc Setup →</a></div>
       </div>
     </section>
@@ -679,8 +679,8 @@ xcode-select --install</pre>
       <div class="card-header">
         <div>
           <h2>GCC + libc Setup для Linux</h2>
-          <p class="card-subtitle">Детальная настройка GCC и стандартных библиотек C для компиляции Harbour и связанных
-            проектов.</p>
+          <p class="card-subtitle">Detailed configuration of GCC and C standard libraries for compiling Harbour and related
+            projects.</p>
         </div>
         <span class="card-badge">Step 4 — Advanced Linux Setup</span>
       </div>
@@ -689,7 +689,7 @@ xcode-select --install</pre>
         <!-- GCC Toolchain -->
         <div class="compiler-card compiler-card--gcc">
           <h3>⚙️ GCC Toolchain</h3>
-          <p>Полный набор инструментов GCC для компиляции C/C++ проектов.</p>
+          <p>A complete set of GCC tools for compiling C/C++ projects.</p>
           <div class="compiler-links">
             <a class="btn btn-secondary btn-sm" href="https://gcc.gnu.org/" target="_blank" rel="noopener">GCC docs</a>
             <a class="btn btn-secondary btn-sm" href="https://gcc.gnu.org/install/" target="_blank"
@@ -719,7 +719,7 @@ sudo apk add gcc g++ musl-dev</pre>
         <!-- C Standard Libraries -->
         <div class="compiler-card compiler-card--libs">
           <h3>📚 C Standard Libraries</h3>
-          <p>Стандартные библиотеки C, необходимые для компиляции Harbour приложений.</p>
+          <p>The C standard libraries required for compiling Harbour applications.</p>
           <div class="compiler-links">
             <a class="btn btn-secondary btn-sm" href="https://www.gnu.org/software/libc/" target="_blank"
               rel="noopener">GNU libc</a>
@@ -727,19 +727,19 @@ sudo apk add gcc g++ musl-dev</pre>
               libc</a>
           </div>
           <details>
-            <summary>Дополнительные библиотеки</summary>
+            <summary>Additional libraries</summary>
             <pre
               style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Дополнительные dev пакеты (Ubuntu/Debian)
 sudo apt install build-essential manpages-dev \
   linux-libc-dev libc6-dev-i386
 
-# Для 32-bit совместимости на 64-bit системах
+# For 32-bit compatibility on 64-bit systems
 sudo apt install gcc-multilib g++-multilib
 
 # Fedora equivalent
 sudo dnf install glibc-devel.i686 libgcc.i686
 
-# Проверка версий
+# Checking versions
 gcc --version
 ldd --version</pre>
           </details>
@@ -760,31 +760,56 @@ ldd --version</pre>
 export HB_COMPILER=gcc
 export HB_BUILD_OPTIM=yes
 
-# Для статических библиотеки
+# For static libraries
 export HB_BUILD_SHARED=no
 
-# Оптимизация для вашей архитектуры
+# Optimization for your architecture
 export CFLAGS="-O2 -march=native"
 export CXXFLAGS="-O2 -march=native"
 
-# Перезагрузите shell
+# Reboot shell
 source ~/.bashrc</pre>
           </details>
         </div>
       </div>
 
       <div class="step-navigation">
-        После настройки GCC проверьте работу компилятора командой <code>gcc --version</code>.
+        After configuring GCC, check the compiler with the command <code>gcc --version</code>.
         <div style="margin-top:.75rem;"><a href="#xpm-setup">Continue: xPM Setup →</a></div>
       </div>
     </section>
 
     <!-- Additional sections can be added here -->
 
+    <section id="community">
+      <h2>Community & Discussions</h2>
+      <p>
+        To ask questions, suggest ideas, or discuss the development of a project, join our communities.:
+      </p>
+      <ul>
+        <li>
+          <a href="https://groups.google.com/g/xbasians-org" target="_blank">
+            📧 Google Groups – Mailing list and discussions
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/xBasians-org/xBasians.org/discussions" target="_blank">
+            💬 GitHub Discussions – technical issues and suggestions
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/xBasians-org/xBasians.org/issues" target="_blank">
+            🐞 GitHub Issues – error messages and bug reports
+          </a>
+        </li>
+      </ul>
+    </section>
+
+
   </main>
 
   <footer>
-    &copy; 2025 xBasians.org · Powered by GitHub Pages
+    &copy; 2025 xBasians.org · Powered by GitHub Pages - FoxPro and Harbour community - AI
   </footer>
 
   <script>
