@@ -70,6 +70,155 @@
     <h1>xBasians.org</h1>
     <p>Community & tools for xBase developers</p>
   </header>
+  <!-- xBasians: XBASE_WORKSPACE setup pageframe -->
+<section id="xbase-workspace-setup" style="max-width:900px;margin:2rem auto;">
+  <div style="background:#fff;border-radius:10px;padding:1.25rem;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+    <header style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+      <div>
+        <h2 style="margin:0 0 0.2rem 0;font-size:1.25rem;">🧭 Set your <code>XBASE_WORKSPACE</code></h2>
+        <p style="margin:0;color:#555">Choose your OS and copy the command to set a default xBase workspace folder.</p>
+      </div>
+      <div style="font-size:0.85rem;color:#888">xBasians — quick setup</div>
+    </header>
+
+    <nav style="margin-top:1rem;display:flex;gap:.5rem;">
+      <button class="xbs-tab" data-target="tab-unix" aria-pressed="true" style="padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#f7fafc;cursor:pointer;">Linux / macOS</button>
+      <button class="xbs-tab" data-target="tab-ps" style="padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;">PowerShell</button>
+      <button class="xbs-tab" data-target="tab-cmd" style="padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;">Windows CMD</button>
+    </nav>
+
+    <div style="margin-top:1rem;">
+      <!-- UNIX (Linux / macOS) -->
+      <div id="tab-unix" class="xbs-panel" style="display:block;">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:1rem;flex-wrap:wrap;">
+          <pre id="code-unix" style="white-space:pre-wrap;margin:0;padding:1rem;border-radius:8px;background:#0b1220;color:#dbeafe;flex:1;min-width:260px;">
+# create workspace directory (example)
+mkdir -p "$HOME/xbase_workspace"
+
+# set for this session
+export XBASE_WORKSPACE="$HOME/xbase_workspace"
+
+# to persist: add to ~/.bashrc or ~/.zshrc (append)
+echo 'export XBASE_WORKSPACE="$HOME/xbase_workspace"' >> ~/.bashrc
+# or for zsh:
+# echo 'export XBASE_WORKSPACE="$HOME/xbase_workspace"' >> ~/.zshrc
+
+# reload shell or source file:
+# source ~/.bashrc
+</pre>
+
+          <div style="min-width:140px;display:flex;flex-direction:column;gap:.5rem;">
+            <button class="copy-btn" data-target="code-unix" style="padding:.5rem .75rem;border-radius:8px;border:none;background:#2563eb;color:#fff;cursor:pointer;">Copy</button>
+            <a href="#xbase-workspace-setup" style="text-decoration:none;padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#333;text-align:center;">Open docs</a>
+            <div style="font-size:0.85rem;color:#666;padding-top:.25rem;">
+              Tip: replace <code>$HOME/xbase_workspace</code> with any path you prefer.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PowerShell -->
+      <div id="tab-ps" class="xbs-panel" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:1rem;flex-wrap:wrap;">
+          <pre id="code-ps" style="white-space:pre-wrap;margin:0;padding:1rem;border-radius:8px;background:#0b1220;color:#dbeafe;flex:1;min-width:260px;">
+# create folder (example)
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\xbase_workspace"
+
+# set for current PowerShell session
+$Env:XBASE_WORKSPACE = "$env:USERPROFILE\xbase_workspace"
+
+# persist for current user (requires no admin)
+[Environment]::SetEnvironmentVariable("XBASE_WORKSPACE", "$env:USERPROFILE\xbase_workspace", "User")
+
+# you may need to restart shells / apps to see the updated variable
+</pre>
+
+          <div style="min-width:140px;display:flex;flex-direction:column;gap:.5rem;">
+            <button class="copy-btn" data-target="code-ps" style="padding:.5rem .75rem;border-radius:8px;border:none;background:#2563eb;color:#fff;cursor:pointer;">Copy</button>
+            <a href="#xbase-workspace-setup" style="text-decoration:none;padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#333;text-align:center;">Open docs</a>
+            <div style="font-size:0.85rem;color:#666;padding-top:.25rem;">
+              Note: for system-wide use, run with admin and set "Machine" instead of "User".
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CMD -->
+      <div id="tab-cmd" class="xbs-panel" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:1rem;flex-wrap:wrap;">
+          <pre id="code-cmd" style="white-space:pre-wrap;margin:0;padding:1rem;border-radius:8px;background:#0b1220;color:#dbeafe;flex:1;min-width:260px;">
+:: create folder (example)
+mkdir "%USERPROFILE%\xbase_workspace"
+
+:: set for current cmd session
+set XBASE_WORKSPACE=%USERPROFILE%\xbase_workspace
+
+:: persist (User-level)
+setx XBASE_WORKSPACE "%USERPROFILE%\xbase_workspace"
+
+:: note: new cmd windows will see the variable; restart apps if needed
+</pre>
+
+          <div style="min-width:140px;display:flex;flex-direction:column;gap:.5rem;">
+            <button class="copy-btn" data-target="code-cmd" style="padding:.5rem .75rem;border-radius:8px;border:none;background:#2563eb;color:#fff;cursor:pointer;">Copy</button>
+            <a href="#xbase-workspace-setup" style="text-decoration:none;padding:.5rem .75rem;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#333;text-align:center;">Open docs</a>
+            <div style="font-size:0.85rem;color:#666;padding-top:.25rem;">
+              Warning: <code>setx</code> truncates values over 1024 chars on older Windows. Use PowerShell method for complex paths.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer style="margin-top:1rem;font-size:0.9rem;color:#666;">
+      After persistent changes, restart your shell or apps (IDE, terminals) to pick up the new variable.
+    </footer>
+  </div>
+</section>
+
+<script>
+  // Tabs
+  document.querySelectorAll('.xbs-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.xbs-tab').forEach(b => b.style.background = '#fff');
+      btn.style.background = '#f7fafc';
+      const target = btn.dataset.target;
+      document.querySelectorAll('.xbs-panel').forEach(p => p.style.display = 'none');
+      document.getElementById(target).style.display = 'block';
+    });
+  });
+
+  // Copy buttons
+  async function copyTextFromPre(preId) {
+    const el = document.getElementById(preId);
+    if (!el) return;
+    const text = el.innerText;
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (err) { /* nothing */ }
+      document.body.removeChild(ta);
+      return false;
+    }
+  }
+
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const target = btn.dataset.target;
+      const ok = await copyTextFromPre(target);
+      const orig = btn.innerText;
+      btn.innerText = ok ? 'Copied ✓' : 'Copied';
+      setTimeout(() => btn.innerText = orig, 1800);
+    });
+  });
+</script>
+
   <main>
     <section class="card">
       <h2>🚀 xpm — xBase Package Manager</h2>
