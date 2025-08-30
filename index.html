@@ -144,8 +144,13 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     /* Code Blocks & Copy Area */
@@ -272,18 +277,23 @@
     .compiler-card--vfp {
       border-top: 4px solid #1d4ed8;
     }
+
     .compiler-card--harbour {
       border-top: 4px solid #ea580c;
     }
+
     .compiler-card--hbqt {
       border-top: 4px solid #15803d;
     }
+
     .compiler-card--gcc {
       border-top: 4px solid #059669;
     }
+
     .compiler-card--libs {
       border-top: 4px solid #7c3aed;
     }
+
     .compiler-card--tools {
       border-top: 4px solid #dc2626;
     }
@@ -330,6 +340,7 @@
       margin: 0.75rem 0;
       padding-left: 1.5rem;
     }
+
     details li {
       margin-bottom: 0.35rem;
     }
@@ -360,19 +371,24 @@
       header {
         padding: 2rem 1rem;
       }
+
       header h1 {
         font-size: 2.2rem;
       }
+
       .card-header {
         flex-direction: column;
         align-items: stretch;
       }
+
       .card-badge {
         align-self: flex-start;
       }
+
       .compiler-grid {
         grid-template-columns: 1fr;
       }
+
       main {
         padding: 0 1rem;
       }
@@ -470,7 +486,8 @@ setx XBASE_WORKSPACE "%USERPROFILE%\xbase_workspace"
               <button class="btn btn-primary btn-sm copy-btn" data-target="code-cmd">Copy Code</button>
               <a href="#workspace-setup" class="btn btn-secondary btn-sm">Open Docs</a>
               <div class="tip-note">
-                <strong>Warning:</strong> <code>setx</code> truncates values over 1024 chars on older Windows. Use PowerShell for complex paths.
+                <strong>Warning:</strong> <code>setx</code> truncates values over 1024 chars on older Windows. Use
+                PowerShell for complex paths.
               </div>
             </div>
           </div>
@@ -488,7 +505,8 @@ setx XBASE_WORKSPACE "%USERPROFILE%\xbase_workspace"
       <div class="card-header">
         <div>
           <h2>Install xBase Compilers and GUI Libraries</h2>
-          <p class="card-subtitle">Choose one or more compilers to work with. Click a card for quick links and setup hints.</p>
+          <p class="card-subtitle">Choose one or more compilers to work with. Click a card for quick links and setup
+            hints.</p>
         </div>
         <span class="card-badge">Step 2 — Compilers</span>
       </div>
@@ -503,9 +521,12 @@ setx XBASE_WORKSPACE "%USERPROFILE%\xbase_workspace"
           <p>Legacy Windows-only environment. Use for maintaining or porting classic VFP apps.</p>
           <div class="compiler-links">
             <a class="btn btn-secondary btn-sm" href="./vfp/index.html">VFP page</a>
-            <a class="btn btn-secondary btn-sm" href="https://archive.org/details/microsoft-visual-fox-pro-9.0" target="_blank" rel="noopener">VFP9 (archive)</a>
-            <a class="btn btn-secondary btn-sm" href="https://www.baiyujia.com/vfpadvanced/default.asp" target="_blank" rel="noopener">VFPA (archive)</a>
-            <a class="btn btn-secondary btn-sm" href="https://github.com/VFPX" target="_blank" rel="noopener">VFPX (projects)</a>
+            <a class="btn btn-secondary btn-sm" href="https://archive.org/details/microsoft-visual-fox-pro-9.0"
+              target="_blank" rel="noopener">VFP9 (archive)</a>
+            <a class="btn btn-secondary btn-sm" href="https://www.baiyujia.com/vfpadvanced/default.asp" target="_blank"
+              rel="noopener">VFPA (archive)</a>
+            <a class="btn btn-secondary btn-sm" href="https://github.com/VFPX" target="_blank" rel="noopener">VFPX
+              (projects)</a>
           </div>
           <details>
             <summary>Quick hints</summary>
@@ -526,12 +547,15 @@ setx XBASE_WORKSPACE "%USERPROFILE%\xbase_workspace"
           <p>Modern open-source xBase compiler — cross-platform, C-based, actively developed.</p>
           <div class="compiler-links">
             <a class="btn btn-secondary btn-sm" href="/harbour/">Harbour page</a>
-            <a class="btn btn-secondary btn-sm" href="https://github.com/harbour/core" target="_blank" rel="noopener">Repo (GitHub)</a>
-            <a class="btn btn-secondary btn-sm" href="https://harbour.github.io/" target="_blank" rel="noopener">Official site</a>
+            <a class="btn btn-secondary btn-sm" href="https://github.com/harbour/core" target="_blank"
+              rel="noopener">Repo (GitHub)</a>
+            <a class="btn btn-secondary btn-sm" href="https://harbour.github.io/" target="_blank"
+              rel="noopener">Official site</a>
           </div>
           <details>
             <summary>Quick install (example)</summary>
-            <pre style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># clone and build (Linux example)
+            <pre
+              style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># clone and build (Linux example)
 cd $XBASE_WORKSPACE/HB_Projects
 git clone https://github.com/harbour/core harbour-core
 cd harbour-core
@@ -549,9 +573,12 @@ make</pre>
           <p>Use if you want native GUI with Harbour front-end powered by Qt.</p>
           <div class="compiler-links">
             <a class="btn btn-secondary btn-sm" href="https://hbide.vouch.info/">Harbour Qtcontribs</a>
-            <a class="btn btn-secondary btn-sm" href="https://sourceforge.net/projects/qtcontribs/" target="_blank" rel="noopener">Repo (SourceForge)</a>
-            <a class="btn btn-secondary btn-sm" href="https://www.qt.io/download" target="_blank" rel="noopener">Qt downloads</a>
-            <a class="btn btn-secondary btn-sm" href="https://blog.0x08.ru/qt6-on-windows-2024" target="_blank" rel="noopener">Alternate Qt</a>
+            <a class="btn btn-secondary btn-sm" href="https://sourceforge.net/projects/qtcontribs/" target="_blank"
+              rel="noopener">Repo (SourceForge)</a>
+            <a class="btn btn-secondary btn-sm" href="https://www.qt.io/download" target="_blank" rel="noopener">Qt
+              downloads</a>
+            <a class="btn btn-secondary btn-sm" href="https://blog.0x08.ru/qt6-on-windows-2024" target="_blank"
+              rel="noopener">Alternate Qt</a>
           </div>
           <details>
             <summary>Quick notes</summary>
@@ -575,7 +602,8 @@ make</pre>
       <div class="card-header">
         <div>
           <h2>Install C/C++ Compilers</h2>
-          <p class="card-subtitle">Для работы с Visual FoxPro, Harbour и расширениями на уровне нативного кода необходим установленный C/C++ компилятор.</p>
+          <p class="card-subtitle">Для работы с Visual FoxPro, Harbour и расширениями на уровне нативного кода необходим
+            установленный C/C++ компилятор.</p>
         </div>
         <span class="card-badge">Step 3 — Native Compilers</span>
       </div>
@@ -586,7 +614,8 @@ make</pre>
           <h3>💻 Windows</h3>
           <p>Рекомендуемые компиляторы для разработки под Windows.</p>
           <div class="compiler-links">
-            <a class="btn btn-secondary btn-sm" href="https://visualstudio.microsoft.com/vs/community/" target="_blank" rel="noopener">Visual Studio</a>
+            <a class="btn btn-secondary btn-sm" href="https://visualstudio.microsoft.com/vs/community/" target="_blank"
+              rel="noopener">Visual Studio</a>
             <a class="btn btn-secondary btn-sm" href="https://winlibs.com/" target="_blank" rel="noopener">MinGW-w64</a>
             <a class="btn btn-secondary btn-sm" href="https://llvm.org/" target="_blank" rel="noopener">LLVM/Clang</a>
           </div>
@@ -605,11 +634,13 @@ make</pre>
           <h3>🐧 Linux</h3>
           <p>Стандартные инструменты разработки для Linux дистрибутивов.</p>
           <div class="compiler-links">
-            <a class="btn btn-secondary btn-sm" href="https://clang.llvm.org/" target="_blank" rel="noopener">Clang docs</a>
+            <a class="btn btn-secondary btn-sm" href="https://clang.llvm.org/" target="_blank" rel="noopener">Clang
+              docs</a>
           </div>
           <details>
             <summary>Команды установки</summary>
-            <pre style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Ubuntu/Debian
+            <pre
+              style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Ubuntu/Debian
 sudo apt install build-essential
 
 # Fedora/RedHat
@@ -625,11 +656,13 @@ sudo apt install clang</pre>
           <h3>🍏 macOS</h3>
           <p>Инструменты разработки Apple с поддержкой Clang.</p>
           <div class="compiler-links">
-            <a class="btn btn-secondary btn-sm" href="https://developer.apple.com/xcode/" target="_blank" rel="noopener">Xcode tools</a>
+            <a class="btn btn-secondary btn-sm" href="https://developer.apple.com/xcode/" target="_blank"
+              rel="noopener">Xcode tools</a>
           </div>
           <details>
             <summary>Команда установки</summary>
-            <pre style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Установка инструментов разработчика
+            <pre
+              style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Установка инструментов разработчика
 xcode-select --install</pre>
           </details>
         </div>
@@ -646,7 +679,8 @@ xcode-select --install</pre>
       <div class="card-header">
         <div>
           <h2>GCC + libc Setup для Linux</h2>
-          <p class="card-subtitle">Детальная настройка GCC и стандартных библиотек C для компиляции Harbour и связанных проектов.</p>
+          <p class="card-subtitle">Детальная настройка GCC и стандартных библиотек C для компиляции Harbour и связанных
+            проектов.</p>
         </div>
         <span class="card-badge">Step 4 — Advanced Linux Setup</span>
       </div>
@@ -658,11 +692,13 @@ xcode-select --install</pre>
           <p>Полный набор инструментов GCC для компиляции C/C++ проектов.</p>
           <div class="compiler-links">
             <a class="btn btn-secondary btn-sm" href="https://gcc.gnu.org/" target="_blank" rel="noopener">GCC docs</a>
-            <a class="btn btn-secondary btn-sm" href="https://gcc.gnu.org/install/" target="_blank" rel="noopener">Install guide</a>
+            <a class="btn btn-secondary btn-sm" href="https://gcc.gnu.org/install/" target="_blank"
+              rel="noopener">Install guide</a>
           </div>
           <details>
             <summary>Установка по дистрибутивам</summary>
-            <pre style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Ubuntu/Debian
+            <pre
+              style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Ubuntu/Debian
 sudo apt update
 sudo apt install gcc g++ libc6-dev
 
@@ -685,12 +721,15 @@ sudo apk add gcc g++ musl-dev</pre>
           <h3>📚 C Standard Libraries</h3>
           <p>Стандартные библиотеки C, необходимые для компиляции Harbour приложений.</p>
           <div class="compiler-links">
-            <a class="btn btn-secondary btn-sm" href="https://www.gnu.org/software/libc/" target="_blank" rel="noopener">GNU libc</a>
-            <a class="btn btn-secondary btn-sm" href="https://musl.libc.org/" target="_blank" rel="noopener">musl libc</a>
+            <a class="btn btn-secondary btn-sm" href="https://www.gnu.org/software/libc/" target="_blank"
+              rel="noopener">GNU libc</a>
+            <a class="btn btn-secondary btn-sm" href="https://musl.libc.org/" target="_blank" rel="noopener">musl
+              libc</a>
           </div>
           <details>
             <summary>Дополнительные библиотеки</summary>
-            <pre style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Дополнительные dev пакеты (Ubuntu/Debian)
+            <pre
+              style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Дополнительные dev пакеты (Ubuntu/Debian)
 sudo apt install build-essential manpages-dev \
   linux-libc-dev libc6-dev-i386
 
@@ -711,15 +750,17 @@ ldd --version</pre>
           <h3>🚢 Harbour-специфичная настройка</h3>
           <p>Оптимизация GCC для компиляции Harbour проектов.</p>
           <div class="compiler-links">
-            <a class="btn btn-secondary btn-sm" href="https://harbour.github.io/doc/compiler.html" target="_blank" rel="noopener">Harbour compiler</a>
+            <a class="btn btn-secondary btn-sm" href="https://harbour.github.io/doc/compiler.html" target="_blank"
+              rel="noopener">Harbour compiler</a>
           </div>
           <details>
             <summary>Переменные окружения</summary>
-            <pre style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Добавьте в ~/.bashrc или ~/.zshrc
+            <pre
+              style="background:var(--color-code-bg); color:var(--color-code-text); padding:.75rem; border-radius:calc(var(--radius) - 0.25rem); margin-top:.75rem; font-size:0.85em;"># Добавьте в ~/.bashrc или ~/.zshrc
 export HB_COMPILER=gcc
 export HB_BUILD_OPTIM=yes
 
-# Для статических библиотек
+# Для статических библиотеки
 export HB_BUILD_SHARED=no
 
 # Оптимизация для вашей архитектуры
@@ -727,4 +768,74 @@ export CFLAGS="-O2 -march=native"
 export CXXFLAGS="-O2 -march=native"
 
 # Перезагрузите shell
-source ~/.bashrc</pre
+source ~/.bashrc</pre>
+          </details>
+        </div>
+      </div>
+
+      <div class="step-navigation">
+        После настройки GCC проверьте работу компилятора командой <code>gcc --version</code>.
+        <div style="margin-top:.75rem;"><a href="#xpm-setup">Continue: xPM Setup →</a></div>
+      </div>
+    </section>
+
+    <!-- Additional sections can be added here -->
+
+  </main>
+
+  <footer>
+    &copy; 2025 xBasians.org · Powered by GitHub Pages
+  </footer>
+
+  <script>
+    // Tabs functionality
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Deactivate all tabs
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+        // Activate clicked tab
+        btn.classList.add('active');
+        const target = btn.dataset.target;
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // Copy buttons functionality
+    async function copyTextFromPre(preId) {
+      const el = document.getElementById(preId);
+      if (!el) return;
+      const text = el.innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (e) {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (err) { /* ignore */ }
+        document.body.removeChild(ta);
+        return false;
+      }
+    }
+
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const target = btn.dataset.target;
+        const ok = await copyTextFromPre(target);
+        const origText = btn.textContent;
+        btn.textContent = ok ? 'Copied ✓' : 'Copied (Fallback)';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = origText;
+          btn.disabled = false;
+        }, 1800);
+      });
+    });
+  </script>
+</body>
+
+</html>
