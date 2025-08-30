@@ -1,0 +1,8 @@
+# robots.txt for xBasians.org on GitHub Pages
+
+# Разрешаем всем поисковым роботам индексировать весь сайт
+User-agent: *
+Disallow:
+
+# Sitemap (если создадите)
+Sitemap: https://xbasians.org/sitemap.xml
