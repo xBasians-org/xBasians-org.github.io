@@ -790,13 +790,212 @@ source ~/.bashrc</pre>
           <p>
             To ask questions, suggest ideas, or discuss the development of a project, join our communities.:
           </p>
-<div class="compiler-links">
-  <a class="btn btn-secondary btn-sm" href="https://groups.google.com/g/xbasians-org">📧 Google Groups</a>
-  <a class="btn btn-secondary btn-sm" href="https://github.com/xBasians-org">💬 GitHub Discussions and Issues</a>
-</div>
+          <div class="compiler-links">
+            <a class="btn btn-secondary btn-sm" href="https://groups.google.com/g/xbasians-org">📧 Google Groups</a>
+            <a class="btn btn-secondary btn-sm" href="https://github.com/xBasians-org">💬 GitHub Discussions and
+              Issues</a>
+          </div>
         </div>
     </section>
 
+    <section class="card" id="git">
+      <!-- New Git and SmartGit Section -->
+      <div class="card">
+        <h2>Git Setup for VFP Projects</h2>
+        <p>Version control is essential for modern development. Here's how to set up Git for your VFP projects:</p>
+
+        <h3>1. Install Git</h3>
+        <div class="link-list">
+          <a href="https://git-scm.com/downloads" class="btn" target="_blank" rel="noopener">
+            Download Git
+          </a>
+        </div>
+
+        <pre># Basic Git configuration
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+git config --global core.autocrlf false  # Important for Windows development</pre>
+
+        <h3>2. SmartGit Hobby License</h3>
+        <p>SmartGit is a powerful Git GUI client. As a hobbyist developer, you can get a free license:</p>
+
+        <div class="steps">
+          <div class="step">
+            Visit <a href="https://www.syntevo.com/register-non-commercial/#hobby" target="_blank"
+              rel="noopener">Syntevo Hobby License Registration</a>
+          </div>
+
+          <div class="step">
+            Fill out the registration form with your details
+          </div>
+
+          <div class="step">
+            Select "Hobby" as the license type
+          </div>
+
+          <div class="step">
+            Agree to the terms and submit the form
+          </div>
+
+          <div class="step">
+            Check your email for the license key
+          </div>
+        </div>
+
+        <div class="screenshot-placeholder">
+          <h4>📸 Screenshot: SmartGit Registration Form</h4>
+          <p>[Placeholder for registration form screenshot]</p>
+          <p><em>Image: The Syntevo hobby license registration form with form fields highlighted</em></p>
+        </div>
+
+        <h3>3. Install and Activate SmartGit</h3>
+        <div class="link-list">
+          <a href="https://www.syntevo.com/smartgit/download/" class="btn" target="_blank" rel="noopener">
+            Download SmartGit
+          </a>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            Run the SmartGit installer
+          </div>
+
+          <div class="step">
+            Launch SmartGit after installation
+          </div>
+
+          <div class="step">
+            Go to <strong>Help → Enter License Key</strong>
+          </div>
+
+          <div class="step">
+            Paste the license key from your email
+          </div>
+
+          <div class="step">
+            Click "Activate" and restart SmartGit
+          </div>
+        </div>
+
+        <div class="screenshot-placeholder">
+          <h4>📸 Screenshot: SmartGit License Activation</h4>
+          <p>[Placeholder for license activation screenshot]</p>
+          <p><em>Image: The license activation dialog in SmartGit with the license key field highlighted</em></p>
+        </div>
+
+        <h3>4. Configure SmartGit for VFP Projects</h3>
+        <div class="steps">
+          <div class="step">
+            Go to <strong>Preferences → Git</strong>
+          </div>
+
+          <div class="step">
+            Set appropriate line ending settings for Windows
+          </div>
+
+          <div class="step">
+            Configure your user name and email (should match Git config)
+          </div>
+
+          <div class="step">
+            Set up your SSH keys if using remote repositories
+          </div>
+        </div>
+
+        <div class="screenshot-placeholder">
+          <h4>📸 Screenshot: SmartGit Preferences</h4>
+          <p>[Placeholder for preferences screenshot]</p>
+          <p><em>Image: SmartGit preferences window with Git settings highlighted</em></p>
+        </div>
+
+        <h3>5. Recommended .gitignore for VFP</h3>
+        <p>Create a <code>.gitignore</code> file in your VFP project root:</p>
+
+        <pre># VFP compiled files
+*.app
+*.exe
+*.fxp
+*.err
+
+# VFP generated files
+*.bak
+*.tmp
+*.scc
+
+# Database files
+*.dbc
+*.dct
+*.dcx
+*.dbf
+*.cdx
+*.fpt
+*.idx
+
+# Binary files
+*.vcx
+*.vct
+*.scx
+*.sct
+*.frx
+*.frt
+*.lbx
+*.lbt
+*.mnx
+*.mnt
+*.pjx
+*.pjt
+*.vue
+
+# Backup files
+*._bak
+*.~*
+
+# IDE files
+*.vcp
+*.vw
+
+# Log files
+*.log
+
+# Temporary files
+Thumbs.db
+.DS_Store</pre>
+
+        <div class="link-list">
+          <a href="https://github.com/github/gitignore/blob/main/VisualFoxPro.gitignore" class="btn btn-secondary"
+            target="_blank" rel="noopener">
+            Official VFP .gitignore
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Next Steps</h2>
+        <p>After installing VFP and Service Packs:</p>
+
+        <ol>
+          <li>Set environment variable: <code>VFP_Projects=%XBASE_WORKSPACE%\VFP_Projects</code></li>
+          <li>Copy common libraries to <code>%VFP_Projects%\Common_Libs</code></li>
+          <li>Configure VFP to use your workspace directory as default</li>
+          <li>Install VFPX extensions and tools as needed</li>
+          <li>Set up Git repository for your projects</li>
+          <li>Configure SmartGit for version control</li>
+        </ol>
+
+        <div class="link-list">
+          <a href="https://xbasians.org/" class="btn">
+            ← Back to xBasians.org
+          </a>
+          <a href="https://github.com/VFPX" class="btn btn-secondary" target="_blank" rel="noopener">
+            Explore VFPX Projects
+          </a>
+          <a href="https://www.syntevo.com/smartgit/documentation/" class="btn btn-secondary" target="_blank"
+            rel="noopener">
+            SmartGit Docs
+          </a>
+        </div>
+      </div>
+    </section>
 
   </main>
 
