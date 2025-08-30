@@ -13,3 +13,5 @@ while ($true) {
     }
     Start-Sleep -Seconds 30
 }
+
+Read-Host "Нажмите Enter для продолжения..."
