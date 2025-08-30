@@ -1,95 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Visual FoxPro Workspace Setup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-      background: #f8f9fa;
-      color: #333;
+    :root {
+      /* Color Palette from main page */
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-bg: #f1f5f9;
+      --color-surface: #ffffff;
+      --color-text: #334155;
+      --color-text-light: #64748b;
+      --color-code-bg: #0f172a;
+      --color-code-text: #e2e8f0;
+      --color-border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem;
     }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
     header {
-      background: #24292e;
-      color: white;
-      padding: 1rem;
+      background: var(--color-code-bg);
+      color: var(--color-surface);
+      padding: 3rem 1rem;
       text-align: center;
     }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+
     main {
       max-width: 900px;
       margin: 2rem auto;
-      padding: 1rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 0 1.5rem;
     }
-    h1, h2 {
-      color: #0056b3;
+
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
     }
+
+    h2 {
+      color: var(--color-primary);
+      margin-top: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      border-bottom: 2px solid var(--color-border);
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      color: var(--color-text);
+      margin: 1.5rem 0 0.75rem 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
     code {
-      background: #eee;
-      padding: 2px 4px;
+      background: var(--color-code-bg);
+      color: var(--color-code-text);
+      padding: 0.2rem 0.4rem;
       border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.9em;
     }
-    ul {
-      margin-left: 1.5rem;
+
+    ul, ol {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
     }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
     a {
-      color: #0069d9;
+      color: var(--color-primary);
       text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
     }
+
     a:hover {
+      color: var(--color-primary-hover);
       text-decoration: underline;
     }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--color-primary);
+      background: var(--color-primary);
+      color: white;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+    }
+
+    .btn:hover {
+      background: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+      text-decoration: none;
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-primary);
+      border-color: var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-bg);
+      color: var(--color-primary-hover);
+    }
+
+    .link-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .tip-box {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .tip-box h4 {
+      margin: 0 0 0.5rem 0;
+      color: #0369a1;
+      font-size: 1.1rem;
+    }
+
     footer {
       text-align: center;
+      padding: 2rem 1rem;
       font-size: 0.9rem;
-      padding: 1rem;
-      margin-top: 2rem;
-      background: #f1f1f1;
+      color: var(--color-text-light);
+      background: var(--color-surface);
+      margin-top: 3rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      header {
+        padding: 2rem 1rem;
+      }
+      
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      main {
+        padding: 0 1rem;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .link-list {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .btn {
+        width: 100%;
+        margin: 0.25rem 0;
+        text-align: center;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
     <h1>Visual FoxPro (VFP) Workspace Setup</h1>
   </header>
+  
   <main>
-    <h2>Default Directories</h2>
-    <ul>
-      <li><code>%USERPROFILE%\AppData\Roaming\Microsoft\Visual FoxPro 9\</code> — User directory. I recommend to create <code>%XBASE_WORKSPACE%\VFP_Projects</code></li>
-      <li><code>c:\Program Files (x86)\Microsoft Visual FoxPro 9\</code> — Default location of vfp9.exe</li>
-    </ul>
+    <div class="card">
+      <h2>Default Directories</h2>
+      
+      <div class="tip-box">
+        <h4>💡 Recommended Setup</h4>
+        <p>Create your VFP projects in <code>%XBASE_WORKSPACE%\VFP_Projects</code> instead of the default locations for better organization.</p>
+      </div>
+      
+      <ul>
+        <li><code>%USERPROFILE%\AppData\Roaming\Microsoft\Visual FoxPro 9\</code> — Default user directory</li>
+        <li><code>C:\Program Files (x86)\Microsoft Visual FoxPro 9\</code> — Default installation location of vfp9.exe</li>
+        <li><code>%XBASE_WORKSPACE%\VFP_Projects\</code> — Recommended workspace location</li>
+      </ul>
+    </div>
 
-    <h2>Visual FoxPro 9.0</h2>
-    <p>Current latest version: <strong>Visual FoxPro 9.0 SP2</strong></p>
+    <div class="card">
+      <h2>Visual FoxPro 9.0</h2>
+      <p>Current latest version: <strong>Visual FoxPro 9.0 SP2</strong></p>
 
-    <h3>Service Packs & Hotfixes</h3>
-    <ul>
-      <li><a href="https://github.com/VFPX/VFP9SP2Hotfix3" target="_blank">VFPX VFP9SP2Hotfix3 - Visual FoxPro 9.0 Service Pack 2 (SP2)</a></li>
-      <li><a href="https://www.baiyujia.com/vfpdocuments/default.asp" target="_blank">VFP9-A Hotfixes (VFPX)</a></li>
-    </ul>
+      <h3>Service Packs & Hotfixes</h3>
+      
+      <div class="link-list">
+        <a href="https://github.com/VFPX/VFP9SP2Hotfix3" class="btn" target="_blank" rel="noopener">
+          VFPX VFP9SP2Hotfix3
+        </a>
+        <a href="https://www.baiyujia.com/vfpdocuments/default.asp" class="btn btn-secondary" target="_blank" rel="noopener">
+          VFP9-A Hotfixes
+        </a>
+      </div>
+      
+      <p>Visual FoxPro 9.0 Service Pack 2 with latest hotfixes from the VFPX community.</p>
+    </div>
 
-    <h2>Distributions</h2>
-    <p>Available assemblies and links:</p>
-    <ul>
-      <li><a href="https://github.com/VFPX" target="_blank">VFPX (open source community)</a></li>
-      <li><a href="https://www.foxpert.com/download/" target="_blank">Foxpert Download Page</a></li>
-    </ul>
+    <div class="card">
+      <h2>Distributions</h2>
+      <p>Available assemblies and community resources:</p>
+      
+      <div class="link-list">
+        <a href="https://github.com/VFPX" class="btn" target="_blank" rel="noopener">
+          VFPX GitHub
+        </a>
+        <a href="https://www.foxpert.com/download/" class="btn" target="_blank" rel="noopener">
+          Foxpert Downloads
+        </a>
+        <a href="https://archive.org/details/microsoft-visual-fox-pro-9.0" class="btn btn-secondary" target="_blank" rel="noopener">
+          VFP9 Archive
+        </a>
+      </div>
+    </div>
 
-    <h2>Next Steps</h2>
-    <p>After install VFP и Service Packs:</p>
-    <ol>
-      <li>Add Environment Var<code>VFP_Projects</code></li>
-      <li>Copy to it libs<code>Common_Libs</code></li>
-    </ol>
+    <div class="card">
+      <h2>Next Steps</h2>
+      <p>After installing VFP and Service Packs:</p>
+      
+      <ol>
+        <li>Set environment variable: <code>VFP_Projects=%XBASE_WORKSPACE%\VFP_Projects</code></li>
+        <li>Copy common libraries to <code>%VFP_Projects%\Common_Libs</code></li>
+        <li>Configure VFP to use your workspace directory as default</li>
+        <li>Install VFPX extensions and tools as needed</li>
+      </ol>
+      
+      <div class="link-list">
+        <a href="https://xbasians.org/" class="btn">
+          ← Back to xBasians.org
+        </a>
+        <a href="https://github.com/VFPX" class="btn btn-secondary" target="_blank" rel="noopener">
+          Explore VFPX Projects
+        </a>
+      </div>
+    </div>
   </main>
+  
   <footer>
-    <p>Part of <a href="https://xbasians.org/">xBasians.org</a> workspace setup</p>
+    <p>Part of <a href="https://xbasians.org/">xBasians.org</a> workspace setup • Community & tools for xBase developers</p>
   </footer>
 </body>
+
 </html>
