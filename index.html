@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>xBasians.org</title>
+  <link rel="icon" href="./images/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="./images/favicon-64x64.png" sizes="64x64" type="image/png">
+  <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
   <style>
     :root {
       /* Color Palette */
@@ -997,38 +1000,38 @@ Thumbs.db
       </div>
     </section>
 
-<section id="screenshots" class="card">
-  <div class="card-header">
-    <h2>📸 Screenshots & Visual Guide</h2>
-    <p>Visual steps for setting up your xBase workspace and tools</p>
-  </div>
+    <section id="screenshots" class="card">
+      <div class="card-header">
+        <h2>📸 Screenshots & Visual Guide</h2>
+        <p>Visual steps for setting up your xBase workspace and tools</p>
+      </div>
 
-  <div class="compiler-grid">
-    <!-- Git global config -->
-    <div class="compiler-card">
-      <h3>Git Global Config</h3>
-      <img class="lightbox-link" src="./images/screenshots/git-config.png" alt="Git global config"
-        style="width:100%; border-radius:0.5rem;">
-      <p>Check your global username and email settings</p>
-    </div>
+      <div class="compiler-grid">
+        <!-- Git global config -->
+        <div class="compiler-card">
+          <h3>Git Global Config</h3>
+          <img class="lightbox-link" src="./images/screenshots/git-config.png" alt="Git global config"
+            style="width:100%; border-radius:0.5rem;">
+          <p>Check your global username and email settings</p>
+        </div>
 
-    <!-- SmartGit Hobby License -->
-    <div class="compiler-card">
-      <h3>SmartGit Hobby License</h3>
-      <img class="lightbox-link" src="./images/screenshots/smartgit.png" alt="SmartGit License"
-        style="width:100%; border-radius:0.5rem;">
-      <p>Activate your non-commercial hobby license</p>
-    </div>
+        <!-- SmartGit Hobby License -->
+        <div class="compiler-card">
+          <h3>SmartGit Hobby License</h3>
+          <img class="lightbox-link" src="./images/screenshots/smartgit.png" alt="SmartGit License"
+            style="width:100%; border-radius:0.5rem;">
+          <p>Activate your non-commercial hobby license</p>
+        </div>
 
-    <!-- Repository clone -->
-    <div class="compiler-card">
-      <h3>Repository Clone</h3>
-      <img class="lightbox-link" src="./images/screenshots/repo-clone.png" alt="Clone xBasians.org"
-        style="width:100%; border-radius:0.5rem;">
-      <p>Clone the xBasians.org repository successfully</p>
-    </div>
-  </div>
-</section>
+        <!-- Repository clone -->
+        <div class="compiler-card">
+          <h3>Repository Clone</h3>
+          <img class="lightbox-link" src="./images/screenshots/repo-clone.png" alt="Clone xBasians.org"
+            style="width:100%; border-radius:0.5rem;">
+          <p>Clone the xBasians.org repository successfully</p>
+        </div>
+      </div>
+    </section>
 
     <!-- Lightbox Modal -->
     <div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
@@ -1041,31 +1044,32 @@ Thumbs.db
   </main>
 
   <footer>
-    &copy; 2025 xBasians.org · Powered by GitHub Pages - FoxPro and Harbour community - AI - Thanks to All programmers of the Earth
+    &copy; 2025 xBasians.org · Powered by GitHub Pages - FoxPro and Harbour community - AI - Thanks to All programmers
+    of the Earth
   </footer>
 
   <script>
     // Lightbox for screenshots
-  document.querySelectorAll('.lightbox-link').forEach(img => {
-    img.addEventListener('click', () => {
-      const lb = document.getElementById('lightbox');
-      const lbImg = document.getElementById('lightbox-img');
-      lbImg.src = img.src;
-      lb.style.display = 'flex';
+    document.querySelectorAll('.lightbox-link').forEach(img => {
+      img.addEventListener('click', () => {
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        lbImg.src = img.src;
+        lb.style.display = 'flex';
+      });
     });
-  });
 
-  document.getElementById('lightbox-close').addEventListener('click', () => {
-    document.getElementById('lightbox').style.display = 'none';
-  });
-
-  document.getElementById('lightbox').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('lightbox')) {
+    document.getElementById('lightbox-close').addEventListener('click', () => {
       document.getElementById('lightbox').style.display = 'none';
-    }
-  });
-  
-  // Tabs functionality
+    });
+
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('lightbox')) {
+        document.getElementById('lightbox').style.display = 'none';
+      }
+    });
+
+    // Tabs functionality
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         // Deactivate all tabs
