@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harbour Build Script Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Harbour Build Script Generator</h1>
+            <p>Configure and generate build scripts for cross-platform Harbour development</p>
+        </header>
+
+        <div class="theme-toggle">
+            <button id="toggleTheme">Light Theme</button>
+        </div>
+
+        <div class="config-group">
+            <h2>Build Configuration</h2>
+            <div class="form-row">
+                <label for="os">Target Platform:</label>
+                <select id="os">
+                    <option value="Windows">Windows</option>
+                    <option value="Android">Android</option>
+                    <option value="Linux">Linux</option>
+                    <option value="macOS">macOS</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="compiler">Compiler:</label>
+                <select id="compiler"></select>
+            </div>
+            <div class="form-row">
+                <label for="cpu">Architecture:</label>
+                <select id="cpu">
+                    <option value="x86_64">x86_64</option>
+                    <option value="arm64">arm64</option>
+                    <option value="x86">x86</option>
+                    <option value="armv7">armv7</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="shell">Shell Type:</label>
+                <select id="shell">
+                    <option value="PowerShell">PowerShell</option>
+                    <option value="Command Prompt">Command Prompt</option>
+                    <option value="Git Bash">Git Bash</option>
+                    <option value="WSL">WSL</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label>Build Options:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="dynamicLibs"> Dynamic Libraries</label>
+                    <label><input type="checkbox" id="thirdParty"> 3rd Party Libraries</label>
+                    <label><input type="checkbox" id="debugBuild"> Debug Build</label>
+                    <label><input type="checkbox" id="persistEnv"> Persist Environment</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="config-group">
+            <h2>Paths & Workspace</h2>
+            <div class="form-row">
+                <label for="ndkPath">Android NDK:</label>
+                <input type="text" id="ndkPath" readonly>
+                <button class="browse-btn" id="browseNDK">Browse...</button>
+            </div>
+            <div class="form-row">
+                <label for="qtPath">Qt Path:</label>
+                <input type="text" id="qtPath" readonly>
+                <button class="browse-btn" id="browseQt">Browse...</button>
+            </div>
+            <div class="form-row">
+                <label for="workspacePath">Workspace:</label>
+                <input type="text" id="workspacePath">
+                <button class="browse-btn" id="browseWorkspace">Browse...</button>
+                <button class="action-btn" id="createWorkspace">Create</button>
+            </div>
+            <div class="button-group">
+                <button class="action-btn" id="setWorkspaceEnv">Set Workspace Env</button>
+                <button class="action-btn primary" id="setEnv">Set Environment</button>
+                <button class="action-btn success" id="generateScript">Generate Script</button>
+            </div>
+        </div>
+
+        <div class="config-group">
+            <h2>Environment Variables</h2>
+            <ul id="envVarsList"></ul>
+        </div>
+
+        <div class="config-group">
+            <h2>Recent Paths</h2>
+            <ul id="recentPathsList"></ul>
+        </div>
+
+        <div class="config-group">
+            <h2>Generated Build Script</h2>
+            <textarea id="scriptOutput" readonly></textarea>
+        </div>
+
+        <div class="status-bar">
+            <span id="statusText">Ready</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

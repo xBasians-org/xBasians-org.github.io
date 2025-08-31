@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harbour — xBasians.org</title>
+  <style>
+    :root {
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-bg: #f1f5f9;
+      --color-surface: #ffffff;
+      --color-text: #334155;
+      --color-text-light: #64748b;
+      --color-accent-harbour: #ffedd5;
+      --color-accent-hbqt: #f0fdf4;
+      --color-code-bg: #0f172a;
+      --color-code-text: #e2e8f0;
+      --color-border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: #ea580c;
+      color: white;
+      padding: 2.5rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+    }
+
+    header p {
+      margin: 0.5rem 0 0;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    h2 {
+      color: #ea580c;
+      border-bottom: 2px solid #fdba74;
+      padding-bottom: 0.5rem;
+      margin-top: 0;
+    }
+
+    h3 {
+      color: var(--color-primary);
+      margin-top: 1.2rem;
+    }
+
+    pre {
+      background: var(--color-code-bg);
+      color: var(--color-code-text);
+      padding: 1rem;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    code {
+      background: var(--color-bg);
+      color: var(--color-text);
+      padding: 0.2em 0.4em;
+      border-radius: 0.375rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.9em;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin: 0.25rem 0;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-bg);
+    }
+
+    .link-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .info-box {
+      background: var(--color-accent-harbour);
+      border: 1px solid #f97316;
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .info-box h3 {
+      margin: 0 0 0.5rem 0;
+      color: #c2410c;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 0 1rem;
+      }
+      header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📦 Harbour</h1>
+    <p>Modern open-source xBase compiler for cross-platform development</p>
+  </header>
+
+  <main>
+    <!-- Overview -->
+    <section class="card">
+      <h2>Что такое Harbour?</h2>
+      <p>
+        <strong>Harbour</strong> — это современный, открытый и кроссплатформенный компилятор языка xBase, разработанный как эволюция Clipper и других xBase-систем. Он позволяет создавать высокопроизводительные приложения для Linux, Windows, macOS и встраиваемых систем.
+      </p>
+
+      <div class="info-box">
+        <h3>🔍 Ключевые особенности</h3>
+        <ul>
+          <li>Полная совместимость с Clipper и частично с Visual FoxPro</li>
+          <li>Компилирует в C, затем в нативный код (через GCC, Clang, MSVC и др.)</li>
+          <li>Поддержка ООП, многопоточности, регулярных выражений, JSON и баз данных</li>
+          <li>Активно развивается сообществом</li>
+          <li>Работает на всех платформах, где есть C-компилятор</li>
+        </ul>
+      </div>
+
+      <div class="link-list">
+        <a href="https://harbour.github.io/" class="btn btn-secondary" target="_blank" rel="noopener">
+          🌐 Официальный сайт
+        </a>
+        <a href="https://github.com/harbour/core" class="btn btn-secondary" target="_blank" rel="noopener">
+          💾 GitHub Repository
+        </a>
+        <a href="https://harbour.github.io/doc/" class="btn btn-secondary" target="_blank" rel="noopener">
+          📚 Документация
+        </a>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="card">
+      <h2>Установка Harbour</h2>
+      <p>Harbour можно установить несколькими способами: из исходников, пакетного менеджера или через предварительно собранные бинарники.</p>
+
+      <h3>Linux (Ubuntu/Debian)</h3>
+      <pre># Установка зависимостей
+sudo apt update
+sudo apt install build-essential git
+
+# Клонирование репозитория
+cd $XBASE_WORKSPACE
+git clone https://github.com/harbour/core harbour-core
+cd harbour-core
+
+# Сборка
+make
+sudo make install</pre>
+
+      <h3>Windows (MSYS2 / MinGW)</h3>
+      <pre># Установите MSYS2, затем:
+pacman -S git make mingw-w64-x86_64-gcc
+
+cd C:/xbase_workspace
+git clone https://github.com/harbour/core harbour-core
+cd harbour-core
+make
+make install</pre>
+
+      <div class="tip-note">
+        <strong>Совет:</strong> Добавьте <code>/usr/local/lib/harbour/bin</code> (или <code>C:\harbour\bin</code>) в переменную окружения <code>PATH</code>.
+      </div>
+    </section>
+
+    <!-- Marinas-GUI (HBQt) -->
+    <section class="card">
+      <h2>🎨 Marinas-GUI (HBQt) — графический интерфейс на Qt</h2>
+      <p>
+        <strong>Marinas-GUI</strong> — это полноценная среда для создания кроссплатформенных графических приложений на Harbour с использованием библиотеки <strong>Qt</strong>.
+      </p>
+
+      <div class="info-box">
+        <h3>📌 Особенности Marinas-GUI</h3>
+        <ul>
+          <li>Работает на всех платформах, поддерживаемых Harbour и Qt</li>
+          <li>Использует Qt для нативного внешнего вида GUI</li>
+          <li>Позволяет создавать современные desktop-приложения с окнами, кнопками, таблицами и т.д.</li>
+        </ul>
+      </div>
+
+      <h3>Как начать?</h3>
+      <ol>
+        <li>Установите <a href="https://www.qt.io/download" target="_blank">Qt</a> (рекомендуется Qt 5 или Qt 6)</li>
+        <li>Скачайте Marinas-GUI (HBQt) с SourceForge:</li>
+      </ol>
+
+      <div class="link-list">
+        <a href="https://sourceforge.net/projects/qtcontribs/" class="btn btn-primary" target="_blank" rel="noopener">
+          🔗 Скачать HBQt (Marinas-GUI)
+        </a>
+      </div>
+
+      <pre># Пример: клонирование (если доступно через Git)
+cd $XBASE_WORKSPACE
+git clone https://git.code.sf.net/p/qtcontribs/git qtcontribs
+cd qtcontribs
+# Следуйте инструкциям в README для сборки с Qt</pre>
+
+      <details>
+        <summary>💡 Подсказки по настройке</summary>
+        <ul>
+          <li>Убедитесь, что переменная окружения <code>HB_WITH_QT</code> указывает на папку с Qt</li>
+          <li>Используйте <code>qmake</code> или <code>cmake</code> для генерации проектов</li>
+          <li>Проекты можно хранить в <code>$XBASE_WORKSPACE/HBQT_Projects</code></li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- Community & Resources -->
+    <section class="card">
+      <h2>Сообщество и ресурсы</h2>
+      <p>Присоединяйтесь к сообществу разработчиков Harbour:</p>
+      <ul>
+        <li><a href="https://groups.google.com/g/harbour-users" target="_blank">Google Group: Harbour Users</a></li>
+        <li><a href="https://github.com/harbour/core/discussions" target="_blank">GitHub Discussions</a></li>
+        <li><a href="https://forum.vfpx.com/" target="_blank">VFPX Forum (часто обсуждают Harbour)</a></li>
+      </ul>
+
+      <div class="link-list">
+        <a href="https://xbasians.org/" class="btn">← Назад на xBasians.org</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 xBasians.org · Open-source community for xBase developers
+  </footer>
+</body>
+</html>

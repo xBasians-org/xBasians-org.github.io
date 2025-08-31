@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xBasians.org - Harbour</title>
+    <style>
+        /* Переиспользуем существующие переменные CSS из основного сайта */
+        :root {
+            /* Все существующие переменные цвета и стилей */
+        }
+
+        /* Специфичные стили для страницы Harbour */
+        .harbour-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--color-surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-card h3 {
+            margin: 0 0 1rem 0;
+            color: var(--color-primary);
+        }
+
+        .feature-card ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .feature-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .harbour-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .harbour-links a {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .harbour-links a:hover {
+            background: var(--color-bg);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .harbour-links a::before {
+            content: '🔗';
+            margin-right: 0.5rem;
+        }
+
+        .harbour-quickstart {
+            background: var(--color-accent-harbour);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .harbour-quickstart pre {
+            background: var(--color-code-bg);
+            color: var(--color-code-text);
+            padding: 1rem;
+            border-radius: calc(var(--radius) - 0.25rem);
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 768px) {
+            .harbour-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>xBasians.org - Harbour</h1>
+        <p>Modern open-source xBase compiler</p>
+    </header>
+
+    <main>
+        <section class="card">
+            <div class="card-header">
+                <h2>What is Harbour?</h2>
+                <p>A modern, open-source implementation of the xBase language that extends capabilities of Clipper.</p>
+            </div>
+
+            <div class="harbour-features">
+                <div class="feature-card">
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>Cross-platform compatibility</li>
+                        <li>Object-oriented programming support</li>
+                        <li>Extended xBase language features</li>
+                        <li>Native C code integration</li>
+                        <li>Active community development</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Advantages</h3>
+                    <ul>
+                        <li>Free and open-source</li>
+                        <li>Modern development tools</li>
+                        <li>Active community support</li>
+                        <li>Regular updates and improvements</li>
+                        <li>Extensive documentation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="harbour-links">
+                <a href="https://harbour.github.io/" target="_blank" rel="noopener">Official Documentation</a>
+                <a href="https://github.com/harbour/core" target="_blank" rel="noopener">GitHub Repository</a>
+                <a href="https://groups.google.com/g/xbasians-org" target="_blank" rel="noopener">Community Support</a>
+            </div>
+
+            <div class="harbour-quickstart">
+                <h2>Quick Start</h2>
+                <pre>
+# Clone the repository
+git clone https://github.com/harbour/core harbour-core
+
+# Change to the directory
+cd harbour-core
+
+# Build Harbour
+make</pre>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2025 xBasians.org - Harbour Community
+    </footer>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Harbour Build Script Generator v3.0</title>
+    <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body class="dark">
+<header>
+    <h1>Harbour Build Script Generator</h1>
+    <p class="subtitle">Configure and generate build scripts for cross-platform Harbour development</p>
+    <button id="btnToggleTheme" class="btn small">Light Theme</button>
+</header>
+
+<main>
+    <section class="card">
+        <h2>Build Configuration</h2>
+
+        <label>Target Platform
+            <select id="comboOS">
+                <option>Windows</option>
+                <option>Android</option>
+                <option>Linux</option>
+                <option>macOS</option>
+            </select>
+        </label>
+
+        <label>Compiler
+            <select id="comboCompiler"></select>
+        </label>
+
+        <label>Architecture
+            <select id="comboCPU">
+                <option>x86_64</option>
+                <option>arm64</option>
+                <option>x86</option>
+                <option>armv7</option>
+            </select>
+        </label>
+
+        <label>Shell Type
+            <select id="comboShell">
+                <option>PowerShell</option>
+                <option>Command Prompt</option>
+                <option>Git Bash</option>
+                <option>WSL</option>
+            </select>
+        </label>
+
+        <div class="checks">
+            <label><input type="checkbox" id="chkDynamic"/> Dynamic Libraries</label>
+            <label><input type="checkbox" id="chk3rdParty"/> 3rd Party Libraries</label>
+            <label><input type="checkbox" id="chkDebug"/> Debug Build</label>
+            <label><input type="checkbox" id="chkPersistEnv"/> Persist Environment</label>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Paths & Workspace</h2>
+
+        <label id="lblNDKPath">Android NDK
+            <input type="text" id="txtNDKPath" placeholder="Path to Android NDK"/>
+            <button class="btn browse" data-target="txtNDKPath">Browse…</button>
+        </label>
+
+        <label>Qt Path
+            <input type="text" id="txtQtPath" placeholder="Path to Qt"/>
+            <button class="btn browse" data-target="txtQtPath">Browse…</button>
+        </label>
+
+        <label>Workspace
+            <input type="text" id="txtWorkspacePath" placeholder="Workspace folder"/>
+            <button class="btn browse" data-target="txtWorkspacePath">Browse…</button>
+            <button id="btnCreateWorkspace" class="btn success">Create</button>
+        </label>
+
+        <div class="actions">
+            <button id="btnSetWorkspaceEnv" class="btn success">Set Workspace Env</button>
+            <button id="btnSetEnv" class="btn primary">Set Environment</button>
+            <button id="btnGenerate" class="btn success">Generate Script</button>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Environment Variables</h2>
+        <ul id="listEnvVars"></ul>
+    </section>
+
+    <section class="card">
+        <h2>Recent Paths</h2>
+        <ul id="listRecentPaths"></ul>
+    </section>
+
+    <section class="card wide">
+        <h2>Generated Build Script</h2>
+        <textarea id="textBoxScript" readonly spellcheck="false"></textarea>
+    </section>
+</main>
+
+<footer id="statusBar">Ready</footer>
+
+<script type="module" src="js/themes.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

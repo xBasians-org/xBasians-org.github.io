@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Harbour Build Script Generator — v3.0 (HTML+JS)</title>
+  <style>
+    :root{
+      --bg:#121212; --surface:#252525; --text:#e6e6e6; --muted:#9aa0a6; --primary:#64b5f6; --success:#4caf50; --warning:#ffc107; --error:#f44336; --accent:#ffd54f;
+      --radius:10px; --mono: 'Consolas', 'Courier New', monospace; --ui-font: "Segoe UI", Roboto, system-ui, sans-serif;
+    }
+    .light{--bg:#f5f7fa; --surface:#ffffff; --text:#222; --muted:#6c757d; --primary:#3498db;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:var(--ui-font);background:var(--bg);color:var(--text);min-height:100vh}
+    .app{max-width:1300px;margin:18px auto;padding:18px}
+    header{display:flex;align-items:center;gap:18px}
+    h1{margin:0;font-size:20px;color:var(--primary)}
+    p.lead{margin:0;color:var(--muted)}
+    .toolbar{margin-left:auto;display:flex;gap:8px;align-items:center}
+    .btn{background:var(--surface);border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:8px;cursor:pointer}
+    .btn.primary{background:var(--primary);color:#fff;border:none}
+    .btn.success{background:var(--success);color:#fff;border:none}
+    .grid{display:grid;grid-template-columns:460px 1fr;gap:18px;margin-top:18px}
+    .card{background:var(--surface);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.25)}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    select,input[type=text],textarea{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;color:var(--text)}
+    .small{font-size:13px;color:var(--muted)}
+    .row{display:flex;gap:8px;align-items:center}
+    .checkbox{display:flex;gap:8px;align-items:center}
+    .group-title{font-weight:700;margin-bottom:8px;color:var(--primary)}
+    .list{height:120px;overflow:auto;border-radius:8px;padding:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
+    pre{background:transparent;border:none;font-family:var(--mono);font-size:13px;color:var(--text);white-space:pre-wrap}
+    footer{display:flex;align-items:center;gap:12px;margin-top:12px}
+    .status{flex:1;color:var(--muted)}
+    .recent-list li{cursor:pointer;padding:6px;border-radius:6px}
+    .recent-list li:hover{background:rgba(255,255,255,0.02)}
+    .controls{display:flex;gap:8px;margin-top:8px}
+    .hidden{display:none}
+    textarea#script{height:300px;border-radius:8px;padding:12px;background:linear-gradient(180deg, rgba(0,0,0,0.05), transparent);border:1px solid rgba(255,255,255,0.03)}
+    @media (max-width:1000px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div id="app" class="app">
+    <header>
+      <div>
+        <h1>Harbour Build Script Generator</h1>
+        <p class="lead">Configure and generate build scripts for cross-platform Harbour development</p>
+      </div>
+
+      <div class="toolbar">
+        <button id="toggleTheme" class="btn">Toggle Theme</button>
+        <div style="width:1px;height:28px;background:rgba(255,255,255,0.04)"></div>
+        <span class="small">v3.0</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div>
+        <div class="card">
+          <div class="group-title">Build Configuration</div>
+          <label>Target Platform</label>
+          <select id="osSelect"><option>Windows</option><option>Android</option><option>Linux</option><option>macOS</option></select>
+
+          <label style="margin-top:8px">Compiler</label>
+          <select id="compilerSelect"></select>
+
+          <label style="margin-top:8px">Architecture</label>
+          <select id="cpuSelect"><option>x86_64</option><option>arm64</option><option>x86</option><option>armv7</option></select>
+
+          <label style="margin-top:8px">Shell Type</label>
+          <select id="shellSelect"><option>PowerShell</option><option>Command Prompt</option><option>Git Bash</option><option>WSL</option></select>
+
+          <div style="margin-top:10px" class="row">
+            <label class="checkbox"><input type="checkbox" id="chkDynamic"> Dynamic Libraries</label>
+            <label class="checkbox"><input type="checkbox" id="chk3rdParty"> 3rd Party Libraries</label>
+            <label class="checkbox"><input type="checkbox" id="chkDebug"> Debug Build</label>
+          </div>
+
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <div class="group-title">Paths & Workspace</div>
+
+          <label>Android NDK</label>
+          <div class="row">
+            <input id="ndkPath" type="text" placeholder="Select NDK directory...">
+            <input id="ndkPicker" type="file" webkitdirectory directory multiple class="hidden">
+            <button id="btnBrowseNDK" class="btn">Browse…</button>
+          </div>
+
+          <label style="margin-top:8px">Qt Path</label>
+          <div class="row">
+            <input id="qtPath" type="text" placeholder="Select Qt installation directory…">
+            <input id="qtPicker" type="file" webkitdirectory directory multiple class="hidden">
+            <button id="btnBrowseQt" class="btn">Browse…</button>
+          </div>
+
+          <label style="margin-top:8px">Workspace</label>
+          <div class="row">
+            <input id="workspacePath" type="text" placeholder="Workspace directory…">
+            <input id="workspacePicker" type="file" webkitdirectory directory multiple class="hidden">
+            <button id="btnBrowseWorkspace" class="btn">Browse…</button>
+          </div>
+
+          <div class="controls">
+            <button id="btnCreateWorkspace" class="btn success">Create</button>
+            <button id="btnSetWorkspaceEnv" class="btn">Set Workspace Env</button>
+            <button id="btnSetEnv" class="btn primary">Set Environment</button>
+            <button id="btnGenerate" class="btn success">Generate Script</button>
+          </div>
+
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <div class="group-title">Environment Variables</div>
+          <div id="envList" class="list small"></div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <div class="group-title">Recent Paths</div>
+          <ul id="recentList" class="recent-list list small" style="list-style:none;padding-left:6px;margin:0"></ul>
+        </div>
+
+      </div>
+
+      <div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px">
+            <div>
+              <div class="group-title">Generated Build Script</div>
+              <div class="small">Preview and copy the generated script</div>
+            </div>
+            <div class="row">
+              <button id="btnCopy" class="btn">Copy</button>
+              <button id="btnDownload" class="btn">Download</button>
+            </div>
+          </div>
+
+          <textarea id="script" spellcheck="false"># Generated Harbour build script will appear here...</textarea>
+        </div>
+
+        <footer>
+          <div class="status" id="status">Ready</div>
+          <div id="statusType" class="small"></div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Simple app state and helpers ---
+    const state = {
+      isDark: true,
+      appSettings: JSON.parse(localStorage.getItem('hb_settings')||'{}'),
+      recent: JSON.parse(localStorage.getItem('hb_recent')||'[]')
+    }
+
+    const el = id=>document.getElementById(id);
+    const setStatus = (txt, type='info')=>{
+      el('status').textContent = txt;
+      const map = {info:'#9aa0a6',success:getComputedStyle(document.documentElement).getPropertyValue('--success')||'#4caf50',warning:getComputedStyle(document.documentElement).getPropertyValue('--warning')||'#ffc107',error:getComputedStyle(document.documentElement).getPropertyValue('--error')||'#f44336'}
+      el('status').style.color = map[type]||map.info
+    }
+
+    // Theme
+    function applyTheme(){
+      document.documentElement.classList.toggle('light', !state.isDark)
+    }
+    el('toggleTheme').addEventListener('click', ()=>{ state.isDark = !state.isDark; localStorage.setItem('hb_theme', JSON.stringify(state.isDark)); applyTheme(); setStatus('Switched to '+(state.isDark? 'Dark':'Light')+' theme','success') })
+    // initialise
+    state.isDark = JSON.parse(localStorage.getItem('hb_theme')||'true'); applyTheme()
+
+    // UI elements
+    const osSelect = el('osSelect'), compilerSelect = el('compilerSelect'), cpuSelect = el('cpuSelect'), shellSelect = el('shellSelect')
+    const ndkPath = el('ndkPath'), qtPath = el('qtPath'), workspacePath = el('workspacePath')
+    const ndkPicker = el('ndkPicker'), qtPicker = el('qtPicker'), workspacePicker = el('workspacePicker')
+    const envList = el('envList'), recentList = el('recentList'), script = el('script')
+
+    function updateCompilers(){
+      const os = osSelect.value
+      compilerSelect.innerHTML = ''
+      const byOs = {Windows:['MSVC','Clang','MinGW'], Android:['Clang','GCC'], Linux:['GCC','Clang'], 'macOS':['Clang','GCC']}
+      (byOs[os]||[]).forEach(c=>{ const o = document.createElement('option'); o.textContent=c; compilerSelect.appendChild(o) })
+      updateEnvList();
+      setStatus('Configuration updated for '+os,'info')
+    }
+    osSelect.addEventListener('change', updateCompilers); updateCompilers()
+
+    function updateEnvList(){
+      const vars = ['ANDROID_NDK_HOME','ANDROID_HOME','ANDROID_SDK_ROOT','JAVA_HOME','HB_PLATFORM','HB_COMPILER','HB_CPU','HB_INSTALL_PREFIX','XBASE_WORKSPACE','HB_WITH_QT']
+      envList.innerHTML = '';
+      vars.forEach(v=>{
+        const val = localStorage.getItem('env_'+v) || '';
+        const ok = val? '✅':'❌';
+        const elRow = document.createElement('div'); elRow.style.padding='6px 0'; elRow.textContent = `${ok} ${v} = ${val.length>60? val.slice(0,57)+'...': val}`
+        envList.appendChild(elRow)
+      })
+    }
+
+    // Recent paths
+    function renderRecent(){
+      recentList.innerHTML=''
+      state.recent.slice(0,20).forEach((p,idx)=>{
+        const li = document.createElement('li'); li.textContent = p.length>60? '...'+p.slice(-57): p; li.addEventListener('click', ()=>{ workspacePath.value = p; setStatus('Selected recent path: '+p,'success') }); recentList.appendChild(li)
+      })
+    }
+    renderRecent()
+
+    // Browse handlers (web: choose directory via file input with webkitdirectory)
+    document.getElementById('btnBrowseNDK').addEventListener('click', ()=> ndkPicker.click())
+    ndkPicker.addEventListener('change', (ev)=>{ if (ev.target.files.length){ const path = ev.target.files[0].webkitRelativePath || ev.target.files[0].name; ndkPath.value = path.split('/')[0] || path; setStatus('NDK path selected: '+ndkPath.value,'success') } })
+
+    document.getElementById('btnBrowseQt').addEventListener('click', ()=> qtPicker.click())
+    qtPicker.addEventListener('change', (ev)=>{ if (ev.target.files.length){ const path = ev.target.files[0].webkitRelativePath || ev.target.files[0].name; qtPath.value = path.split('/')[0] || path; setStatus('Qt path selected: '+qtPath.value,'success') } })
+
+    document.getElementById('btnBrowseWorkspace').addEventListener('click', ()=> workspacePicker.click())
+    workspacePicker.addEventListener('change', (ev)=>{ if (ev.target.files.length){ const path = ev.target.files[0].webkitRelativePath || ev.target.files[0].name; workspacePath.value = path.split('/')[0] || path; setStatus('Workspace path selected: '+workspacePath.value,'success'); addRecent(workspacePath.value) } })
+
+    // Create workspace (simulate) and persist recent
+    function addRecent(p){ if(!p) return; state.recent = [p].concat(state.recent.filter(x=>x!==p)).slice(0,30); localStorage.setItem('hb_recent', JSON.stringify(state.recent)); renderRecent() }
+
+    el('btnCreateWorkspace').addEventListener('click', ()=>{
+      const p = workspacePath.value || (navigator.userAgent.includes('Windows')? (localStorage.getItem('HOME')||'C:\xbase_workspace') : '/home/user/xbase_workspace')
+      addRecent(p); setStatus('Workspace created: '+p,'success'); alert('Workspace created (simulated)\nPath: '+p)
+    })
+
+    el('btnSetWorkspaceEnv').addEventListener('click', ()=>{
+      const p = workspacePath.value; if(!p){ setStatus('Workspace path is empty','error'); return }
+      localStorage.setItem('env_XBASE_WORKSPACE', p); updateEnvList(); addRecent(p); setStatus('XBASE_WORKSPACE set to: '+p,'success')
+    })
+
+    el('btnSetEnv').addEventListener('click', ()=>{
+      // set various env vars into localStorage (simulate persisting)
+      if(ndkPath.value) localStorage.setItem('env_ANDROID_NDK_HOME', ndkPath.value)
+      if(qtPath.value) localStorage.setItem('env_HB_WITH_QT', qtPath.value)
+      localStorage.setItem('env_HB_PLATFORM', osSelect.value.toLowerCase())
+      localStorage.setItem('env_HB_COMPILER', compilerSelect.value.toLowerCase())
+      localStorage.setItem('env_HB_CPU', cpuSelect.value)
+      updateEnvList(); setStatus('Environment variables updated successfully','success')
+    })
+
+    // Generate script (basic template)
+    el('btnGenerate').addEventListener('click', ()=>{
+      const tpl = `# Harbour build script (generated)\n# Platform: ${osSelect.value}\n# Compiler: ${compilerSelect.value}\n# CPU: ${cpuSelect.value}\n\nset -e\necho "Building for ${osSelect.value} with ${compilerSelect.value} (${cpuSelect.value})"\n\n# Paths\nHB_PLATFORM=${osSelect.value.toLowerCase()}\nHB_COMPILER=${compilerSelect.value.toLowerCase()}\nHB_CPU=${cpuSelect.value}\nXBASE_WORKSPACE=${localStorage.getItem('env_XBASE_WORKSPACE')||workspacePath.value||''}\nHB_WITH_QT=${localStorage.getItem('env_HB_WITH_QT')||qtPath.value||''}\nANDROID_NDK_HOME=${localStorage.getItem('env_ANDROID_NDK_HOME')||ndkPath.value||''}\n\n# Example commands\necho "Configuring..."\n# (add real configuration steps here)\necho "Building..."\n# (invoke make / cmake / toolchain)\necho "Done."\n`;
+      script.value = tpl; setStatus('Script generated','success')
+    })
+
+    // Copy & Download
+    el('btnCopy').addEventListener('click', ()=>{ navigator.clipboard.writeText(script.value).then(()=>setStatus('Script copied to clipboard','success')) })
+    el('btnDownload').addEventListener('click', ()=>{
+      const blob = new Blob([script.value], {type:'text/plain;charset=utf-8'}); const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='build.sh'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); setStatus('Downloaded build.sh','success')
+    })
+
+    // Copy persisted settings to UI on load
+    (function loadSettings(){
+      const s = state.appSettings || {}
+      if(s.lastOS) osSelect.value = s.lastOS
+      if(s.lastCPU) cpuSelect.value = s.lastCPU
+      if(s.lastToolchainPath) ndkPath.value = s.lastToolchainPath
+      workspacePath.value = s.lastWorkspace||''
+      updateCompilers(); updateEnvList(); renderRecent()
+    })();
+
+    // Save window settings on unload (simulate)
+    window.addEventListener('beforeunload', ()=>{
+      const settings = { lastOS: osSelect.value, lastCPU: cpuSelect.value, lastToolchainPath: ndkPath.value, lastWorkspace: workspacePath.value }
+      localStorage.setItem('hb_settings', JSON.stringify(settings))
+    })
+
+  </script>
+</body>
+</html>

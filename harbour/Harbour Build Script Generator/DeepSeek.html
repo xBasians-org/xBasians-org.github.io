@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harbour Build Script Generator v3.0</title>
+    <style>
+        :root {
+            /* Light Theme */
+            --primary-light: #3498db;
+            --secondary-light: #2e7d32;
+            --accent-light: #ffc107;
+            --background-light: #f8f9fa;
+            --surface-light: #ffffff;
+            --text-light: #212529;
+            --text-secondary-light: #6c757d;
+            --border-light: #ced4da;
+            --success-light: #28a745;
+            --warning-light: #ffc107;
+            --error-light: #dc3545;
+
+            /* Dark Theme */
+            --primary-dark: #64b5f6;
+            --secondary-dark: #66bb6a;
+            --accent-dark: #ffd54f;
+            --background-dark: #121212;
+            --surface-dark: #252525;
+            --text-dark: #ffffff;
+            --text-secondary-dark: #bdbdbd;
+            --border-dark: #444444;
+            --success-dark: #4caf50;
+            --warning-dark: #ffc107;
+            --error-dark: #f44336;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-dark);
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme {
+            background-color: var(--background-light);
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .light-theme .title {
+            color: var(--primary-light);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary-dark);
+            margin-bottom: 20px;
+        }
+
+        .light-theme .subtitle {
+            color: var(--text-secondary-light);
+        }
+
+        .panel-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background-color: var(--surface-dark);
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .light-theme .panel {
+            background-color: var(--surface-light);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .panel-full {
+            grid-column: 1 / span 2;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .light-theme .panel-title {
+            color: var(--primary-light);
+            border-bottom-color: var(--border-light);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-label {
+            width: 120px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border-dark);
+            border-radius: 4px;
+            background-color: var(--surface-dark);
+            color: var(--text-dark);
+            font-family: inherit;
+        }
+
+        .light-theme .form-control {
+            border-color: var(--border-light);
+            background-color: var(--surface-light);
+            color: var(--text-light);
+        }
+
+        select.form-control {
+            height: 35px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item input {
+            margin-right: 5px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--success-dark);
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: var(--warning-dark);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--surface-dark);
+            color: var(--primary-dark);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .light-theme .btn-secondary {
+            background-color: var(--surface-light);
+            color: var(--primary-light);
+            border-color: var(--primary-light);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background-color: var(--surface-dark);
+            color: var(--text-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .light-theme .theme-toggle {
+            background-color: var(--surface-light);
+            color: var(--text-light);
+            border-color: var(--border-light);
+        }
+
+        .list-box {
+            height: 150px;
+            overflow-y: auto;
+            border: 1px solid var(--border-dark);
+            border-radius: 4px;
+            padding: 5px;
+            background-color: var(--surface-dark);
+            color: var(--text-dark);
+        }
+
+        .light-theme .list-box {
+            border-color: var(--border-light);
+            background-color: var(--surface-light);
+            color: var(--text-light);
+        }
+
+        .list-item {
+            padding: 5px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+        }
+
+        .script-editor {
+            width: 100%;
+            height: 300px;
+            font-family: 'Consolas', monospace;
+            padding: 10px;
+            border: 1px solid var(--border-dark);
+            border-radius: 4px;
+            background-color: #282c34;
+            color: #abb2bf;
+            resize: vertical;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .light-theme .script-editor {
+            border-color: var(--border-light);
+            background-color: #f8f8f2;
+            color: #272822;
+        }
+
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px 15px;
+            background-color: var(--surface-dark);
+            color: var(--text-secondary-dark);
+            border-top: 1px solid var(--border-dark);
+            font-size: 13px;
+        }
+
+        .light-theme .status-bar {
+            background-color: var(--surface-light);
+            color: var(--text-secondary-light);
+            border-top-color: var(--border-light);
+        }
+
+        .status-success {
+            color: var(--success-dark);
+        }
+
+        .light-theme .status-success {
+            color: var(--success-light);
+        }
+
+        .status-warning {
+            color: var(--warning-dark);
+        }
+
+        .light-theme .status-warning {
+            color: var(--warning-light);
+        }
+
+        .status-error {
+            color: var(--error-dark);
+        }
+
+        .light-theme .status-error {
+            color: var(--error-light);
+        }
+
+        .path-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .path-input-group input {
+            flex: 1;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Harbour Build Script Generator v3.0</h1>
+            <p class="subtitle">Configure and generate build scripts for cross-platform Harbour development</p>
+        </div>
+
+        <button class="theme-toggle" id="themeToggle">Light Theme</button>
+
+        <div class="panel-container">
+            <div class="panel">
+                <h2 class="panel-title">Build Configuration</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Target Platform:</label>
+                    <select class="form-control" id="comboOS">
+                        <option value="Windows">Windows</option>
+                        <option value="Android">Android</option>
+                        <option value="Linux">Linux</option>
+                        <option value="macOS">macOS</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Compiler:</label>
+                    <select class="form-control" id="comboCompiler">
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Architecture:</label>
+                    <select class="form-control" id="comboCPU">
+                        <option value="x86_64">x86_64</option>
+                        <option value="arm64">arm64</option>
+                        <option value="x86">x86</option>
+                        <option value="armv7">armv7</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Shell Type:</label>
+                    <select class="form-control" id="comboShell">
+                        <option value="PowerShell">PowerShell</option>
+                        <option value="Command Prompt">Command Prompt</option>
+                        <option value="Git Bash">Git Bash</option>
+                        <option value="WSL">WSL</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Build Options:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chkDynamic">
+                            <label for="chkDynamic">Dynamic Libraries</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chk3rdParty">
+                            <label for="chk3rdParty">3rd Party Libraries</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chkDebug">
+                            <label for="chkDebug">Debug Build</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chkPersistEnv">
+                            <label for="chkPersistEnv">Persist Environment</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">Environment Variables</h2>
+                <div class="list-box" id="listEnvVars">
+                    <!-- Will be populated dynamically -->
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">Paths & Workspace</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Android NDK:</label>
+                    <div class="path-input-group">
+                        <input type="text" class="form-control" id="txtNDKPath">
+                        <button class="btn btn-warning btn-sm" id="btnBrowseNDK">Browse...</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Qt Path:</label>
+                    <div class="path-input-group">
+                        <input type="text" class="form-control" id="txtQtPath">
+                        <button class="btn btn-warning btn-sm" id="btnBrowseQt">Browse...</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Workspace:</label>
+                    <div class="path-input-group">
+                        <input type="text" class="form-control" id="txtWorkspacePath">
+                        <button class="btn btn-warning btn-sm" id="btnBrowseWorkspace">Browse...</button>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-success" id="btnCreateWorkspace">Create Workspace</button>
+                    <button class="btn btn-success" id="btnSetWorkspaceEnv">Set Workspace Env</button>
+                    <button class="btn btn-primary" id="btnSetEnv">Set Environment</button>
+                    <button class="btn btn-success" id="btnGenerate">Generate Script</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">Recent Paths</h2>
+                <div class="list-box" id="listRecentPaths">
+                    <!-- Will be populated dynamically -->
+                </div>
+            </div>
+
+            <div class="panel panel-full">
+                <h2 class="panel-title">Generated Build Script</h2>
+                <textarea class="script-editor" id="textBoxScript" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">
+        <span id="statusLabel">Ready</span>
+    </div>
+
+    <script>
+        // Theme management
+        const themes = {
+            dark: {
+                primary: '#64b5f6',
+                secondary: '#66bb6a',
+                accent: '#ffd54f',
+                background: '#121212',
+                surface: '#252525',
+                text: '#ffffff',
+                textSecondary: '#bdbdbd',
+                border: '#444444',
+                success: '#4caf50',
+                warning: '#ffc107',
+                error: '#f44336'
+            },
+            light: {
+                primary: '#3498db',
+                secondary: '#2e7d32',
+                accent: '#ffc107',
+                background: '#f8f9fa',
+                surface: '#ffffff',
+                text: '#212529',
+                textSecondary: '#6c757d',
+                border: '#ced4da',
+                success: '#28a745',
+                warning: '#ffc107',
+                error: '#dc3545'
+            }
+        };
+
+        let currentTheme = 'dark';
+        let appSettings = {
+            window: { width: 0, height: 0 },
+            lastOS: 'Windows',
+            lastCPU: 'x86_64',
+            lastToolchainPath: '',
+            recentPaths: [],
+            buildDynamicLibs: false,
+            build3rdParty: false,
+            debugBuild: false,
+            persistEnvironment: false
+        };
+
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const comboOS = document.getElementById('comboOS');
+        const comboCompiler = document.getElementById('comboCompiler');
+        const comboCPU = document.getElementById('comboCPU');
+        const comboShell = document.getElementById('comboShell');
+        const chkDynamic = document.getElementById('chkDynamic');
+        const chk3rdParty = document.getElementById('chk3rdParty');
+        const chkDebug = document.getElementById('chkDebug');
+        const chkPersistEnv = document.getElementById('chkPersistEnv');
+        const txtNDKPath = document.getElementById('txtNDKPath');
+        const txtQtPath = document.getElementById('txtQtPath');
+        const txtWorkspacePath = document.getElementById('txtWorkspacePath');
+        const listEnvVars = document.getElementById('listEnvVars');
+        const listRecentPaths = document.getElementById('listRecentPaths');
+        const textBoxScript = document.getElementById('textBoxScript');
+        const statusLabel = document.getElementById('statusLabel');
+        const btnBrowseNDK = document.getElementById('btnBrowseNDK');
+        const btnBrowseQt = document.getElementById('btnBrowseQt');
+        const btnBrowseWorkspace = document.getElementById('btnBrowseWorkspace');
+        const btnCreateWorkspace = document.getElementById('btnCreateWorkspace');
+        const btnSetWorkspaceEnv = document.getElementById('btnSetWorkspaceEnv');
+        const btnSetEnv = document.getElementById('btnSetEnv');
+        const btnGenerate = document.getElementById('btnGenerate');
+
+        // Initialize application
+        function initializeApplication() {
+            setStatus('Loading application settings...', 'info');
+            
+            // Load settings from localStorage
+            const savedSettings = localStorage.getItem('harbourBuildSettings');
+            if (savedSettings) {
+                appSettings = { ...appSettings, ...JSON.parse(savedSettings) };
+            }
+            
+            // Apply saved settings
+            comboOS.value = appSettings.lastOS || 'Windows';
+            comboCPU.value = appSettings.lastCPU || 'x86_64';
+            txtNDKPath.value = appSettings.lastToolchainPath || '';
+            txtWorkspacePath.value = appSettings.recentPaths.length > 0 
+                ? appSettings.recentPaths[0] 
+                : (localStorage.getItem('lastWorkspacePath') || '/xbase_workspace');
+            
+            chkDynamic.checked = appSettings.buildDynamicLibs || false;
+            chk3rdParty.checked = appSettings.build3rdParty || false;
+            chkDebug.checked = appSettings.debugBuild || false;
+            chkPersistEnv.checked = appSettings.persistEnvironment || false;
+            
+            updateUI();
+            updateRecentPathsList();
+            setStatus('Application initialized successfully', 'success');
+        }
+
+        // Update UI based on selected OS
+        function updateUI() {
+            const os = comboOS.value;
+            
+            // Update compiler options based on OS
+            comboCompiler.innerHTML = '';
+            switch (os) {
+                case 'Windows':
+                    ['MSVC', 'Clang', 'MinGW'].forEach(compiler => {
+                        const option = document.createElement('option');
+                        option.value = compiler;
+                        option.textContent = compiler;
+                        comboCompiler.appendChild(option);
+                    });
+                    document.getElementById('txtNDKPath').parentElement.parentElement.style.display = 'flex';
+                    break;
+                case 'Android':
+                    ['Clang', 'GCC'].forEach(compiler => {
+                        const option = document.createElement('option');
+                        option.value = compiler;
+                        option.textContent = compiler;
+                        comboCompiler.appendChild(option);
+                    });
+                    document.getElementById('txtNDKPath').parentElement.parentElement.style.display = 'flex';
+                    break;
+                case 'Linux':
+                case 'macOS':
+                    ['GCC', 'Clang'].forEach(compiler => {
+                        const option = document.createElement('option');
+                        option.value = compiler;
+                        option.textContent = compiler;
+                        comboCompiler.appendChild(option);
+                    });
+                    document.getElementById('txtNDKPath').parentElement.parentElement.style.display = 'none';
+                    break;
+            }
+            
+            // Qt Path is always visible
+            document.getElementById('txtQtPath').parentElement.parentElement.style.display = 'flex';
+            
+            if (comboCompiler.options.length > 0) {
+                comboCompiler.selectedIndex = 0;
+            }
+            
+            updateEnvironmentVariablesList();
+            setStatus(`Configuration updated for ${os}`, 'info');
+        }
+
+        // Update environment variables list
+        function updateEnvironmentVariablesList() {
+            const envVars = [
+                'ANDROID_NDK_HOME', 'ANDROID_HOME', 'ANDROID_SDK_ROOT', 'JAVA_HOME',
+                'HB_PLATFORM', 'HB_COMPILER', 'HB_CPU', 'HB_INSTALL_PREFIX', 'XBASE_WORKSPACE', 'HB_WITH_QT'
+            ];
+            
+            listEnvVars.innerHTML = '';
+            
+            envVars.forEach(varName => {
+                // In a browser, we can't directly access environment variables
+                // This is a simulation for demonstration purposes
+                const value = localStorage.getItem(varName) || '';
+                const icon = value ? '[OK]' : '[X]';
+                const displayValue = value && value.length > 50 
+                    ? value.substring(0, 47) + '...' 
+                    : value;
+                
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.textContent = `${icon} ${varName} = ${displayValue}`;
+                listEnvVars.appendChild(item);
+            });
+        }
+
+        // Update recent paths list
+        function updateRecentPathsList() {
+            listRecentPaths.innerHTML = '';
+            
+            appSettings.recentPaths.forEach(path => {
+                const displayPath = path.length > 60 
+                    ? '...' + path.substring(path.length - 57) 
+                    : path;
+                
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.textContent = displayPath;
+                item.setAttribute('data-fullpath', path);
+                listRecentPaths.appendChild(item);
+            });
+            
+            // Add click handler for recent paths
+            const items = listRecentPaths.querySelectorAll('.list-item');
+            items.forEach(item => {
+                item.addEventListener('dblclick', () => {
+                    const fullPath = item.getAttribute('data-fullpath');
+                    txtWorkspacePath.value = fullPath;
+                    setStatus(`Selected recent path: ${fullPath}`, 'success');
+                });
+            });
+        }
+
+        // Set status message
+        function setStatus(text, type = 'info') {
+            statusLabel.textContent = text;
+            
+            // Remove existing status classes
+            statusLabel.classList.remove('status-success', 'status-warning', 'status-error');
+            
+            // Add appropriate class based on type
+            switch (type) {
+                case 'success':
+                    statusLabel.classList.add('status-success');
+                    break;
+                case 'warning':
+                    statusLabel.classList.add('status-warning');
+                    break;
+                case 'error':
+                    statusLabel.classList.add('status-error');
+                    break;
+            }
+        }
+
+        // Browse for folder (simulated in browser)
+        function browseFolder() {
+            // In a real implementation, this would use a proper file dialog
+            // For this example, we'll just return a mock path
+            return new Promise(resolve => {
+                // Simulate a folder selection dialog
+                setTimeout(() => {
+                    const mockPath = '/path/to/selected/folder';
+                    resolve(mockPath);
+                }, 100);
+            });
+        }
+
+        // Create workspace
+        function createWorkspace() {
+            try {
+                let workspacePath = txtWorkspacePath.value;
+                if (!workspacePath) {
+                    workspacePath = '/xbase_workspace';
+                    txtWorkspacePath.value = workspacePath;
+                }
+                
+                // In a real implementation, this would create the workspace
+                // For this example, we'll just show a success message
+                alert(`Workspace created successfully!\n\nPath: ${workspacePath}`);
+                setStatus(`Workspace created: ${workspacePath}`, 'success');
+                
+                // Add to recent paths
+                if (!appSettings.recentPaths.includes(workspacePath)) {
+                    appSettings.recentPaths.unshift(workspacePath);
+                    if (appSettings.recentPaths.length > 10) {
+                        appSettings.recentPaths.pop();
+                    }
+                    updateRecentPathsList();
+                    saveSettings();
+                }
+            } catch (error) {
+                alert(`Failed to create workspace:\n\n${error.message}`);
+                setStatus('Failed to create workspace', 'error');
+            }
+        }
+
+        // Set environment variables
+        function setEnvironmentVariables() {
+            try {
+                const ndkPath = txtNDKPath.value;
+                const workspacePath = txtWorkspacePath.value;
+                const qtPath = txtQtPath.value;
+                const persist = chkPersistEnv.checked;
+                
+                if (ndkPath) {
+                    localStorage.setItem('ANDROID_NDK_HOME', ndkPath);
+                }
+                
+                if (workspacePath) {
+                    localStorage.setItem('XBASE_WORKSPACE', workspacePath);
+                }
+                
+                if (qtPath) {
+                    localStorage.setItem('HB_WITH_QT', qtPath);
+                }
+                
+                const os = comboOS.value;
+                const compiler = comboCompiler.value;
+                const cpu = comboCPU.value;
+                
+                localStorage.setItem('HB_PLATFORM', os.toLowerCase());
+                localStorage.setItem('HB_COMPILER', compiler.toLowerCase());
+                localStorage.setItem('HB_CPU', getHarbourCPU(cpu));
+                
+                updateEnvironmentVariablesList();
+                
+                const persistMsg = persist ? 'and persisted ' : '';
+                alert(`Environment variables have been set ${persistMsg}successfully!`);
+                setStatus('Environment variables updated successfully', 'success');
+            } catch (error) {
+                alert(`Failed to set environment variables:\n\n${error.message}`);
+                setStatus('Failed to update environment variables', 'error');
+            }
+        }
+
+        // Helper function to get Harbour CPU value
+        function getHarbourCPU(cpu) {
+            const cpuMap = {
+                'x86_64': 'x86_64',
+                'arm64': 'arm64',
+                'x86': 'x86',
+                'armv7': 'arm'
+            };
+            return cpuMap[cpu] || cpu;
+        }
+
+        // Generate build script
+        function generateScript() {
+            try {
+                const os = comboOS.value;
+                const compiler = comboCompiler.value;
+                const cpu = comboCPU.value;
+                const shell = comboShell.value;
+                const dynamic = chkDynamic.checked;
+                const thirdParty = chk3rdParty.checked;
+                const debug = chkDebug.checked;
+                const ndkPath = txtNDKPath.value;
+                const qtPath = txtQtPath.value;
+                const workspacePath = txtWorkspacePath.value;
+                
+                // Generate a mock script based on the selected options
+                let script = `# Harbour Build Script
+# Generated on ${new Date().toLocaleString()}
+# Target: ${os} ${cpu}
+# Compiler: ${compiler}
+# Shell: ${shell}
+
+# Configuration
+export HB_PLATFORM=${os.toLowerCase()}
+export HB_COMPILER=${compiler.toLowerCase()}
+export HB_CPU=${getHarbourCPU(cpu)}
+export XBASE_WORKSPACE=${workspacePath}
+${qtPath ? `export HB_WITH_QT=${qtPath}` : ''}
+${ndkPath ? `export ANDROID_NDK_HOME=${ndkPath}` : ''}
+
+# Build options
+${dynamic ? 'export HB_BUILD_DYNAMIC=yes' : '# export HB_BUILD_DYNAMIC=no'}
+${thirdParty ? 'export HB_BUILD_CONTRIB=yes' : '# export HB_BUILD_CONTRIB=no'}
+${debug ? 'export HB_BUILD_DEBUG=yes' : '# export HB_BUILD_DEBUG=no'}
+
+# Build commands
+echo "Starting Harbour build for ${os} ${cpu} with ${compiler}..."
+# Add actual build commands here based on the target platform
+`;
+
+                if (os === 'Windows') {
+                    script += `
+# Windows-specific build commands
+if [ "${compiler}" = "MSVC" ]; then
+    echo "Using Microsoft Visual C++"
+    # Add MSVC setup commands
+elif [ "${compiler}" = "Clang" ]; then
+    echo "Using Clang for Windows"
+    # Add Clang setup commands
+elif [ "${compiler}" = "MinGW" ]; then
+    echo "Using MinGW"
+    # Add MinGW setup commands
+fi
+`;
+                } else if (os === 'Android') {
+                    script += `
+# Android-specific build commands
+if [ ! -z "${ndkPath}" ]; then
+    echo "Using Android NDK at ${ndkPath}"
+    # Add NDK setup commands
+fi
+
+if [ "${compiler}" = "Clang" ]; then
+    echo "Using Clang for Android"
+    # Add Android Clang setup commands
+elif [ "${compiler}" = "GCC" ]; then
+    echo "Using GCC for Android"
+    # Add Android GCC setup commands
+fi
+`;
+                } else if (os === 'Linux') {
+                    script += `
+# Linux-specific build commands
+if [ "${compiler}" = "GCC" ]; then
+    echo "Using GCC for Linux"
+    # Add GCC setup commands
+elif [ "${compiler}" = "Clang" ]; then
+    echo "Using Clang for Linux"
+    # Add Clang setup commands
+fi
+`;
+                } else if (os === 'macOS') {
+                    script += `
+# macOS-specific build commands
+if [ "${compiler}" = "Clang" ]; then
+    echo "Using Clang for macOS"
+    # Add macOS Clang setup commands
+elif [ "${compiler}" = "GCC" ]; then
+    echo "Using GCC for macOS"
+    # Add macOS GCC setup commands
+fi
+`;
+                }
+
+                script += `
+# Common build steps
+echo "Build configuration complete!"
+echo "Run 'make' or appropriate build command to start the build process."
+`;
+
+                textBoxScript.value = script;
+                setStatus('Build script generated successfully', 'success');
+            } catch (error) {
+                alert(`Failed to generate script:\n\n${error.message}`);
+                setStatus('Failed to generate script', 'error');
+            }
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            appSettings.lastOS = comboOS.value;
+            appSettings.lastCPU = comboCPU.value;
+            appSettings.lastToolchainPath = txtNDKPath.value;
+            appSettings.buildDynamicLibs = chkDynamic.checked;
+            appSettings.build3rdParty = chk3rdParty.checked;
+            appSettings.debugBuild = chkDebug.checked;
+            appSettings.persistEnvironment = chkPersistEnv.checked;
+            
+            localStorage.setItem('harbourBuildSettings', JSON.stringify(appSettings));
+            localStorage.setItem('lastWorkspacePath', txtWorkspacePath.value);
+        }
+
+        // Event listeners
+        themeToggle.addEventListener('click', () => {
+            if (currentTheme === 'dark') {
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+                themeToggle.textContent = 'Dark Theme';
+                currentTheme = 'light';
+            } else {
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+                themeToggle.textContent = 'Light Theme';
+                currentTheme = 'dark';
+            }
+            setStatus(`Switched to ${currentTheme} theme`, 'success');
+        });
+
+        comboOS.addEventListener('change', updateUI);
+        
+        btnBrowseNDK.addEventListener('click', async () => {
+            const path = await browseFolder();
+            if (path) {
+                txtNDKPath.value = path;
+                if (!appSettings.recentPaths.includes(path)) {
+                    appSettings.recentPaths.unshift(path);
+                    if (appSettings.recentPaths.length > 10) {
+                        appSettings.recentPaths.pop();
+                    }
+                    updateRecentPathsList();
+                    saveSettings();
+                }
+                setStatus(`NDK path selected: ${path}`, 'success');
+            }
+        });
+        
+        btnBrowseQt.addEventListener('click', async () => {
+            const path = await browseFolder();
+            if (path) {
+                txtQtPath.value = path;
+                setStatus(`Qt path selected: ${path}`, 'success');
+            }
+        });
+        
+        btnBrowseWorkspace.addEventListener('click', async () => {
+            const path = await browseFolder();
+            if (path) {
+                txtWorkspacePath.value = path;
+                setStatus(`Workspace path selected: ${path}`, 'success');
+            }
+        });
+        
+        btnCreateWorkspace.addEventListener('click', createWorkspace);
+        
+        btnSetWorkspaceEnv.addEventListener('click', () => {
+            try {
+                let workspacePath = txtWorkspacePath.value;
+                if (!workspacePath) {
+                    workspacePath = '/xbase_workspace';
+                    txtWorkspacePath.value = workspacePath;
+                }
+                localStorage.setItem('XBASE_WORKSPACE', workspacePath);
+                updateEnvironmentVariablesList();
+                setStatus(`XBASE_WORKSPACE set to: ${workspacePath}`, 'success');
+            } catch (error) {
+                setStatus(`Failed to set XBASE_WORKSPACE: ${error.message}`, 'error');
+            }
+        });
+        
+        btnSetEnv.addEventListener('click', setEnvironmentVariables);
+        
+        btnGenerate.addEventListener('click', generateScript);
+        
+        // Save settings before unload
+        window.addEventListener('beforeunload', saveSettings);
+
+        // Initialize the application
+        initializeApplication();
+    </script>
+</body>
+</html>

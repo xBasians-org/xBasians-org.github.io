@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harbour - xBasians.org</title>
+  <style>
+    :root {
+      /* Color Palette */
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-bg: #f1f5f9;
+      --color-surface: #ffffff;
+      --color-text: #334155;
+      --color-text-light: #64748b;
+      --color-accent-vfp: #e0f2fe;
+      --color-accent-harbour: #ffedd5;
+      --color-accent-hbqt: #f0fdf4;
+      --color-code-bg: #0f172a;
+      --color-code-text: #e2e8f0;
+      --color-border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--color-code-bg);
+      color: var(--color-surface);
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+    }
+
+    header p {
+      margin: 0.75rem 0 0;
+      font-size: 1.25rem;
+      font-weight: 300;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .card-badge {
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+      background: var(--color-bg);
+      padding: 0.35rem 0.75rem;
+      border-radius: 2rem;
+      font-weight: 500;
+    }
+
+    .card-subtitle {
+      color: var(--color-text-light);
+      margin: 0.5rem 0 0 0;
+      font-size: 1.05rem;
+    }
+
+    /* Tabs */
+    .tab-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn[aria-pressed="true"],
+    .tab-btn.active {
+      background: var(--color-bg);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Code Blocks & Copy Area */
+    .code-block-container {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      flex-direction: column;
+    }
+
+    @media (min-width: 768px) {
+      .code-block-container {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+
+    pre {
+      white-space: pre-wrap;
+      margin: 0;
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      background: var(--color-code-bg);
+      color: var(--color-code-text);
+      flex: 1;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .code-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-width: 160px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border-color: var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-bg);
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* Compiler Cards Grid */
+    .compiler-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .compiler-card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .compiler-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .compiler-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0 0 0.75rem 0;
+      font-size: 1.2rem;
+    }
+
+    .compiler-card p {
+      margin: 0 0 1.25rem 0;
+      color: var(--color-text-light);
+      flex-grow: 1;
+    }
+
+    .compiler-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .compiler-card--harbour {
+      border-top: 4px solid #ea580c;
+    }
+
+    /* Tips & Details */
+    .tip-note {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .info-box {
+      background: var(--color-accent-harbour);
+      border: 1px solid #fed7aa;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .info-box h3 {
+      margin: 0 0 0.75rem 0;
+      color: #ea580c;
+      font-size: 1.1rem;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: #c2410c;
+    }
+
+    details {
+      margin-top: 1rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--color-primary);
+    }
+
+    details ul {
+      margin: 0.75rem 0;
+      padding-left: 1.5rem;
+    }
+
+    details li {
+      margin-bottom: 0.35rem;
+    }
+
+    .step-navigation {
+      background: var(--color-bg);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .step-navigation a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      header {
+        padding: 2rem 1rem;
+      }
+
+      header h1 {
+        font-size: 2.2rem;
+      }
+
+      .card-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .card-badge {
+        align-self: flex-start;
+      }
+
+      .compiler-grid {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 0 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Harbour - xBasians.org</h1>
+    <p>Modern open-source xBase compiler for cross-platform development</p>
+    <p>!!!website in development!!!</p>
+  </header>
+
+  <main>
+    <!-- Step 1: Install Harbour -->
+    <section class="card" id="harbour-install">
+      <div class="card-header">
+        <div>
+          <h2>🚢 Install Harbour</h2>
+          <p class="card-subtitle">Set up the Harbour compiler on your system. Select your OS for instructions.</p>
+        </div>
+        <span class="card-badge">Step 1 — Installation</span>
+      </div>
+
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-target="tab-linux">Linux</button>
+        <button class="tab-btn" data-target="tab-windows">Windows</button>
+        <button class="tab-btn" data-target="tab-macos">macOS</button>
+      </nav>
+
+      <div class="tab-content">
+        <!-- Linux -->
+        <div id="tab-linux" class="tab-panel active">
+          <div class="code-block-container">
+            <pre id="code-linux"># Install dependencies (Ubuntu/Debian example)
+sudo apt update
+sudo apt install build-essential git
+
+# Clone and build Harbour
+cd $XBASE_WORKSPACE
+git clone https://github.com/harbour/core.git harbour-core
+cd harbour-core
+make
+sudo make install
+
+# Verify installation
+hbmk2 --version</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-linux">Copy Code</button>
+              <a href="https://harbour.github.io/doc/install.html" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">Harbour Docs</a>
+              <div class="tip-note">
+                <strong>Tip:</strong> Ensure <code>$XBASE_WORKSPACE</code> is set (see <a href="/#workspace-setup">Workspace Setup</a>).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Windows -->
+        <div id="tab-windows" class="tab-panel">
+          <div class="code-block-container">
+            <pre id="code-windows"># Using MinGW-w64 (example with MSYS2)
+pacman -S mingw-w64-x86_64-gcc git
+
+# Clone and build Harbour
+cd %XBASE_WORKSPACE%
+git clone https://github.com/harbour/core.git harbour-core
+cd harbour-core
+make
+make install
+
+# Add to PATH (PowerShell example)
+$Env:PATH += ";%XBASE_WORKSPACE%\harbour-core\bin"
+
+# Verify installation
+hbmk2 --version</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-windows">Copy Code</button>
+              <a href="https://harbour.github.io/doc/install.html" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">Harbour Docs</a>
+              <div class="tip-note">
+                <strong>Note:</strong> Use MSYS2 or MinGW-w64 for Windows compilation. Add Harbour's bin folder to PATH.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- macOS -->
+        <div id="tab-macos" class="tab-panel">
+          <div class="code-block-container">
+            <pre id="code-macos"># Install Homebrew (if not installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install dependencies
+brew install gcc git
+
+# Clone and build Harbour
+cd $XBASE_WORKSPACE
+git clone https://github.com/harbour/core.git harbour-core
+cd harbour-core
+make
+sudo make install
+
+# Verify installation
+hbmk2 --version</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-macos">Copy Code</button>
+              <a href="https://harbour.github.io/doc/install.html" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">Harbour Docs</a>
+              <div class="tip-note">
+                <strong>Tip:</strong> Xcode Command Line Tools are required. Run <code>xcode-select --install</code> if needed.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <h3>Why Harbour?</h3>
+        <p>Harbour is a modern, open-source xBase compiler that supports cross-platform development with robust C-based architecture. It's ideal for porting legacy xBase apps or building new ones.</p>
+      </div>
+
+      <div class="step-navigation">
+        After installation, add Harbour's bin directory to your PATH and verify with <code>hbmk2 --version</code>.
+        <div style="margin-top:.75rem;"><a href="#harbour-project">Continue: Create a Project →</a></div>
+      </div>
+    </section>
+
+    <!-- Step 2: Create a Harbour Project -->
+    <section class="card" id="harbour-project">
+      <div class="card-header">
+        <div>
+          <h2>📝 Create Your First Harbour Project</h2>
+          <p class="card-subtitle">Set up a basic Harbour project structure and compile a simple program.</p>
+        </div>
+        <span class="card-badge">Step 2 — Project Setup</span>
+      </div>
+
+      <div class="code-block-container">
+        <pre id="code-project"># Create project directory
+mkdir -p $XBASE_WORKSPACE/HB_Projects/my_first_app
+cd $XBASE_WORKSPACE/HB_Projects/my_first_app
+
+# Create a simple Harbour program (main.prg)
+cat << EOF > main.prg
+#include "hbgtinfo.ch"
+PROCEDURE Main()
+   ? "Hello, Harbour!"
+   hb_gtInfo( HB_GTI_ISGRAPHIC, .F. ) // Console mode
+RETURN
+EOF
+
+# Compile and run
+hbmk2 main.prg
+./main</pre>
+        <div class="code-actions">
+          <button class="btn btn-primary btn-sm copy-btn" data-target="code-project">Copy Code</button>
+          <a href="https://harbour.github.io/doc/hbmk2.html" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">hbmk2 Docs</a>
+          <div class="tip-note">
+            <strong>Tip:</strong> Use <code>hbmk2</code> for building Harbour projects. Check the docs for advanced build options.
+          </div>
+        </div>
+      </div>
+
+      <details>
+        <summary>Project Structure Recommendations</summary>
+        <ul>
+          <li>Store source files in <code>$XBASE_WORKSPACE/HB_Projects/[project_name]</code>.</li>
+          <li>Use <code>.prg</code> for Harbour source files.</li>
+          <li>Include dependencies in a <code>lib</code> subdirectory.</li>
+          <li>Consider using <code>.hbp</code> files for complex builds.</li>
+        </ul>
+      </details>
+
+      <div class="step-navigation">
+        Run your program to verify setup. Explore <code>hbmk2</code> options for GUI or advanced builds.
+        <div style="margin-top:.75rem;"><a href="#harbour-resources">Continue: Resources & Tools →</a></div>
+      </div>
+    </section>
+
+    <!-- Step 3: Harbour Resources & Tools -->
+    <section class="card" id="harbour-resources">
+      <div class="card-header">
+        <div>
+          <h2>🛠️ Harbour Resources & Tools</h2>
+          <p class="card-subtitle">Explore tools, libraries, and community resources for Harbour development.</p>
+        </div>
+        <span class="card-badge">Step 3 — Ecosystem</span>
+      </div>
+
+      <div class="compiler-grid">
+        <!-- Harbour Core -->
+        <div class="compiler-card compiler-card--harbour">
+          <h3>
+            <img src="../images/harbour/harbour-2016-32x32.png" alt="Harbour" width="24" height="24">
+            Harbour Core
+          </h3>
+          <p>The core Harbour compiler and runtime libraries.</p>
+          <div class="compiler-links">
+            <a class="btn btn-secondary btn-sm" href="https://github.com/harbour/core" target="_blank" rel="noopener">GitHub Repo</a>
+            <a class="btn btn-secondary btn-sm" href="https://harbour.github.io/" target="_blank" rel="noopener">Official Site</a>
+            <a class="btn btn-secondary btn-sm" href="https://harbour.github.io/doc/" target="_blank" rel="noopener">Documentation</a>
+          </div>
+        </div>
+
+        <!-- HBIDE -->
+        <div class="compiler-card compiler-card--harbour">
+          <h3>
+            <img src="../images/harbour/harbour-2016-32x32.png" alt="Harbour" width="24" height="24">
+            HBIDE
+          </h3>
+          <p>Integrated development environment for Harbour projects.</p>
+          <div class="compiler-links">
+            <a class="btn btn-secondary btn-sm" href="https://hbide.vouch.info/" target="_blank" rel="noopener">HBIDE Site</a>
+            <a class="btn btn-secondary btn-sm" href="https://sourceforge.net/projects/hbide/" target="_blank" rel="noopener">SourceForge</a>
+          </div>
+        </div>
+
+        <!-- HMG -->
+        <div class="compiler-card compiler-card--harbour">
+          <h3>
+            <img src="../images/harbour/harbour-2016-32x32.png" alt="Harbour" width="24" height="24">
+            HMG
+          </h3>
+          <p>GUI library for Harbour, providing native Windows interfaces.</p>
+          <div class="compiler-links">
+            <a class="btn btn-secondary btn-sm" href="https://sourceforge.net/projects/hmg/" target="_blank" rel="noopener">HMG Repo</a>
+            <a class="btn btn-secondary btn-sm" href="http://www.hmgforum.com/" target="_blank" rel="noopener">HMG Forum</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <h3>Contributing to Harbour</h3>
+        <p>Join the Harbour community by contributing code, reporting issues, or sharing your projects. Check the GitHub repo for guidelines.</p>
+      </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="card" id="community">
+      <div class="card-header">
+        <div>
+          <h2>🌐 Community & Discussions</h2>
+          <p>Join the Harbour community to ask questions, share ideas, or collaborate on projects.</p>
+        </div>
+      </div>
+      <div class="compiler-links">
+        <a class="btn btn-secondary btn-sm" href="https://groups.google.com/g/harbour-users" target="_blank" rel="noopener">📧 Harbour Google Group</a>
+        <a class="btn btn-secondary btn-sm" href="https://github.com/harbour/core/discussions" target="_blank" rel="noopener">💬 GitHub Discussions</a>
+        <a class="btn btn-secondary btn-sm" href="http://www.hmgforum.com/" target="_blank" rel="noopener">HMG Forum</a>
+      </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section id="screenshots" class="card">
+      <div class="card-header">
+        <h2>📸 Screenshots & Visual Guide</h2>
+        <p>Visual steps for setting up and using Harbour.</p>
+      </div>
+
+      <div class="compiler-grid">
+        <!-- Harbour Build -->
+        <div class="compiler-card">
+          <h3>Harbour Build Process</h3>
+          <img class="lightbox-link" src="../images/screenshots/harbour-build.png" alt="Harbour build" style="width:100%; border-radius:0.5rem;">
+          <p>Building Harbour from source on Linux.</p>
+        </div>
+
+        <!-- HBIDE Interface -->
+        <div class="compiler-card">
+          <h3>HBIDE Interface</h3>
+          <img class="lightbox-link" src="../images/screenshots/hbide.png" alt="HBIDE Interface" style="width:100%; border-radius:0.5rem;">
+          <p>Using HBIDE for Harbour development.</p>
+        </div>
+
+        <!-- Sample App -->
+        <div class="compiler-card">
+          <h3>Sample Harbour App</h3>
+          <img class="lightbox-link" src="../images/screenshots/harbour-app.png" alt="Harbour App" style="width:100%; border-radius:0.5rem;">
+          <p>Running a simple Harbour console application.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:9999;">
+      <span id="lightbox-close" style="position:absolute; top:1rem; right:1.5rem; color:white; font-size:2rem; cursor:pointer;">&times;</span>
+      <img id="lightbox-img" src="" style="max-width:90%; max-height:90%; border-radius:0.5rem;">
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2025 xBasians.org · Powered by GitHub Pages - FoxPro and Harbour community - AI
+  </footer>
+
+  <script>
+    // Lightbox for screenshots
+    document.querySelectorAll('.lightbox-link').forEach(img => {
+      img.addEventListener('click', () => {
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        lbImg.src = img.src;
+        lb.style.display = 'flex';
+      });
+    });
+
+    document.getElementById('lightbox-close').addEventListener('click', () => {
+      document.getElementById('lightbox').style.display = 'none';
+    });
+
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('lightbox')) {
+        document.getElementById('lightbox').style.display = 'none';
+      }
+    });
+
+    // Tabs functionality
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        const target = btn.dataset.target;
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // Copy buttons functionality
+    async function copyTextFromPre(preId) {
+      const el = document.getElementById(preId);
+      if (!el) return;
+      const text = el.innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (err) { /* ignore */ }
+        document.body.removeChild(ta);
+        return false;
+      }
+    }
+
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const target = btn.dataset.target;
+        const ok = await copyTextFromPre(target);
+        const origText = btn.textContent;
+        btn.textContent = ok ? 'Copied ✓' : 'Copied (Fallback)';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = origText;
+          btn.disabled = false;
+        }, 1800);
+      });
+    });
+  </script>
+</body>
+
+</html>

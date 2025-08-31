@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harbour Compiler - xBasians.org</title>
+  <style>
+    :root {
+      /* Color Palette */
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-bg: #f1f5f9;
+      --color-surface: #ffffff;
+      --color-text: #334155;
+      --color-text-light: #64748b;
+      --color-accent-harbour: #ffedd5;
+      --color-harbour-primary: #ea580c;
+      --color-harbour-hover: #c2410c;
+      --color-code-bg: #0f172a;
+      --color-code-text: #e2e8f0;
+      --color-border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--color-code-bg) 0%, #1e293b 100%);
+      color: var(--color-surface);
+      padding: 3rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0 0h100v100H0z" fill="none"/><path d="M20 20h60v60H20z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>') repeat;
+      opacity: 0.1;
+    }
+
+    header .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    header .harbour-logo {
+      width: 64px;
+      height: 64px;
+      background: var(--color-harbour-primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 0.75rem 0 0;
+      font-size: 1.4rem;
+      font-weight: 300;
+      opacity: 0.9;
+    }
+
+    .breadcrumb {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .breadcrumb a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--color-harbour-primary);
+    }
+
+    .card-badge {
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+      background: var(--color-accent-harbour);
+      padding: 0.35rem 0.75rem;
+      border-radius: 2rem;
+      font-weight: 500;
+      border: 1px solid #fed7aa;
+    }
+
+    .card-subtitle {
+      color: var(--color-text-light);
+      margin: 0.5rem 0 0 0;
+      font-size: 1.05rem;
+    }
+
+    /* Tabs */
+    .tab-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn[aria-pressed="true"],
+    .tab-btn.active {
+      background: var(--color-accent-harbour);
+      border-color: var(--color-harbour-primary);
+      color: var(--color-harbour-primary);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Code Blocks */
+    .code-block-container {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      flex-direction: column;
+    }
+
+    @media (min-width: 768px) {
+      .code-block-container {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+
+    pre {
+      white-space: pre-wrap;
+      margin: 0;
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      background: var(--color-code-bg);
+      color: var(--color-code-text);
+      flex: 1;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .code-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-width: 160px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--color-harbour-primary);
+      color: white;
+      border-color: var(--color-harbour-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-harbour-hover);
+      border-color: var(--color-harbour-hover);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border-color: var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-bg);
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* Grid layouts */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 1px solid var(--color-border);
+      border-left: 4px solid var(--color-harbour-primary);
+    }
+
+    .feature-card h3 {
+      margin: 0 0 0.75rem 0;
+      color: var(--color-harbour-primary);
+      font-size: 1.2rem;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--color-text-light);
+    }
+
+    /* Info boxes */
+    .info-box {
+      background: var(--color-accent-harbour);
+      border: 1px solid #fed7aa;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .info-box h3 {
+      margin: 0 0 0.75rem 0;
+      color: var(--color-harbour-primary);
+      font-size: 1.1rem;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: var(--color-harbour-hover);
+    }
+
+    .warning-box {
+      background: #fef3c7;
+      border: 1px solid #fbbf24;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .warning-box h3 {
+      margin: 0 0 0.75rem 0;
+      color: #92400e;
+      font-size: 1.1rem;
+    }
+
+    details {
+      margin-top: 1rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--color-harbour-primary);
+      padding: 0.5rem 0;
+    }
+
+    details ul {
+      margin: 0.75rem 0;
+      padding-left: 1.5rem;
+    }
+
+    details li {
+      margin-bottom: 0.35rem;
+    }
+
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 2rem 1rem;
+      }
+
+      header h1 {
+        font-size: 2.4rem;
+      }
+
+      .card-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .card-badge {
+        align-self: flex-start;
+      }
+
+      main {
+        padding: 0 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="breadcrumb">
+    <a href="../">← Back to xBasians.org</a>
+  </div>
+
+  <header>
+    <div class="content">
+      <h1>
+        <div class="harbour-logo">🚢</div>
+        Harbour Compiler
+      </h1>
+      <p>Modern open-source xBase compiler for cross-platform development</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Introduction -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>What is Harbour?</h2>
+          <p class="card-subtitle">A powerful, cross-platform xBase compiler that brings modern capabilities to classic xBase development.</p>
+        </div>
+        <span class="card-badge">Overview</span>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🌍 Cross-Platform</h3>
+          <p>Compile your xBase code for Windows, Linux, macOS, and many other platforms.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📖 Open Source</h3>
+          <p>Completely free and open-source with an active community and continuous development.</p>
+        </div>
+        <div class="feature-card">
+          <h3>⚡ Modern Features</h3>
+          <p>Unicode support, advanced debugging, and integration with modern development tools.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🔧 C Integration</h3>
+          <p>Easy integration with C libraries and the ability to create C extensions.</p>
+        </div>
+      </div>
+
+      <div class="quick-links">
+        <a href="https://github.com/harbour/core" class="btn btn-primary" target="_blank" rel="noopener">
+          GitHub Repository
+        </a>
+        <a href="https://harbour.github.io/" class="btn btn-secondary" target="_blank" rel="noopener">
+          Official Documentation
+        </a>
+        <a href="https://harbour.github.io/doc/" class="btn btn-secondary" target="_blank" rel="noopener">
+          API Reference
+        </a>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="card" id="installation">
+      <div class="card-header">
+        <div>
+          <h2>Installation Guide</h2>
+          <p class="card-subtitle">Choose your platform and follow the installation steps.</p>
+        </div>
+        <span class="card-badge">Setup</span>
+      </div>
+
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-target="install-linux">Linux</button>
+        <button class="tab-btn" data-target="install-windows">Windows</button>
+        <button class="tab-btn" data-target="install-macos">macOS</button>
+        <button class="tab-btn" data-target="install-source">From Source</button>
+      </nav>
+
+      <div class="tab-content">
+        <!-- Linux Installation -->
+        <div id="install-linux" class="tab-panel active">
+          <div class="code-block-container">
+            <pre id="code-linux"># Ubuntu/Debian
+sudo apt update
+sudo apt install harbour
+
+# Fedora/RHEL
+sudo dnf install harbour
+
+# Arch Linux (AUR)
+yay -S harbour
+
+# Or compile from source:
+cd $XBASE_WORKSPACE
+git clone https://github.com/harbour/core harbour-core
+cd harbour-core
+make
+sudo make install</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-linux">Copy Code</button>
+              <div class="tip-note">
+                <strong>Note:</strong> Package availability varies by distribution. Source compilation recommended for latest features.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Windows Installation -->
+        <div id="install-windows" class="tab-panel">
+          <div class="info-box">
+            <h3>📦 Prebuilt Binaries</h3>
+            <p>Download precompiled Harbour binaries for Windows from the official releases.</p>
+          </div>
+          <div class="code-block-container">
+            <pre id="code-windows"># Using package managers:
+
+# Chocolatey
+choco install harbour
+
+# MSYS2
+pacman -S mingw-w64-x86_64-harbour
+
+# Manual installation:
+# 1. Download from GitHub releases
+# 2. Extract to C:\harbour
+# 3. Add C:\harbour\bin to PATH
+# 4. Set HB_PATH=C:\harbour</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-windows">Copy Code</button>
+              <a href="https://github.com/harbour/core/releases" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">Download Releases</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- macOS Installation -->
+        <div id="install-macos" class="tab-panel">
+          <div class="code-block-container">
+            <pre id="code-macos"># Using Homebrew
+brew install harbour
+
+# Using MacPorts
+sudo port install harbour
+
+# From source with Xcode tools:
+xcode-select --install
+cd $XBASE_WORKSPACE
+git clone https://github.com/harbour/core harbour-core
+cd harbour-core
+make
+sudo make install</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-macos">Copy Code</button>
+              <div class="tip-note">
+                <strong>Requirement:</strong> Xcode Command Line Tools must be installed first.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Source Installation -->
+        <div id="install-source" class="tab-panel">
+          <div class="warning-box">
+            <h3>⚠️ Prerequisites</h3>
+            <p>Make sure you have a C compiler (GCC, Clang, or MSVC) and make/cmake installed before proceeding.</p>
+          </div>
+          <div class="code-block-container">
+            <pre id="code-source"># Clone the repository
+cd $XBASE_WORKSPACE
+git clone https://github.com/harbour/core harbour-core
+cd harbour-core
+
+# Configure environment (optional)
+export HB_COMPILER=gcc
+export HB_BUILD_OPTIM=yes
+
+# Build Harbour
+make
+
+# Install system-wide (Linux/macOS)
+sudo make install
+
+# Windows: copy bin directory to desired location
+# and add to PATH environment variable</pre>
+            <div class="code-actions">
+              <button class="btn btn-primary btn-sm copy-btn" data-target="code-source">Copy Code</button>
+              <a href="https://harbour.github.io/doc/install.html" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">Build Guide</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="card" id="quick-start">
+      <div class="card-header">
+        <div>
+          <h2>Quick Start</h2>
+          <p class="card-subtitle">Create and compile your first Harbour program.</p>
+        </div>
+        <span class="card-badge">Tutorial</span>
+      </div>
+
+      <h3>1. Create a Hello World Program</h3>
+      <div class="code-block-container">
+        <pre id="hello-world">// hello.prg
+PROCEDURE Main()
+    ? "Hello, World from Harbour!"
+    ? "Current date:", Date()
+    ? "Current time:", Time()
+    
+    WAIT "Press any key to exit..."
+RETURN</pre>
+        <div class="code-actions">
+          <button class="btn btn-primary btn-sm copy-btn" data-target="hello-world">Copy Code</button>
+        </div>
+      </div>
+
+      <h3>2. Compile and Run</h3>
+      <div class="code-block-container">
+        <pre id="compile-run"># Compile to executable
+hbmk2 hello.prg
+
+# Run the program
+./hello
+
+# Alternative: compile and run in one step
+hbmk2 -run hello.prg</pre>
+        <div class="code-actions">
+          <button class="btn btn-primary btn-sm copy-btn" data-target="compile-run">Copy Code</button>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <h3>💡 Pro Tip</h3>
+        <p>Use <code>hbmk2</code> instead of direct <code>harbour</code> command. It's the modern build tool that handles dependencies and linking automatically.</p>
+      </div>
+    </section>
+
+    <!-- Advanced Features -->
+    <section class="card" id="features">
+      <div class="card-header">
+        <div>
+          <h2>Advanced Features</h2>
+          <p class="card-subtitle">Explore Harbour's modern capabilities beyond basic xBase compatibility.</p>
+        </div>
+        <span class="card-badge">Advanced</span>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🗄️ Database Support</h3>
+          <p>Built-in support for DBF, MySQL, PostgreSQL, SQLite, and many other database formats.</p>
+          <details>
+            <summary>Database drivers</summary>
+            <ul>
+              <li>DBFNTX, DBFNSX, DBFCDX for DBF files</li>
+              <li>MySQL native driver</li>
+              <li>PostgreSQL native driver</li>
+              <li>SQLite3 support</li>
+              <li>ODBC connectivity</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="feature-card">
+          <h3>🌐 Web Development</h3>
+          <p>Create web applications with Harbour's built-in web server and CGI support.</p>
+          <details>
+            <summary>Web capabilities</summary>
+            <ul>
+              <li>Built-in HTTP server</li>
+              <li>CGI script support</li>
+              <li>JSON parsing and generation</li>
+              <li>REST API development</li>
+              <li>Template engine support</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="feature-card">
+          <h3>📱 GUI Development</h3>
+          <p>Multiple GUI frameworks available for desktop application development.</p>
+          <details>
+            <summary>GUI options</summary>
+            <ul>
+              <li>GTWVT for Windows console</li>
+              <li>HbQt for Qt-based GUIs</li>
+              <li>Fivewin integration</li>
+              <li>GTK+ bindings</li>
+              <li>Web-based interfaces</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="feature-card">
+          <h3>🔗 Language Integration</h3>
+          <p>Call C/C++ libraries and integrate with other programming languages.</p>
+          <details>
+            <summary>Integration features</summary>
+            <ul>
+              <li>C function calling</li>
+              <li>Dynamic library loading</li>
+              <li>COM object support (Windows)</li>
+              <li>Regular expressions</li>
+              <li>XML/JSON processing</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Structure -->
+    <section class="card" id="project-structure">
+      <div class="card-header">
+        <div>
+          <h2>Recommended Project Structure</h2>
+          <p class="card-subtitle">Organize your Harbour projects for maximum productivity.</p>
+        </div>
+        <span class="card-badge">Best Practices</span>
+      </div>
+
+      <div class="code-block-container">
+        <pre id="project-structure-code">$XBASE_WORKSPACE/
+├── harbour-core/          # Harbour compiler source
+├── HB_Projects/          # Your Harbour projects
+│   ├── MyApp/
+│   │   ├── src/          # Source code (.prg files)
+│   │   ├── include/      # Header files (.ch)
+│   │   ├── lib/          # Libraries
+│   │   ├── build/        # Compiled output
+│   │   ├── docs/         # Documentation
+│   │   ├── tests/        # Test files
+│   │   ├── hbmk.hbm      # Build configuration
+│   │   └── README.md
+│   └── Common_Libs/      # Shared libraries
+│       ├── utils/
+│       ├── database/
+│       └── gui/
+└── Tools/                # Development tools
+    ├── editors/
+    ├── debuggers/
+    └── utilities/</pre>
+        <div class="code-actions">
+          <button class="btn btn-primary btn-sm copy-btn" data-target="project-structure-code">Copy Structure</button>
+        </div>
+      </div>
+
+      <h3>Sample hbmk.hbm Configuration</h3>
+      <div class="code-block-container">
+        <pre id="hbmk-config"># hbmk.hbm - Build configuration file
+-hblib
+
+# Project settings
+-o../build/myapp
+
+# Include paths
+-I./include
+-I../Common_Libs/include
+
+# Library paths
+-L./lib
+-L../Common_Libs/lib
+
+# Source files
+src/*.prg
+
+# Libraries to link
+-lhbcommon
+-lhbcpage
+
+# Debug mode (remove for release)
+-debug</pre>
+        <div class="code-actions">
+          <button class="btn btn-primary btn-sm copy-btn" data-target="hbmk-config">Copy Config</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Development Tools -->
+    <section class="card" id="tools">
+      <div class="card-header">
+        <div>
+          <h2>Development Tools & IDEs</h2>
+          <p class="card-subtitle">Recommended tools for Harbour development.</p>
+        </div>
+        <span class="card-badge">Tools</span>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🖥️ Console-Based</h3>
+          <p>Traditional command-line development tools.</p>
+          <ul>
+            <li><strong>hbmk2</strong> - Modern build tool</li>
+            <li><strong>harbour</strong> - Core compiler</li>
+            <li><strong>hbrun</strong> - Script runner</li>
+            <li><strong>hbtest</strong> - Testing framework</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <h3>📝 Text Editors</h3>
+          <p>Editors with Harbour syntax support.</p>
+          <ul>
+            <li><strong>VS Code</strong> - With xBase extensions</li>
+            <li><strong>Vim/Neovim</strong> - Classic editor</li>
+            <li><strong>Emacs</strong> - With xbase-mode</li>
+            <li><strong>Sublime Text</strong> - With syntax packages</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <h3>🎯 Specialized IDEs</h3>
+          <p>IDEs specifically designed for xBase development.</p>
+          <ul>
+            <li><strong>HbIDE</strong> - Harbour-specific IDE</li>
+            <li><strong>xMate</strong> - Cross-platform xBase IDE</li>
+            <li><strong>Code::Blocks</strong> - With Harbour plugin</li>
+            <li><strong>Qt Creator</strong> - For HbQt projects</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <h3>🐛 Debugging Tools</h3>
+          <p>Debug and profile your Harbour applications.</p>
+          <ul>
+            <li><strong>hbdbg</strong> - Built-in debugger</li>
+            <li><strong>Valgrind</strong> - Memory debugging (Linux)</li>
+            <li><strong>GDB</strong> - GNU debugger integration</li>
+            <li><strong>Harbour Profiler</strong> - Performance analysis</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="card" id="examples">
+      <div class="card-header">
+        <div>
+          <h2>Code Examples</h2>
+          <p class="card-subtitle">Common Harbour programming patterns and examples.</p>
+        </div>
+        <span class="card-badge">Examples</span>
+      </div>
+
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-target="example-basic">Basic Syntax</button>
+        <button class="tab-btn" data-target="example-database">Database</button>
+        <button class="tab-btn" data-target="example-web">Web/JSON</button>
+        <button class="tab-btn" data-target="example-oop">OOP</button>
+      </nav>
+
+      <div class="tab-content">
+        <!-- Basic Examples -->
+        <div id="example-basic" class="tab-panel active">
+          <div class="code-block-container">
+            <pre id="code-basic">// Variables and arrays
+LOCAL cName := "John Doe"
+LOCAL nAge := 25
+LOCAL aItems := {"Apple", "Banana", "Cherry"}
+
+// Control structures
+IF nAge >= 18
+    ? cName + " is an adult"
+ELSE
+    ? cName + " is a minor"
+ENDIF
+
+// Loops
+FOR nI := 1 TO LEN(aItems)
+    ? "Item " + STR(nI) + ": " + aItems[nI]
+NEXT
+
+// Functions
+FUNCTION GetFullName(cFirst, cLast)
+    RETURN cFirst + " " + cLast
+
+// Error handling

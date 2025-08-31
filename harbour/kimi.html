@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harbour • xBasians.org</title>
+  <link rel="stylesheet" href="../style.css"/>   <!-- общий файл стилей -->
+  <meta name="description" content="Cross-platform Harbour compiler: downloads, docs, and quick-start."/>
+</head>
+
+<body>
+<header>
+  <h1>Harbour @ xBasians.org</h1>
+  <p>Modern open-source xBase compiler for Windows, Linux & macOS</p>
+</header>
+
+<main>
+  <!-- 1. Что такое Harbour -->
+  <section class="card">
+    <div class="card-header">
+      <h2>🚢 About Harbour</h2>
+      <span class="card-badge">Intro</span>
+    </div>
+    <p>
+      Harbour is a 100 % free, multi-platform xBase language compiler and development environment.
+      It converts Clipper / xBase code into highly optimized C and then compiles it with GCC/Clang/MSVC.
+    </p>
+    <ul>
+      <li>Cross-platform (Win, Linux, macOS, *BSD)</li>
+      <li>Active community & nightly builds</li>
+      <li>Full Clipper compatibility + modern extensions</li>
+      <li>Extensive contrib libraries (HBQt, GTWVW, HMG, HWGUI…)</li>
+    </ul>
+  </section>
+
+  <!-- 2. Быстрая установка -->
+  <section class="card" id="quick-install">
+    <div class="card-header">
+      <h2>⚡ Quick install</h2>
+      <span class="card-badge">30-sec start</span>
+    </div>
+
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-target="tab-src">Build from source</button>
+      <button class="tab-btn" data-target="tab-win">Windows binary</button>
+      <button class="tab-btn" data-target="tab-pkg">Package managers</button>
+    </nav>
+
+    <!-- Build from source -->
+    <div id="tab-src" class="tab-panel active">
+      <pre id="code-src"># 1) prerequisites (Ubuntu example)
+sudo apt install build-essential git
+
+# 2) clone
+git clone https://github.com/harbour/core.git $XBASE_WORKSPACE/harbour-core
+cd $XBASE_WORKSPACE/harbour-core
+
+# 3) build
+make</pre>
+      <button class="btn btn-primary btn-sm copy-btn" data-target="code-src">Copy</button>
+      <p class="tip-note">After build add <code>bin</code> folder to <code>PATH</code>.</p>
+    </div>
+
+    <!-- Windows binary -->
+    <div id="tab-win" class="tab-panel">
+      <ol>
+        <li>Download <strong>harbour-x.y.z-win64.zip</strong> from
+          <a href="https://github.com/harbour/core/releases" target="_blank">GitHub Releases</a>
+        </li>
+        <li>Unpack to <code>%XBASE_WORKSPACE%\harbour</code></li>
+        <li>Add <code>%XBASE_WORKSPACE%\harbour\bin</code> to <code>PATH</code></li>
+      </ol>
+    </div>
+
+    <!-- Package managers -->
+    <div id="tab-pkg" class="tab-panel">
+      <ul>
+        <li><strong>macOS (Homebrew)</strong>:
+          <pre>brew install harbour</pre>
+        </li>
+        <li><strong>Arch AUR</strong>:
+          <pre>yay -S harbour-core-git</pre>
+        </li>
+        <li><strong>openSUSE</strong>:
+          <pre>sudo zypper install harbour</pre>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. Hello World -->
+  <section class="card">
+    <div class="card-header">
+      <h2>👋 Hello World</h2>
+      <span class="card-badge">30 s</span>
+    </div>
+    <pre id="hello-prg">// hello.prg
+PROCEDURE Main()
+   ? "Hello from Harbour running on", OS()
+   WAIT
+RETURN</pre>
+    <div class="code-actions">
+      <button class="btn btn-primary btn-sm copy-btn" data-target="hello-prg">Copy</button>
+    </div>
+    <p>Compile & run:</p>
+    <pre class="cli">hbmk2 hello.prg -run</pre>
+  </section>
+
+  <!-- 4. Links block -->
+  <section class="card">
+    <div class="card-header">
+      <h2>🔗 Docs & Links</h2>
+      <span class="card-badge">Resources</span>
+    </div>
+    <div class="compiler-grid">
+      <a class="compiler-card" href="https://harbour.github.io/doc/" target="_blank">
+        <h3>Official docs</h3>
+        <p>HTML + CHM reference</p>
+      </a>
+      <a class="compiler-card" href="https://github.com/harbour/core" target="_blank">
+        <h3>GitHub repo</h3>
+        <p>Issues, Discussions, Actions</p>
+      </a>
+      <a class="compiler-card" href="../hbqt/">
+        <h3>HBQt</h3>
+        <p>Qt-based GUI extensions</p>
+      </a>
+      <a class="compiler-card" href="../xpm/">
+        <h3>xPM packages</h3>
+        <p>Dependency manager for Harbour</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- 5. IDE / Editor tips -->
+  <section class="card">
+    <div class="card-header">
+      <h2>🛠️ Editors & IDEs</h2>
+      <span class="card-badge">Productivity</span>
+    </div>
+    <ul>
+      <li><strong>VS Code</strong> – install extension <em>Harbour</em> + C/C++ IntelliSense</li>
+      <li><strong>Geany</strong> – lightweight, ships Harbour build menu</li>
+      <li><strong>JetBrains CLion</strong> – open <code>CMakeLists.txt</code> generated by <code>hbmk2 -cmake</code></li>
+      <li><strong>Vim/Neovim</strong> – <code>harbour.vim</code> syntax file</li>
+    </ul>
+  </section>
+
+  <!-- 6. Next step -->
+  <div class="step-navigation">
+    Ready? <a href="../xpm/">Set up xPM →</a>
+  </div>
+</main>
+
+<footer>
+  <a href="../">← back to xBasians.org</a>
+</footer>
+
+<script src="../script.js"></script>   <!-- общий JS (tabs, copy-btn) -->
+</body>
+</html>

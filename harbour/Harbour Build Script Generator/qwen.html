@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harbour Build Script Generator v3.0</title>
+  <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2e7d32;
+      --accent: #ffc107;
+      --background: #f8f9fa;
+      --surface: #ffffff;
+      --text: #21252b;
+      --text-secondary: #6c757d;
+      --border: #ced4da;
+      --success: #28a745;
+      --warning: #ffc107;
+      --error: #dc3545;
+      --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-code: 'Consolas', 'Courier New', monospace;
+    }
+
+    .dark-theme {
+      --primary: #64b5f6;
+      --secondary: #66bb6a;
+      --accent: #ffd54f;
+      --background: #121212;
+      --surface: #252525;
+      --text: #ffffff;
+      --text-secondary: #bdbdbd;
+      --border: #444444;
+      --success: #4caf50;
+      --warning: #ffc107;
+      --error: #f44336;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--background);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    p.subtitle {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .flex {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .col {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .group {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .group h3 {
+      margin-bottom: 15px;
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .form-row {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-row label {
+      width: 120px;
+      font-size: 14px;
+    }
+
+    select, input[type="text"] {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background-color: var(--surface);
+      color: var(--text);
+      font-family: var(--font-main);
+    }
+
+    select {
+      height: 30px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+    }
+
+    button {
+      font-family: var(--font-main);
+      font-size: 14px;
+      padding: 10px 15px;
+      border: 1px solid;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button.primary {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    button.primary:hover {
+      background-color: #2980b9;
+    }
+
+    button.success {
+      background-color: var(--success);
+      color: white;
+      border-color: var(--success);
+    }
+
+    button.success:hover {
+      background-color: #258f3e;
+    }
+
+    button.warning {
+      background-color: var(--accent);
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    button.warning:hover {
+      background-color: #e6ac00;
+    }
+
+    button.flat {
+      background-color: var(--surface);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    button.flat:hover {
+      background-color: #f0f2f7;
+    }
+
+    button.toggle {
+      background-color: #424242;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    button.toggle.dark {
+      background-color: #ffeb3b;
+      color: black;
+    }
+
+    textarea {
+      width: 100%;
+      height: 300px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background-color: #282c34;
+      color: #abb2bf;
+      font-family: var(--font-code);
+      font-size: 13px;
+      resize: vertical;
+    }
+
+    .dark-theme textarea {
+      background-color: #282c34;
+      color: #abb2bf;
+    }
+
+    .light-theme textarea {
+      background-color: #f8f8f2;
+      color: #272822;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      padding: 6px 0;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--background);
+      border-top: 1px solid var(--border);
+      padding: 8px 20px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .status-bar.success {
+      color: var(--success);
+    }
+
+    .status-bar.warning {
+      color: var(--warning);
+    }
+
+    .status-bar.error {
+      color: var(--error);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="light-theme">
+  <div class="container">
+    <header>
+      <h1>Harbour Build Script Generator v3.0</h1>
+      <p class="subtitle">Configure and generate build scripts for cross-platform Harbour development</p>
+    </header>
+
+    <div class="flex">
+      <!-- Configuration -->
+      <div class="col">
+        <div class="group">
+          <h3>Build Configuration</h3>
+
+          <div class="form-row">
+            <label for="os">Target Platform:</label>
+            <select id="os">
+              <option value="windows">Windows</option>
+              <option value="android">Android</option>
+              <option value="linux">Linux</option>
+              <option value="macos">macOS</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="compiler">Compiler:</label>
+            <select id="compiler"></select>
+          </div>
+
+          <div class="form-row">
+            <label for="cpu">Architecture:</label>
+            <select id="cpu">
+              <option value="x86_64">x86_64</option>
+              <option value="arm64">arm64</option>
+              <option value="x86">x86</option>
+              <option value="armv7">armv7</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="shell">Shell Type:</label>
+            <select id="shell">
+              <option value="powershell">PowerShell</option>
+              <option value="cmd">Command Prompt</option>
+              <option value="gitbash">Git Bash</option>
+              <option value="wsl">WSL</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label>Build Options:</label>
+            <div class="checkbox-row">
+              <label class="checkbox">
+                <input type="checkbox" id="dynamic"> Dynamic Libraries
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" id="thirdParty"> 3rd Party Libraries
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" id="debug"> Debug Build
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" id="persist"> Persist Environment
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paths & Workspace -->
+        <div class="group">
+          <h3>Paths &amp; Workspace</h3>
+
+          <div class="form-row" id="ndkRow">
+            <label for="ndkPath">Android NDK:</label>
+            <input type="text" id="ndkPath" placeholder="e.g. C:\Android\ndk\25.1.8937393" />
+            <button class="warning" onclick="browse('ndk')">Browse...</button>
+          </div>
+
+          <div class="form-row">
+            <label for="qtPath">Qt Path:</label>
+            <input type="text" id="qtPath" placeholder="e.g. C:\Qt\6.5.0\msvc2019_64" />
+            <button class="warning" onclick="browse('qt')">Browse...</button>
+          </div>
+
+          <div class="form-row">
+            <label for="workspacePath">Workspace:</label>
+            <input type="text" id="workspacePath" placeholder="e.g. C:\xbase_workspace" />
+            <button class="warning" onclick="browse('workspace')">Browse...</button>
+          </div>
+
+          <div class="form-row">
+            <button class="success" onclick="createWorkspace()">Create</button>
+          </div>
+
+          <div class="form-row" style="margin-top: 10px;">
+            <button class="success" onclick="setWorkspaceEnv()">Set Workspace Env</button>
+            <button class="primary" onclick="setEnvironment()">Set Environment</button>
+            <button class="success" onclick="generateScript()">Generate Script</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="col">
+        <!-- Environment Variables -->
+        <div class="group">
+          <h3>Environment Variables</h3>
+          <ul id="envVarsList"></ul>
+        </div>
+
+        <!-- Recent Paths -->
+        <div class="group">
+          <h3>Recent Paths</h3>
+          <ul id="recentPathsList"></ul>
+        </div>
+      </div>
+
+      <!-- Script Output -->
+      <div class="col" style="flex: 2;">
+        <div class="group">
+          <h3>Generated Build Script</h3>
+          <textarea id="scriptOutput" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="toggle" id="themeToggle" style="position: fixed; top: 20px; right: 20px;">Dark Theme</button>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar" id="statusBar">Ready</div>
+
+  <script>
+    // Default settings
+    const defaultSettings = {
+      os: 'windows',
+      cpu: 'x86_64',
+      shell: 'powershell',
+      dynamic: false,
+      thirdParty: false,
+      debug: false,
+      persist: false,
+      recentPaths: [],
+      ndkPath: '',
+      qtPath: '',
+      workspacePath: `${window.location.protocol === 'file:' ? 'C:/xbase_workspace' : '/home/user/xbase_workspace'}`
+    };
+
+    let settings = { ...defaultSettings };
+    let envVars = {};
+
+    // Load settings from localStorage
+    function loadSettings() {
+      const saved = localStorage.getItem('harbourBuilderSettings');
+      if (saved) {
+        settings = { ...settings, ...JSON.parse(saved) };
+      }
+    }
+
+    function saveSettings() {
+      localStorage.setItem('harbourBuilderSettings', JSON.stringify(settings));
+    }
+
+    // Compiler mapping
+    const compilers = {
+      windows: ['MSVC', 'Clang', 'MinGW'],
+      android: ['Clang', 'GCC'],
+      linux: ['GCC', 'Clang'],
+      macos: ['Clang', 'GCC']
+    };
+
+    // Update compiler dropdown
+    function updateCompiler() {
+      const os = document.getElementById('os').value;
+      const compilerSelect = document.getElementById('compiler');
+      compilerSelect.innerHTML = '';
+      (compilers[os] || []).forEach(comp => {
+        const option = document.createElement('option');
+        option.value = comp.toLowerCase();
+        option.textContent = comp;
+        compilerSelect.appendChild(option);
+      });
+      updateUI();
+    }
+
+    function updateUI() {
+      document.getElementById('ndkRow').classList.toggle('hidden', document.getElementById('os').value !== 'android');
+    }
+
+    function updateEnvVars() {
+      envVars = {
+        ANDROID_NDK_HOME: document.getElementById('ndkPath').value || '',
+        ANDROID_HOME: '',
+        ANDROID_SDK_ROOT: '',
+        JAVA_HOME: '',
+        HB_PLATFORM: document.getElementById('os').value,
+        HB_COMPILER: document.getElementById('compiler').value,
+        HB_CPU: document.getElementById('cpu').value,
+        HB_INSTALL_PREFIX: '/usr/local',
+        XBASE_WORKSPACE: document.getElementById('workspacePath').value,
+        HB_WITH_QT: document.getElementById('qtPath').value
+      };
+
+      const list = document.getElementById('envVarsList');
+      list.innerHTML = '';
+      Object.entries(envVars).forEach(([key, value]) => {
+        const li = document.createElement('li');
+        const icon = value ? '[OK]' : '[X]';
+        const displayValue = value && value.length > 50 ? value.substring(0, 47) + '...' : value || '(not set)';
+        li.textContent = `${icon} ${key} = ${displayValue}`;
+        list.appendChild(li);
+      });
+    }
+
+    function updateRecentPaths() {
+      const list = document.getElementById('recentPathsList');
+      list.innerHTML = '';
+      settings.recentPaths.forEach(path => {
+        const li = document.createElement('li');
+        li.textContent = path.length > 60 ? '...' + path.slice(-57) : path;
+        li.dataset.fullPath = path;
+        li.style.cursor = 'pointer';
+        li.addEventListener('click', () => {
+          document.getElementById('workspacePath').value = path;
+          setStatus('Selected recent path: ' + path, 'success');
+        });
+        list.appendChild(li);
+      });
+    }
+
+    function browse(type) {
+      const path = prompt(`Enter path for ${type.toUpperCase()}:`, document.getElementById(`${type}Path`).value);
+      if (path) {
+        document.getElementById(`${type}Path`).value = path;
+        if (type === 'workspace') {
+          addToRecentPaths(path);
+        }
+        setStatus(`${type.toUpperCase()} path set`, 'success');
+      }
+    }
+
+    function addToRecentPaths(path) {
+      if (!settings.recentPaths.includes(path)) {
+        settings.recentPaths.unshift(path);
+        if (settings.recentPaths.length > 5) {
+          settings.recentPaths.pop();
+        }
+        updateRecentPaths();
+      }
+    }
+
+    function createWorkspace() {
+      const path = document.getElementById('workspacePath').value || settings.workspacePath;
+      document.getElementById('workspacePath').value = path;
+      addToRecentPaths(path);
+      alert(`Workspace created successfully!\n\nPath: ${path}`);
+      setStatus('Workspace created: ' + path, 'success');
+    }
+
+    function setWorkspaceEnv() {
+      const path = document.getElementById('workspacePath').value;
+      if (!path) {
+        setStatus('Workspace path is required', 'error');
+        return;
+      }
+      envVars.XBASE_WORKSPACE = path;
+      updateEnvVars();
+      setStatus('XBASE_WORKSPACE set', 'success');
+    }
+
+    function setEnvironment() {
+      updateEnvVars();
+      const persist = document.getElementById('persist').checked;
+      const msg = persist ? 'and persisted ' : '';
+      alert(`Environment variables have been set ${msg}successfully!`);
+      setStatus('Environment variables updated successfully', 'success');
+    }
+
+    function generateScript() {
+      const os = document.getElementById('os').value;
+      const compiler = document.getElementById('compiler').value;
+      const cpu = document.getElementById('cpu').value;
+      const shell = document.getElementById('shell').value;
+      const debug = document.getElementById('debug').checked;
+      const dynamic = document.getElementById('dynamic').checked;
+
+      let script = `# Generated Build Script\n# Platform: ${os.toUpperCase()}\n# Compiler: ${compiler.toUpperCase()}\n# CPU: ${cpu}\n# Shell: ${shell}\n\n`;
+
+      if (os === 'android') {
+        const ndk = document.getElementById('ndkPath').value;
+        if (!ndk) {
+          setStatus('NDK path is required for Android', 'error');
+          return;
+        }
+        script += `export ANDROID_NDK_HOME="${ndk}"\n`;
+      }
+
+      const qt = document.getElementById('qtPath').value;
+      if (qt) script += `export HB_WITH_QT="${qt}"\n`;
+
+      script += `export HB_PLATFORM=${os}\n`;
+      script += `export HB_COMPILER=${compiler}\n`;
+      script += `export HB_CPU=${cpu}\n`;
+      script += `export XBASE_WORKSPACE="${document.getElementById('workspacePath').value}"\n`;
+
+      if (debug) script += 'export HB_DEBUG=1\n';
+      if (dynamic) script += 'export HB_DYNLIBS=1\n';
+
+      script += '\necho "Configuring Harbour build..."\n';
+      script += './configure --platform=${HB_PLATFORM} --compiler=${HB_COMPILER}\n';
+      script += 'make -j$(nproc)\n';
+
+      document.getElementById('scriptOutput').value = script;
+      setStatus('Build script generated', 'success');
+    }
+
+    function setStatus(text, type = 'info') {
+      const bar = document.getElementById('statusBar');
+      bar.textContent = text;
+      bar.className = 'status-bar ' + type;
+    }
+
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const body = document.body;
+      const isDark = body.classList.contains('dark-theme');
+      body.classList.toggle('dark-theme', !isDark);
+      document.getElementById('themeToggle').textContent = isDark ? 'Dark Theme' : 'Light Theme';
+      document.getElementById('themeToggle').classList.toggle('dark', !isDark);
+      setStatus(`Switched to ${isDark ? 'Light' : 'Dark'} theme`, 'success');
+    });
+
+    // Init
+    function init() {
+      loadSettings();
+
+      document.getElementById('os').value = settings.os;
+      document.getElementById('cpu').value = settings.cpu;
+      document.getElementById('shell').value = settings.shell;
+      document.getElementById('dynamic').checked = settings.dynamic;
+      document.getElementById('thirdParty').checked = settings.thirdParty;
+      document.getElementById('debug').checked = settings.debug;
+      document.getElementById('persist').checked = settings.persist;
+      document.getElementById('ndkPath').value = settings.ndkPath;
+      document.getElementById('qtPath').value = settings.qtPath;
+      document.getElementById('workspacePath').value = settings.workspacePath;
+
+      updateCompiler();
+      updateUI();
+      updateEnvVars();
+      updateRecentPaths();
+      setStatus('Application initialized');
+    }
+
+    window.addEventListener('beforeunload', () => {
+      settings.os = document.getElementById('os').value;
+      settings.cpu = document.getElementById('cpu').value;
+      settings.shell = document.getElementById('shell').value;
+      settings.dynamic = document.getElementById('dynamic').checked;
+      settings.thirdParty = document.getElementById('thirdParty').checked;
+      settings.debug = document.getElementById('debug').checked;
+      settings.persist = document.getElementById('persist').checked;
+      settings.ndkPath = document.getElementById('ndkPath').value;
+      settings.qtPath = document.getElementById('qtPath').value;
+      settings.workspacePath = document.getElementById('workspacePath').value;
+      saveSettings();
+    });
+
+    document.getElementById('os').addEventListener('change', updateCompiler);
+    init();
+  </script>
+</body>
+</html>

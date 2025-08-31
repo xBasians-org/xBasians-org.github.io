@@ -1,0 +1,173 @@
+:root {
+    --primary: #64b5f6;
+    --secondary: #66bb6a;
+    --accent: #ffd54f;
+    --background: #121212;
+    --surface: #252525;
+    --text: #ffffff;
+    --text-secondary: #bdbbbb;
+    --border: #444444;
+    --success: #4caf50;
+    --warning: #ffc107;
+    --error: #f44336;
+}
+
+[data-theme="light"] {
+    --primary: #3498db;
+    --secondary: #2e7d32;
+    --accent: #ffc107;
+    --background: #f8f9fa;
+    --surface: #ffffff;
+    --text: #212529;
+    --text-secondary: #6c757d;
+    --border: #ced4da;
+    --success: #28a745;
+    --warning: #ffc107;
+    --error: #dc3545;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+header h1 {
+    color: var(--primary);
+    margin: 0;
+}
+
+header p {
+    color: var(--text-secondary);
+    margin: 5px 0 0;
+}
+
+.theme-toggle {
+    margin-bottom: 20px;
+}
+
+.config-group {
+    background-color: var(--surface);
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+}
+
+.config-group h2 {
+    margin-top: 0;
+    color: var(--primary);
+}
+
+.form-row {
+    margin-bottom: 15px;
+}
+
+.form-row label {
+    display: inline-block;
+    width: 120px;
+}
+
+.form-row select,
+.form-row input[type="text"] {
+    padding: 5px;
+    width: 200px;
+    background-color: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.checkbox-group label {
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.browse-btn, .action-btn {
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.browse-btn {
+    background-color: var(--warning);
+    color: var(--text);
+}
+
+.action-btn {
+    background-color: var(--surface);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    margin-right: 10px;
+}
+
+.action-btn.primary {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.action-btn.success {
+    background-color: var(--success);
+    color: white;
+    border-color: var(--success);
+}
+
+#envVarsList, #recentPathsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    padding: 10px;
+}
+
+#envVarsList li, #recentPathsList li {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+#scriptOutput {
+    width: 100%;
+    height: 300px;
+    background-color: #282c34;
+    color: #abb2bf;
+    border: 1px solid var(--border);
+    font-family: 'Consolas', monospace;
+    padding: 10px;
+    resize: none;
+}
+
+.status-bar {
+    background-color: var(--background);
+    padding: 10px;
+    text-align: left;
+    border-top: 1px solid var(--border);
+}
+
+.status-bar span {
+    color: var(--text-secondary);
+}
