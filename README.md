@@ -49,4 +49,6 @@ Home of xBasians.org: sharing tools, knowledge, and resources for the xBase deve
       - GitHub Actions для проверки сборки проектов.  
       - Автоматические тесты для примеров и библиотек.  
 
-- [ ] Раздел по IDE  
+- [ ] Раздел по IDEs 
+
+- [ ] To finish project [Harbour language analyzer](https://sourceforge.net/projects/harbour-language-analyzer/)
