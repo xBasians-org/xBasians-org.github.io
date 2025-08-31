@@ -54,3 +54,6 @@ Home of xBasians.org: sharing tools, knowledge, and resources for the xBase deve
 - [ ] To finish project [Harbour language analyzer](https://sourceforge.net/projects/harbour-language-analyzer/)
 
 - [ ] To add info about Borlad compiler and HMG
+
+- [ ]  [And Something else ...](https://groups.google.com/g/qtcontribs/c/tfA_d0quql8/m/Lzb11MH7EAAJ)
+      
