@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- Главная -->
+  <url>
+    <loc>https://xBasians.org/</loc>
+    <lastmod>2025-08-31</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Страница Visual FoxPro -->
+  <url>
+    <loc>https://xBasians.org/vfp/</loc>
+    <lastmod>2025-08-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://xBasians.org/harbour/</loc>
+    <lastmod>2025-08-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
