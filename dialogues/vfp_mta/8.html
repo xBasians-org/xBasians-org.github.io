@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 8</title>
+</head>
+<body>
+  <h2>Да, как это реализуется на FoxPro?</h2>
+  <div class="answer">
+    <p>В Visual FoxPro нет встроенной многопоточности, как в C++ или C#. Но есть обходные пути:</p>
+
+    <h3>1. Использование COM-серверов</h3>
+    <p>Можно запускать несколько экземпляров FoxPro COM-объектов, каждый из которых работает независимо.</p>
+    <pre><code class="language-foxpro">
+* MathServer.prg
+DEFINE CLASS MathServer AS Session OLEPUBLIC
+    FUNCTION Multiply(x, y)
+        RETURN x * y
+    ENDFUNC
+ENDDEFINE
+
+* Компиляция:
+* BUILD MTDLL MathServer.dll FROM MathServer.prg
+    </code></pre>
+
+    <h3>2. Запуск нескольких процессов FoxPro</h3>
+    <p>FoxPro-приложения можно запускать как отдельные процессы, обмениваясь данными через:</p>
+    <ul>
+      <li>файлы (DBF, XML, текстовые логи)</li>
+      <li>OLE/COM-объекты</li>
+      <li>сокеты (через Winsock ActiveX)</li>
+    </ul>
+
+    <h3>3. Эмуляция потоков через таймеры</h3>
+    <p>В приложениях VFP можно использовать <code>Timer</code>, чтобы имитировать асинхронное выполнение задач:</p>
+    <pre><code class="language-foxpro">
+oTimer = CREATEOBJECT("Timer")
+oTimer.Interval = 1000
+oTimer.Enabled = .T.
+
+DEFINE CLASS Timer AS Timer
+    PROCEDURE Timer
+        ? "Работаем как в отдельном потоке"
+    ENDPROC
+ENDDEFINE
+    </code></pre>
+
+    <p>Это не настоящие потоки, но позволяет выполнять периодические задачи без блокировки интерфейса.</p>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

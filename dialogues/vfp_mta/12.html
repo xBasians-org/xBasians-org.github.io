@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 12</title>
+</head>
+<body>
+  <h2>Нет. Нужен дискретный парсер. Если есть xml размером 100 Мб, то режем на куски по 1 Мб и парсим для построения индекса в разных потоках.</h2>
+  <div class="answer">
+    <p>Такой «дискретный парсер» — это кастомная разработка. Ни SAX, ни DOM этого не дают. Суть подхода:</p>
+
+    <h3>1. Разбиение файла</h3>
+    <p>Файл читается блоками фиксированного размера (например, по 1 Мб). Важно следить, чтобы блок не «разрезал» XML-тег. Для этого обычно делают небольшой оверлап (например, +1 Кб) между блоками.</p>
+
+    <h3>2. Независимый парсинг</h3>
+    <p>Каждый блок подаётся в парсер, который обрабатывает теги и строит индекс:</p>
+    <pre><code class="language-python">
+# Пример на Python: дискретное чтение XML
+block_size = 1024 * 1024
+with open("big.xml", "rb") as f:
+    offset = 0
+    while chunk := f.read(block_size):
+        # Обработать chunk
+        # Убедиться, что не оборвали тег
+        process_chunk(chunk, offset)
+        offset += len(chunk)
+    </code></pre>
+
+    <h3>3. Параллельная обработка</h3>
+    <p>Каждый блок может обрабатываться в отдельном процессе/потоке:</p>
+    <pre><code class="language-python">
+from concurrent.futures import ProcessPoolExecutor
+
+with ProcessPoolExecutor() as executor:
+    futures = [executor.submit(process_chunk, chunk, i)
+               for i, chunk in enumerate(chunks)]
+    results = [f.result() for f in futures]
+    </code></pre>
+
+    <h3>4. Сборка индекса</h3>
+    <p>Результаты парсинга (например, позиции тегов) собираются в общий индекс (SQLite или DBF в FoxPro).</p>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 3</title>
+</head>
+<body>
+  <h2>Что такое промис?</h2>
+  <div class="answer">
+    <p><strong>Промис (Promise)</strong> — это объект, который представляет результат асинхронной операции. Он может находиться в трёх состояниях:</p>
+    <ul>
+      <li><strong>pending</strong> — операция ещё выполняется;</li>
+      <li><strong>fulfilled</strong> — операция успешно завершена, есть результат;</li>
+      <li><strong>rejected</strong> — операция завершилась с ошибкой.</li>
+    </ul>
+    <p>Вместо того чтобы ждать завершения операции, код «подписывается» на её результат с помощью методов <code>.then()</code> и <code>.catch()</code>, либо через <code>async/await</code>. Это позволяет писать асинхронный код так, словно он последовательный.</p>
+
+    <h3>Примеры</h3>
+
+    <h4>JavaScript: создание и использование промиса</h4>
+    <pre><code class="language-js">
+// Создаём промис
+function asyncTask() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const success = true;
+      if (success) {
+        resolve("Задача выполнена!");
+      } else {
+        reject("Произошла ошибка");
+      }
+    }, 1000);
+  });
+}
+
+// Используем через then/catch
+asyncTask()
+  .then(result => console.log("Результат:", result))
+  .catch(error => console.error("Ошибка:", error));
+    </code></pre>
+
+    <h4>JavaScript: async/await</h4>
+    <pre><code class="language-js">
+async function run() {
+  try {
+    const result = await asyncTask();
+    console.log("Результат через await:", result);
+  } catch (err) {
+    console.error("Ошибка:", err);
+  }
+}
+
+run();
+    </code></pre>
+
+    <h4>Python (аналог через asyncio)</h4>
+    <pre><code class="language-python">
+import asyncio
+
+async def async_task():
+    await asyncio.sleep(1)
+    return "Задача выполнена!"
+
+async def main():
+    try:
+        result = await async_task()
+        print("Результат:", result)
+    except Exception as e:
+        print("Ошибка:", e)
+
+asyncio.run(main())
+    </code></pre>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

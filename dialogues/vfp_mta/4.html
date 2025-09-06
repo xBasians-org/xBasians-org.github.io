@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 4</title>
+</head>
+<body>
+  <h2>Расскажи о Multi-threaded COM server dll в FoxPro. Это для Com+?</h2>
+  <div class="answer">
+    <p><strong>Multi-threaded COM server DLL</strong> — это библиотека, которая реализует объекты, доступные через COM, и может обслуживать несколько потоков одновременно.</p>
+    <p>В Visual FoxPro COM-серверы чаще работают в режиме <em>STA</em> (Single-Threaded Apartment). Настоящие многопоточные COM-сервера обычно пишут на C++ или Delphi, и такие библиотеки могут использоваться в <strong>COM+</strong> для масштабирования и распределения нагрузки.</p>
+
+    <h3>Пример: COM-сервер в FoxPro</h3>
+    <pre><code class="language-foxpro">
+* MyServer.prg
+DEFINE CLASS MyServer AS Session OLEPUBLIC
+    FUNCTION Add(x, y)
+        RETURN x + y
+    ENDFUNC
+ENDDEFINE
+
+* Компиляция в COM DLL:
+* BUILD MTDLL MyServer.dll FROM MyServer.prg
+    </code></pre>
+
+    <p>Этот сервер будет работать в STA. Чтобы получить многопоточность, FoxPro COM-сервер обычно оборачивают в COM+ и разрешают создавать несколько экземпляров.</p>
+
+    <h3>Пример: C++ многопоточный COM-сервер</h3>
+    <pre><code class="language-cpp">
+// Заготовка ATL-сервера
+class ATL_NO_VTABLE CMyComObj :
+    public CComObjectRootEx&lt;CComMultiThreadModel&gt;,
+    public CComCoClass&lt;CMyComObj, &amp;CLSID_MyComObj&gt;,
+    public IDispatchImpl&lt;IMyComObj, &amp;IID_IMyComObj, &amp;LIBID_MyLib&gt;
+{
+public:
+    STDMETHOD(Add)(LONG a, LONG b, LONG* result) {
+        *result = a + b;
+        return S_OK;
+    }
+};
+    </code></pre>
+
+    <p>Здесь используется <code>CComMultiThreadModel</code>, что и делает объект многопоточным.</p>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

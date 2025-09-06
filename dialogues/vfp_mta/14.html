@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 14</title>
+</head>
+<body>
+  <h2>Да, нужен многопоточный самописный парсер уровня low-level с началом чтения в файле через 1 Мб.</h2>
+  <div class="answer">
+    <p>Это уже проект уровня «собственный XML-движок». Алгоритм может выглядеть так:</p>
+
+    <h3>1. Разбиение файла</h3>
+    <p>Файл открывается как бинарный и делится на блоки фиксированного размера (например, 1 Мб). Каждый поток получает смещение <code>offset</code>.</p>
+
+    <h3>2. Синхронизация на границах</h3>
+    <p>Так как тег может пересекать границу блока, каждому потоку даётся небольшой оверлап (например, 4 Кб), чтобы «дочитать» разорванный тег.</p>
+
+    <h3>3. Парсинг блока</h3>
+    <p>Каждый поток обрабатывает свой кусок: ищет <code>&lt;tag&gt; ... &lt;/tag&gt;</code>, извлекает данные и записывает результаты в общий индекс.</p>
+
+    <h3>Пример каркаса (C++ с потоками)</h3>
+    <pre><code class="language-cpp">
+#include &lt;fstream&gt;
+#include &lt;thread&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+
+void parse_block(const std::string&amp; path, std::streampos offset, size_t size) {
+    std::ifstream file(path, std::ios::binary);
+    file.seekg(offset);
+    std::vector&lt;char&gt; buffer(size);
+    file.read(buffer.data(), size);
+
+    // Здесь парсинг XML: поиск тегов
+    std::string chunk(buffer.begin(), buffer.end());
+    size_t pos = 0;
+    while ((pos = chunk.find("&lt;tag&gt;", pos)) != std::string::npos) {
+        size_t end = chunk.find("&lt;/tag&gt;", pos);
+        if (end != std::string::npos) {
+            std::cout &lt;&lt; "Нашли тег: " 
+                      &lt;&lt; chunk.substr(pos, end - pos + 6) 
+                      &lt;&lt; std::endl;
+            pos = end + 6;
+        } else break;
+    }
+}
+
+int main() {
+    const std::string filename = "big.xml";
+    const size_t block_size = 1024 * 1024;
+    std::vector&lt;std::thread&gt; workers;
+
+    for (int i = 0; i &lt; 4; i++) {
+        workers.emplace_back(parse_block, filename, i * block_size, block_size + 4096);
+    }
+
+    for (auto&amp; t : workers) t.join();
+}
+    </code></pre>
+
+    <h3>4. Сборка индекса</h3>
+    <p>Все потоки пишут в SQLite или общий файл. После завершения можно быстро искать по индексу.</p>
+
+    <p>Такой подход можно адаптировать под FoxPro только через внешнюю DLL (C/C++) или запуск нескольких процессов, так как VFP не поддерживает настоящие потоки.</p>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

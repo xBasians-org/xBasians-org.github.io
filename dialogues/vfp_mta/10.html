@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 10</title>
+</head>
+<body>
+  <h2>Т.е. SAX-парсер это не последовательное чтение, а про произвольный доступ по XPath?</h2>
+  <div class="answer">
+    <p>Не совсем. <strong>SAX (Simple API for XML)</strong> — это именно <em>последовательный потоковый парсер</em>. Он читает XML-файл сверху вниз и при встрече с тегами вызывает обработчики («события»).</p>
+    <p>XPath же — это совершенно другой механизм. XPath позволяет <em>обращаться к произвольным узлам дерева XML</em>, но для этого XML должен быть уже загружен в память (обычно через DOM-парсер).</p>
+
+    <h3>Сравнение:</h3>
+    <ul>
+      <li><strong>SAX</strong>: быстро, мало памяти, но только линейное чтение, без случайного доступа.</li>
+      <li><strong>DOM</strong>: строит дерево в памяти, можно использовать XPath, но для больших XML расходует много памяти.</li>
+    </ul>
+
+    <h3>Пример на Visual FoxPro через MSXML</h3>
+    <pre><code class="language-foxpro">
+* SAX-парсер (последовательно)
+oReader = CREATEOBJECT("MSXML2.SAXXMLReader.6.0")
+oHandler = CREATEOBJECT("MyHandler")
+oReader.contentHandler = oHandler
+oReader.parseURL("sample.xml")
+
+DEFINE CLASS MyHandler AS Custom
+    PROCEDURE startElement(ns, name, qname, atts)
+        ? "Тег:", name
+    ENDPROC
+ENDDEFINE
+
+* DOM + XPath
+oDom = CREATEOBJECT("MSXML2.DOMDocument.6.0")
+oDom.load("sample.xml")
+oNode = oDom.selectSingleNode("//book/title")
+? oNode.text
+    </code></pre>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

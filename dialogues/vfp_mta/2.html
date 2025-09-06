@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 2</title>
+</head>
+<body>
+  <h2>Что такое асинхронное программирование?</h2>
+  <div class="answer">
+    <p>Асинхронное программирование — это подход, при котором программа не блокируется в ожидании долгих операций (например, чтения с диска, сетевых запросов или работы с базой данных). Вместо этого задача «ставится в очередь», и программа продолжает выполнять другие действия.</p>
+    
+    <p>Когда операция завершается, вызывается обработчик (callback), либо срабатывает <em>promise</em>, либо возвращается результат через ключевое слово <code>await</code> (в языках, где это есть).</p>
+    
+    <p>Главная цель — эффективнее использовать время процессора и сделать программы отзывчивыми даже при большом числе задач ввода-вывода.</p>
+
+    <h3>Примеры</h3>
+
+    <h4>JavaScript (Node.js)</h4>
+    <pre><code class="language-js">
+// Асинхронное чтение файла
+const fs = require('fs').promises;
+
+async function readFile() {
+  try {
+    let data = await fs.readFile('data.txt', 'utf8');
+    console.log("Содержимое файла:", data);
+  } catch (err) {
+    console.error("Ошибка чтения:", err);
+  }
+}
+
+readFile();
+console.log("Этот вывод идёт раньше чтения файла!");
+    </code></pre>
+
+    <h4>Python (asyncio)</h4>
+    <pre><code class="language-python">
+import asyncio
+
+async def fetch_data():
+    print("Запрос данных...")
+    await asyncio.sleep(2)  # имитация долгой операции
+    print("Данные получены")
+    return {"value": 42}
+
+async def main():
+    task = asyncio.create_task(fetch_data())
+    print("Делаем что-то ещё...")
+    result = await task
+    print("Результат:", result)
+
+asyncio.run(main())
+    </code></pre>
+
+    <h4>C# (.NET)</h4>
+    <pre><code class="language-csharp">
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main()
+    {
+        Console.WriteLine("Начинаем работу...");
+        string text = await File.ReadAllTextAsync("data.txt");
+        Console.WriteLine("Содержимое файла: " + text);
+        Console.WriteLine("Работа завершена.");
+    }
+}
+    </code></pre>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

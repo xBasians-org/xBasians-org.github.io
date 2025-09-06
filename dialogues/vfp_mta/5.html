@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 5</title>
+</head>
+<body>
+  <h2>Расскажи о Multi-Threaded Apartment</h2>
+  <div class="answer">
+    <p><strong>Multi-Threaded Apartment (MTA)</strong> — это модель потоков в COM, где объекты могут обслуживаться напрямую из разных потоков без маршалинга через прокси.</p>
+    <p>В отличие от STA, где объект закреплён за одним потоком, MTA позволяет множеству потоков работать с объектами параллельно. Но при этом программист обязан сам обеспечивать синхронизацию.</p>
+
+    <h3>Пример запуска MTA</h3>
+    <pre><code class="language-cpp">
+#include &lt;windows.h&gt;
+
+int main() {
+    // Инициализация COM в режиме MTA
+    HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
+    if (SUCCEEDED(hr)) {
+        // Здесь создаём и используем COM-объекты
+        // ...
+
+        CoUninitialize();
+    }
+    return 0;
+}
+    </code></pre>
+
+    <h3>Синхронизация в MTA</h3>
+    <pre><code class="language-cpp">
+#include &lt;windows.h&gt;
+#include &lt;iostream&gt;
+
+CRITICAL_SECTION cs;
+
+DWORD WINAPI ThreadFunc(LPVOID) {
+    EnterCriticalSection(&amp;cs);
+    std::cout &lt;&lt; "Работаем в критической секции\n";
+    LeaveCriticalSection(&amp;cs);
+    return 0;
+}
+
+int main() {
+    InitializeCriticalSection(&amp;cs);
+
+    HANDLE t1 = CreateThread(NULL, 0, ThreadFunc, NULL, 0, NULL);
+    HANDLE t2 = CreateThread(NULL, 0, ThreadFunc, NULL, 0, NULL);
+
+    WaitForMultipleObjects(2, new HANDLE[2]{t1, t2}, TRUE, INFINITE);
+
+    DeleteCriticalSection(&amp;cs);
+    return 0;
+}
+    </code></pre>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

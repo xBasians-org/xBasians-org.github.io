@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 7</title>
+</head>
+<body>
+  <h2>Поажи примеры mutex, critical section и остального для MTA</h2>
+  <div class="answer">
+    <p>В MTA (Multi-Threaded Apartment) COM-объекты работают параллельно, поэтому синхронизация критически важна. В Windows есть несколько механизмов:</p>
+
+    <h3>Mutex (взаимоисключение между процессами)</h3>
+    <pre><code class="language-cpp">
+#include &lt;windows.h&gt;
+
+int main() {
+    HANDLE hMutex = CreateMutex(NULL, FALSE, L"MyMutex");
+
+    if (WaitForSingleObject(hMutex, INFINITE) == WAIT_OBJECT_0) {
+        // Критическая секция кода
+        // ...
+        ReleaseMutex(hMutex);
+    }
+
+    CloseHandle(hMutex);
+    return 0;
+}
+    </code></pre>
+
+    <h3>Critical Section (легче и быстрее, чем mutex, но только внутри процесса)</h3>
+    <pre><code class="language-cpp">
+#include &lt;windows.h&gt;
+
+CRITICAL_SECTION cs;
+
+DWORD WINAPI ThreadFunc(LPVOID) {
+    EnterCriticalSection(&amp;cs);
+    // Код, защищённый от гонок
+    LeaveCriticalSection(&amp;cs);
+    return 0;
+}
+
+int main() {
+    InitializeCriticalSection(&amp;cs);
+    HANDLE t1 = CreateThread(NULL, 0, ThreadFunc, NULL, 0, NULL);
+    HANDLE t2 = CreateThread(NULL, 0, ThreadFunc, NULL, 0, NULL);
+    WaitForSingleObject(t1, INFINITE);
+    WaitForSingleObject(t2, INFINITE);
+    DeleteCriticalSection(&amp;cs);
+}
+    </code></pre>
+
+    <h3>Event (событие для сигнализации)</h3>
+    <pre><code class="language-cpp">
+HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+// Один поток ждёт
+WaitForSingleObject(hEvent, INFINITE);
+
+// Другой поток сигнализирует
+SetEvent(hEvent);
+    </code></pre>
+
+    <h3>Semaphore (ограничение количества потоков)</h3>
+    <pre><code class="language-cpp">
+HANDLE hSem = CreateSemaphore(NULL, 2, 2, NULL); // максимум 2 потока
+
+WaitForSingleObject(hSem, INFINITE);
+// Рабочая секция
+ReleaseSemaphore(hSem, 1, NULL);
+    </code></pre>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

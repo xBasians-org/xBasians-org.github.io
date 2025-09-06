@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 6</title>
+</head>
+<body>
+  <h2>Что за объекты в COM-серверах?</h2>
+  <div class="answer">
+    <p>Объекты в COM-серверах — это компоненты, реализующие интерфейс <code>IUnknown</code> (а часто и <code>IDispatch</code> для автоматизации). Каждый объект имеет уникальный CLSID (GUID), через который его можно создавать.</p>
+
+    <h3>Пример COM-объекта в FoxPro</h3>
+    <pre><code class="language-foxpro">
+DEFINE CLASS MathServer AS Session OLEPUBLIC
+    FUNCTION Multiply(x, y)
+        RETURN x * y
+    ENDFUNC
+ENDDEFINE
+
+* Компиляция в COM DLL:
+* BUILD MTDLL MathServer.dll FROM MathServer.prg
+    </code></pre>
+
+    <h3>Пример COM-объекта в C++ (ATL)</h3>
+    <pre><code class="language-cpp">
+class ATL_NO_VTABLE CMathObj :
+    public CComObjectRootEx&lt;CComMultiThreadModel&gt;,
+    public CComCoClass&lt;CMathObj, &amp;CLSID_MathObj&gt;,
+    public IDispatchImpl&lt;IMathObj, &amp;IID_IMathObj, &amp;LIBID_MathLib&gt;
+{
+public:
+    STDMETHOD(Multiply)(LONG a, LONG b, LONG* result) {
+        *result = a * b;
+        return S_OK;
+    }
+};
+    </code></pre>
+
+    <p>COM-объект может быть частью DLL (in-proc server) или EXE (out-of-proc server). Первый загружается в память процесса-клиента, второй работает отдельно и общается через RPC.</p>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>

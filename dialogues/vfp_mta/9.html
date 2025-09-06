@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ответ 9</title>
+</head>
+<body>
+  <h2>Как на FoxPro реализовать многопоточный дискретный парсер XML?</h2>
+  <div class="answer">
+    <p>FoxPro сам по себе не поддерживает настоящую многопоточность. Но можно реализовать <em>многопроцессный дискретный парсер</em>, где каждый процесс обрабатывает часть XML.</p>
+
+    <h3>1. Разбиение XML на блоки</h3>
+    <p>Большой файл делится на части (например, по 1 Мб). Важно резать по границе тегов, чтобы парсеры не ломали структуру.</p>
+
+    <h3>2. Запуск параллельных процессов</h3>
+    <p>Каждый процесс FoxPro получает свой кусок XML и парсит его:</p>
+    <pre><code class="language-foxpro">
+LPARAMETERS cFilePart
+LOCAL oXml
+oXml = CREATEOBJECT("MSXML2.SAXXMLReader.6.0")
+oHandler = CREATEOBJECT("MySaxHandler")
+oXml.contentHandler = oHandler
+oXml.parseURL(cFilePart)
+
+DEFINE CLASS MySaxHandler AS Custom
+    PROCEDURE startElement(ns, name, qname, atts)
+        ? "Тег:", name
+    ENDPROC
+ENDDEFINE
+    </code></pre>
+
+    <h3>3. Сборка результатов</h3>
+    <p>После парсинга частей результаты складываются в общую таблицу или SQLite-базу:</p>
+    <pre><code class="language-foxpro">
+INSERT INTO results (Tag, Value) VALUES (lcTag, lcValue)
+    </code></pre>
+
+    <h3>4. Координация</h3>
+    <p>Можно использовать внешние скрипты (PowerShell, BAT) для запуска нескольких процессов VFP параллельно:</p>
+    <pre><code class="language-powershell">
+Start-Process "VFP9.exe" -ArgumentList "parser.prg part1.xml"
+Start-Process "VFP9.exe" -ArgumentList "parser.prg part2.xml"
+    </code></pre>
+
+    <p>Таким образом, достигается параллельная обработка больших XML, хотя внутри одного процесса FoxPro многопоточности нет.</p>
+  </div>
+  <p><a href="index.html">← Назад к вопросам</a></p>
+</body>
+</html>
